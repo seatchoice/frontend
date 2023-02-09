@@ -68,3 +68,9 @@
     font-style: normal;
   }
 }
+
+@layer base {
+  main {
+    @apply font-pretendardBold;
+  }
+}
