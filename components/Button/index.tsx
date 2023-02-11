@@ -13,7 +13,7 @@ export function Button({
   ...props
 }: ButtonProps<"button">) {
   const buttonStyle = {
-    primary: "bg-primary-300 disabled:bg-gray-300",
+    primary: "bg-primary-500 disabled:bg-gray-300",
     icon: "bg-transparent p-0",
   };
 
