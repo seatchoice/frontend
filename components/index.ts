@@ -2,3 +2,8 @@ export * from "./Button";
 export * from "./Modal";
 export * from "./Text";
 export * from "./Icon";
+export * from "./Rating";
+export * from "./Select";
+export * from "./Textarea";
+export * from "./Divider";
+export * from "./BackButton";
