@@ -33,10 +33,10 @@ export function Comment({
         </div>
         <ul className="flex">
           <li>
-            <Button className="bg-transparent">편집</Button>
+            <Button className="bg-transparent dark:bg-transparent">편집</Button>
           </li>
           <li>
-            <Button className="bg-transparent">삭제</Button>
+            <Button className="bg-transparent dark:bg-transparent">삭제</Button>
           </li>
         </ul>
       </div>

@@ -1,5 +1,4 @@
 import { tw } from "@/utils/tailwindMerge";
-
 export type ButtonProps<T extends React.ElementType> = Component<T> & {
   as?: "primary" | "icon";
   size?: "sm" | "md" | "lg";
@@ -13,7 +12,8 @@ export function Button({
   ...props
 }: ButtonProps<"button">) {
   const buttonStyle = {
-    primary: "bg-primary-500 disabled:bg-gray-300",
+    primary:
+      "font-semibold bg-primary-200 text-primary-900 dark:bg-primary-800 dark:text-primary-200 disabled:bg-gray-300",
     icon: "bg-transparent p-0",
   };
 
