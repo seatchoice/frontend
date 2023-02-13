@@ -36,3 +36,10 @@ Camera.args = {
   width: "30",
   height: "30",
 };
+
+export const Like = Template.bind({});
+Like.args = {
+  as: "like",
+  width: "30",
+  height: "30",
+};

@@ -7,3 +7,4 @@ export * from "./Select";
 export * from "./Textarea";
 export * from "./Divider";
 export * from "./BackButton";
+export * from "./LikeButton";

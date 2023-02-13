@@ -3,7 +3,7 @@ import { Icon } from "@/components";
 
 type RatingProps<T extends React.ElementType> = Component<T> & {
   value?: number;
-  onRatingChange: (newRating: number) => void;
+  onRatingChange?: (newRating: number) => void;
 };
 
 const REVIEW_STAR_COUNT = 5;
@@ -35,7 +35,7 @@ export function Rating({
             value={index + 1}
             checked={value === index + 1}
             className="sr-only"
-            onChange={() => onRatingChange(index + 1)}
+            onChange={() => onRatingChange && onRatingChange(index + 1)}
             {...props}
           />
         </>

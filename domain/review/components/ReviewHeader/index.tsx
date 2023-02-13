@@ -1,0 +1,38 @@
+import { useRouter } from "next/router";
+
+import { tw } from "@/utils/tailwindMerge";
+import { Text, BackButton } from "@/components";
+
+type Seat = {
+  theater: string;
+  floor: number;
+  section: string;
+  row: number;
+  seatNumber?: number;
+};
+
+type ReviewHeaderProps<T extends React.ElementType> = Component<T> & {
+  seat: Seat;
+};
+
+export function ReviewHeader({
+  seat,
+  className,
+  children,
+  ...props
+}: ReviewHeaderProps<"header">) {
+  const router = useRouter();
+  const { theater, floor, section, row, seatNumber } = seat;
+  return (
+    <header
+      className={tw("flex items-center gap-4 py-4", className)}
+      {...props}
+    >
+      <BackButton onClick={() => router.back()} />
+      <Text as="h3">{theater}</Text>
+      <Text as="h4">
+        {floor}층 {section}구역 {row}열 {seatNumber && `${seatNumber}번`}
+      </Text>
+    </header>
+  );
+}
