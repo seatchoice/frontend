@@ -1,9 +1,9 @@
 import { tw } from "@/utils/tailwindMerge";
 
-import { Close, Star, Camera, Back, Like } from "./assets";
+import { Close, Star, Camera, Back, Like, Plus } from "./assets";
 
 type IconProps<T extends React.ElementType> = Component<T> & {
-  as: "close" | "star" | "camera" | "back" | "like";
+  as: "close" | "star" | "camera" | "back" | "like" | "plus";
   size?: number;
 };
 
@@ -71,6 +71,18 @@ export function Icon({
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="19"
+          {...props}
+        />
+      );
+    case "plus":
+      return (
+        <Plus
+          className={tw("", className)}
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
           {...props}
         />
       );

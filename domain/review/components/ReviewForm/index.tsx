@@ -137,23 +137,25 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
         className="mb-4"
       />
 
-      <label
-        htmlFor="imageFile"
-        className="flex items-center p-4 mb-4 border-dashed border-2 border-gray-500 text-gray-500 rounded-lg"
-      >
-        <Icon as="camera" size={40} />
-        <Text>사진 첨부하기</Text>
-      </label>
-      <input
-        type="file"
-        id="imageFile"
-        className="hidden"
-        multiple
-        accept="image/*"
-        onChange={handleFileChange}
-      />
-
-      <ul className="flex gap-4 overflow-x-auto">
+      <Text as="h5" className="font-semibold">
+        시야 사진을 등록해주세요
+      </Text>
+      <ul className="flex flex-wrap gap-5">
+        <label
+          htmlFor="imageFile"
+          className="flex flex-col items-center justify-center h-40 w-40 p-4 rounded-lg bg-light-fg dark:bg-dark-fg cursor-pointer"
+        >
+          <Icon as="camera" size={40} className="fill-primary-500" />
+          <Text>사진 등록하기</Text>
+        </label>
+        <input
+          type="file"
+          id="imageFile"
+          className="hidden"
+          multiple
+          accept="image/*"
+          onChange={handleFileChange}
+        />
         {images.map(({ file: { name }, previewUrl }, id) => (
           <li
             key={name}
@@ -162,11 +164,11 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
             <img
               src={previewUrl}
               alt="업로드된 이미지"
-              className="p-2 h-40 w-40"
+              className="h-40 w-40 rounded-lg"
             />
             <Button
               as="icon"
-              className="absolute top-0 right-0 rounded-full bg-gray-400"
+              className="absolute top-1 right-1 rounded-full bg-primary-500"
               onClick={() => handleImageDeleteButton(id)}
             >
               <Icon as="close" size={20} />

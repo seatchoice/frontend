@@ -3,7 +3,10 @@ import { tw } from "@/utils/tailwindMerge";
 
 type TextareaProps<T extends React.ElementType> = Component<T> & {};
 
-export const Textarea = forwardRef(function Textarea(
+export const Textarea = forwardRef<
+  HTMLTextAreaElement,
+  TextareaProps<"textarea">
+>(function Textarea(
   { className, children, ...props }: TextareaProps<"textarea">,
   ref
 ) {
