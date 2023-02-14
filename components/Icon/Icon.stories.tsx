@@ -43,3 +43,10 @@ Like.args = {
   width: "30",
   height: "30",
 };
+
+export const Plus = Template.bind({});
+Plus.args = {
+  as: "plus",
+  width: "30",
+  height: "30",
+};
