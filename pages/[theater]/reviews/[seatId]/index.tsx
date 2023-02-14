@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Text, Rating, Button, Icon } from "@/components";
+import { Text, Rating, Icon } from "@/components";
 import { ReviewHeader, ReviewCard } from "@/domain/review/components";
 
 const reviewListMockData = {
@@ -132,10 +133,13 @@ export default function ReviewList() {
         />
       </div>
       <Text as="h3">리뷰 목록</Text>
-      <Button className="flex flex-col justify-center items-center w-full dark:bg-primary-500/50 border-primary-300 border-2">
-        <Icon as="plus" className="fill-primary-300" width={40} height={40} />
+      <Link
+        href={`/${theater}/post`}
+        className="flex flex-col justify-center items-center gap-2 w-full p-4 bg-primary-100 dark:bg-primary-500/50 border-primary-300 border-2 rounded-lg font-semibold"
+      >
+        <Icon as="plus" className="fill-primary-300" />
         <Text>{theater} 리뷰 작성하기</Text>
-      </Button>
+      </Link>
       <section className="flex flex-col gap-4">
         {reviewList.map((review) => (
           <ReviewCard key={review.id} review={review} />
