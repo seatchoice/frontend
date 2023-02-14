@@ -6,9 +6,14 @@ export function Plus({ className, children, ...props }: PlusProps<"svg">) {
   return (
     <svg {...props} className={tw("", className)}>
       <path
-        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-        fillRule="evenodd"
-        clipRule="evenodd"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M7 .875c.483 0 .875.392.875.875v10.5a.875.875 0 0 1-1.75 0V1.75c0-.483.392-.875.875-.875z"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M13.125 7a.875.875 0 0 1-.875.875H1.75a.875.875 0 1 1 0-1.75h10.5c.483 0 .875.392.875.875z"
       />
     </svg>
   );
