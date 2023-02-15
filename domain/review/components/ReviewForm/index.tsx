@@ -1,49 +1,86 @@
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 
 import { Text, Button, Rating, Textarea, Icon, Select } from "@/components";
+import { SEATS } from "@/constants";
+import { getSections, getRows, getSeatNumbers } from "../../utils";
+import { useCreateReviewMutation } from "../../hooks/query";
 
 type ImageFiles = {
   file: Blob;
   previewUrl: string;
 }[];
 
-const seatInfo = [
-  {
-    id: "floor",
-    title: "층",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-  {
-    id: "section",
-    title: "구역",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-  {
-    id: "row",
-    title: "열",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-  {
-    id: "seat",
-    title: "번호",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-];
-
 type ReviewFormProps<T extends React.ElementType> = Component<T> & {
   value?: number;
 };
 
 export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
-  const seatsRef = [
-    useRef<HTMLSelectElement>(null),
-    useRef<HTMLSelectElement>(null),
-    useRef<HTMLSelectElement>(null),
-    useRef<HTMLSelectElement>(null),
-  ];
+  const {
+    query: { theater },
+  } = useRouter();
+
   const detailReviewRef = useRef<HTMLTextAreaElement>(null);
+  const [seat, setSeat] = useState({
+    floor: "1",
+    section: "OP",
+    seatRow: "1",
+    seatNumber: "1",
+  });
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState<ImageFiles>([]);
+
+  const seatInfo: Array<{
+    id: "floor" | "section" | "seatRow" | "seatNumber";
+    title: string;
+    options: Array<{ value: string }>;
+  }> = [
+    {
+      id: "floor",
+      title: "층",
+      options: Object.keys(SEATS).map((floor) => ({ value: floor })),
+    },
+    {
+      id: "section",
+      title: "구역",
+      options: getSections(seat.floor).map((section) => ({ value: section })),
+    },
+    {
+      id: "seatRow",
+      title: "열",
+      options: getRows(seat.floor, seat.section).map((row) => ({
+        value: row,
+      })),
+    },
+    {
+      id: "seatNumber",
+      title: "번호",
+      options: getSeatNumbers(seat.floor, seat.section, seat.seatRow).map(
+        (seatNumber) => ({ value: seatNumber })
+      ),
+    },
+  ];
+
+  const { mutate: createReview } = useCreateReviewMutation();
+
+  const handleSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    id: keyof typeof seat
+  ) => {
+    const { floor, section, seatRow } = { ...seat, [id]: e.target.value };
+    const newSection = id === "floor" ? getSections(floor)[0] : section;
+    const newSeatRow =
+      id !== "seatNumber" ? getRows(floor, newSection)[0] : seatRow;
+    const [newSeatNumber] = getSeatNumbers(floor, newSection, newSeatRow);
+
+    setSeat({
+      ...seat,
+      section: newSection,
+      seatRow: newSeatRow,
+      seatNumber: newSeatNumber,
+      [id]: e.target.value,
+    });
+  };
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
@@ -70,26 +107,28 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const [floor, section, row, seatNumber] = seatsRef.map(
-      ({ current }) => current?.value
-    );
-
+    const { floor, section, seatRow, seatNumber } = seat;
     const data = {
       floor,
       section,
-      row,
+      seatRow,
       seatNumber,
       rating,
       content: detailReviewRef.current?.value,
     };
 
     const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) =>
-      formData.append(key, `${value}`)
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(data)], { type: "application/json" })
     );
     images.forEach(({ file }) => {
       formData.append("image", file);
     });
+
+    if (theater) {
+      createReview({ theaterId: theater, payload: formData });
+    }
   };
 
   return (
@@ -105,10 +144,11 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
         {seatInfo.map(({ id, title, options }, index) => (
           <>
             <Select
-              ref={seatsRef[index]}
               id={id}
               options={options}
               className="max-w-[4rem] text-center"
+              onChange={(e) => handleSelectChange(e, id)}
+              value={seat[id]}
             />
             <label htmlFor={id}>{title}</label>
           </>
