@@ -7,7 +7,7 @@ export const setInterceptors = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     (config) => {
       const accessToken = localStorage.getItem(STORAGE.ACCESS_TOKEN);
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
+      config.headers["Authorization"] = `${accessToken}`;
 
       if (!accessToken) {
         /** FIXME: 백엔드 미구현이라 추후 수정 필요 */
