@@ -7,14 +7,26 @@ import {
 } from "@tanstack/react-query";
 
 import "@/styles/globals.css";
+import { SSRSuspense } from "@/components";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient({}));
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            suspense: true,
+          },
+        },
+      })
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
+        <SSRSuspense fallback={<div>Loading...</div>}>
+          <Component {...pageProps} />
+        </SSRSuspense>
       </Hydrate>
     </QueryClientProvider>
   );
