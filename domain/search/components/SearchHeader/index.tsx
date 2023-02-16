@@ -1,23 +1,25 @@
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '@/components';
+import { useEffect } from 'react';
 
 export default function SearchHeader() {
   const router = useRouter();
-  const [dark, setDark] = useState(false);
-  let html;
 
   useEffect(() => {
-    setDark(JSON.parse(localStorage.getItem('darkMode')) || false);
+    document
+      .querySelector('html')
+      ?.classList.toggle(
+        'dark',
+        JSON.parse(localStorage.getItem('darkMode')) ??
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+      );
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('darkMode', dark);
-    document.querySelector('html').classList.toggle('dark', dark);
-  }, [dark]);
-
   const handleDark = () => {
-    setDark(!dark);
+    localStorage.setItem(
+      'darkMode',
+      document.querySelector('html')?.classList.toggle('dark')
+    );
   };
 
   const handleLogin = () => {
