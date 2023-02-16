@@ -1,9 +1,12 @@
 import { tw } from "@/utils/tailwindMerge";
 import { Button, Icon } from "@/components";
 
-type LikeButtonProps<T extends React.ElementType> = Component<T> & {};
+type LikeButtonProps<T extends React.ElementType> = Component<T> & {
+  liked?: boolean;
+};
 
 export function LikeButton({
+  liked,
   className,
   children,
   ...props
@@ -12,7 +15,8 @@ export function LikeButton({
     <Button
       as="icon"
       className={tw(
-        "flex items-center gap-2 p-2 hover:text-red-500",
+        "flex justify-evenly items-center max-w-[80px] gap-2 p-2 rounded-2xl",
+        liked ? "text-red-600" : "hover:text-red-600",
         className
       )}
       {...props}
