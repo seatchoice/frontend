@@ -1,39 +1,15 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import { Text, Rating, Divider, LikeButton } from "@/components";
 import { ReviewHeader } from "@/domain/review/components";
 import { CommentForm, Comment } from "@/domain/comment/components";
-
-const reviewMockData = {
-  id: 4,
-  floor: 1,
-  section: "A",
-  row: 2,
-  seatNumber: 3,
-  rating: 5,
-  content: "리뷰 내용",
-  likeAmount: 7,
-  createdAt: "2023-02-01",
-  image: [
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    },
-  ],
-};
+import { getDateDiffTextFromNow } from "@/utils/date";
+import { useNextRouter } from "@/hooks/useNextRouter";
+import { useReviewQuery } from "@/domain/review/hooks/query";
+import {
+  useCreateReviewLikeMutation,
+  useDeleteReviewLikeMutation,
+} from "@/domain/review/hooks/query";
 
 const commentListMockData = [
   {
@@ -53,24 +29,43 @@ const commentListMockData = [
 ];
 
 export default function Review() {
-  const router = useRouter();
+  const router = useNextRouter();
   const {
     query: { theater, reviewId },
   } = router;
+
+  const { data } = useReviewQuery(reviewId as string);
   const {
+    nickname,
     floor,
     section,
-    row,
+    seatRow,
     seatNumber,
     rating,
     content,
     likeAmount,
+    likeChecked,
     createdAt,
-    image,
-  } = reviewMockData;
+    images,
+  } = data.data;
+
+  const { mutate: createReviewLike } = useCreateReviewLikeMutation(
+    reviewId as string
+  );
+  const { mutate: deleteReviewLike } = useDeleteReviewLikeMutation(
+    reviewId as string
+  );
+  const handleLikeButtonClick = () => {
+    if (likeChecked) {
+      deleteReviewLike(reviewId as string);
+    } else {
+      createReviewLike(reviewId as string);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
-      <ReviewHeader seat={{ theater, floor, section, row, seatNumber }} />
+      <ReviewHeader seat={{ theater, floor, section, seatRow, seatNumber }} />
       <div className="flex items-center gap-2">
         <Image
           src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
@@ -79,16 +74,16 @@ export default function Review() {
           height={24}
           className="w-6 h-6 rounded-full"
         />
-        <span>nickname</span>
+        <span>{nickname}</span>
         <Text className="text-sm text-gray-500">
           <time dateTime={createdAt} title={createdAt}>
-            {createdAt}
+            {getDateDiffTextFromNow(new Date(createdAt))}전
           </time>
         </Text>
       </div>
       <Rating value={rating} />
       <div className="flex overflow-x-auto gap-2">
-        {image.map(({ imageUrl }) => (
+        {images?.map((imageUrl) => (
           <Image
             key={imageUrl}
             src={imageUrl}
@@ -99,7 +94,9 @@ export default function Review() {
         ))}
       </div>
       <Text>{content}</Text>
-      <LikeButton>{likeAmount}</LikeButton>
+      <LikeButton liked={likeChecked} onClick={handleLikeButtonClick}>
+        {likeAmount}
+      </LikeButton>
 
       <Divider />
 
