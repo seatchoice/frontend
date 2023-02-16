@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { Text, Button, Rating, Textarea } from "@/components";
 import { SeatSelect } from "./SeatSelect";
 import { ImagePreview } from "./ImagePreview";
 import { ImageUploadButton } from "./ImageUploadButton";
+import { ConfirmModal } from "./ConfirmModal";
 import { useCreateReviewMutation } from "../../hooks/query";
 
 type ImageFiles = {
@@ -21,7 +22,6 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
     query: { theater },
   } = useRouter();
 
-  const detailReviewRef = useRef<HTMLTextAreaElement>(null);
   const [seat, setSeat] = useState({
     floor: "1",
     section: "OP",
@@ -30,6 +30,8 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
   });
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState<ImageFiles>([]);
+  const [detailReview, setDetailReview] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const { mutate: createReview } = useCreateReviewMutation();
 
@@ -55,9 +57,7 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
     setImages(newImages);
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleFormSubmit = () => {
     const { floor, section, seatRow, seatNumber } = seat;
     const data = {
       floor,
@@ -65,7 +65,7 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
       seatRow,
       seatNumber,
       rating,
-      content: detailReviewRef.current?.value,
+      content: detailReview,
     };
 
     const formData = new FormData();
@@ -78,23 +78,21 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
     });
 
     if (theater) {
-      createReview({ theaterId: theater, payload: formData });
+      createReview({ theaterId: theater as string, payload: formData });
     }
   };
 
+  const isValidForm = !!detailReview && rating > 0;
+
   return (
-    <form
-      className="flex flex-col gap-2"
-      {...props}
-      onSubmit={handleFormSubmit}
-    >
+    <form className="flex flex-col gap-2" {...props}>
       <Text as="h5" className="font-semibold">
-        앉았던 자리 선택하기
+        앉았던 자리 선택하기*
       </Text>
       <SeatSelect seat={seat} setSeat={setSeat} />
 
       <Text as="h5" className="font-semibold">
-        자리가 어떠셨나요?
+        자리가 어떠셨나요?*
       </Text>
       <Rating
         value={rating}
@@ -103,17 +101,20 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
       />
 
       <Text as="h5" className="font-semibold">
-        자세한 후기를 알려주세요
+        자세한 후기를 알려주세요*
       </Text>
+      <Text>리뷰 내용을 1~200자로 입력해주세요.</Text>
       <Textarea
         required
-        ref={detailReviewRef}
+        value={detailReview}
+        onChange={(e) => setDetailReview(e.target.value)}
         placeholder={`
         1. 시야는 어땠나요?
         2. 음향은 어땠나요?
         3. 단차는 어땠나요?`}
         cols={30}
         rows={10}
+        maxLength={200}
         className="mb-4"
       />
 
@@ -130,8 +131,23 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
           />
         ))}
       </div>
-
-      <Button>후기 공유하기</Button>
+      <Button
+        type="button"
+        onClick={() => setShowModal(true)}
+        disabled={!isValidForm}
+      >
+        {isValidForm ? "후기 작성하기" : "필수 요소를 채워주세요"}
+      </Button>
+      {showModal && (
+        <ConfirmModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          seat={{ ...seat }}
+          SubmitButton={
+            <Button onClick={handleFormSubmit}>후기 공유하기</Button>
+          }
+        />
+      )}
     </form>
   );
 }
