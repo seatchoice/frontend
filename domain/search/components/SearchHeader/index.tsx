@@ -5,16 +5,6 @@ import { useEffect } from 'react';
 export default function SearchHeader() {
   const router = useRouter();
 
-  useEffect(() => {
-    document
-      .querySelector('html')
-      ?.classList.toggle(
-        'dark',
-        JSON.parse(localStorage.getItem('darkMode')) ??
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-      );
-  }, []);
-
   const handleDark = () => {
     localStorage.setItem(
       'darkMode',
