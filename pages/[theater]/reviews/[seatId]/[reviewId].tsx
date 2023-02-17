@@ -1,8 +1,7 @@
 import Image from "next/image";
-
 import { Text, Rating, Divider, LikeButton } from "@/components";
 import { ReviewHeader } from "@/domain/review/components";
-import { CommentForm, Comment } from "@/domain/comment/components";
+import { CommentForm, CommentList } from "@/domain/comment/components";
 import { getDateDiffTextFromNow } from "@/utils/date";
 import { useNextRouter } from "@/hooks/useNextRouter";
 import { useReviewQuery } from "@/domain/review/hooks/query";
@@ -10,23 +9,6 @@ import {
   useCreateReviewLikeMutation,
   useDeleteReviewLikeMutation,
 } from "@/domain/review/hooks/query";
-
-const commentListMockData = [
-  {
-    id: 1,
-    content: "폼 미쳤네요",
-    updatedAt: "20230203",
-    nickname: "코카콜라제로",
-    likeAmount: 7,
-  },
-  {
-    id: 2,
-    content: "상석이네요",
-    updatedAt: "20230204",
-    nickname: "펩시제로",
-    likeAmount: 7,
-  },
-];
 
 export default function Review() {
   const router = useNextRouter();
@@ -101,9 +83,7 @@ export default function Review() {
       <Divider />
 
       <CommentForm />
-      {commentListMockData.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
-      ))}
+      <CommentList />
     </div>
   );
 }
