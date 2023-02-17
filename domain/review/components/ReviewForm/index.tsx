@@ -1,49 +1,39 @@
-import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-import { Text, Button, Rating, Textarea, Icon, Select } from "@/components";
+import { Text, Button, Rating, Textarea } from "@/components";
+import { SeatSelect } from "./SeatSelect";
+import { ImagePreview } from "./ImagePreview";
+import { ImageUploadButton } from "./ImageUploadButton";
+import { ConfirmModal } from "./ConfirmModal";
+import { useCreateReviewMutation } from "../../hooks/query";
 
 type ImageFiles = {
   file: Blob;
-  previewUrl: string;
+  imagePreviewUrl: string;
 }[];
-
-const seatInfo = [
-  {
-    id: "floor",
-    title: "층",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-  {
-    id: "section",
-    title: "구역",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-  {
-    id: "row",
-    title: "열",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-  {
-    id: "seat",
-    title: "번호",
-    options: [{ value: "1" }, { value: "2" }],
-  },
-];
 
 type ReviewFormProps<T extends React.ElementType> = Component<T> & {
   value?: number;
 };
 
 export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
-  const seatsRef = [
-    useRef<HTMLSelectElement>(null),
-    useRef<HTMLSelectElement>(null),
-    useRef<HTMLSelectElement>(null),
-    useRef<HTMLSelectElement>(null),
-  ];
-  const detailReviewRef = useRef<HTMLTextAreaElement>(null);
+  const {
+    query: { theater },
+  } = useRouter();
+
+  const [seat, setSeat] = useState({
+    floor: "1",
+    section: "OP",
+    seatRow: "1",
+    seatNumber: "1",
+  });
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState<ImageFiles>([]);
+  const [detailReview, setDetailReview] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const { mutate: createReview } = useCreateReviewMutation();
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
@@ -55,7 +45,7 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
     const newImages = Array.from(e.target.files as ArrayLike<File>).map(
       (file) => ({
         file,
-        previewUrl: URL.createObjectURL(file),
+        imagePreviewUrl: URL.createObjectURL(file),
       })
     );
 
@@ -67,55 +57,42 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
     setImages(newImages);
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const [floor, section, row, seatNumber] = seatsRef.map(
-      ({ current }) => current?.value
-    );
-
+  const handleFormSubmit = () => {
+    const { floor, section, seatRow, seatNumber } = seat;
     const data = {
       floor,
       section,
-      row,
+      seatRow,
       seatNumber,
       rating,
-      content: detailReviewRef.current?.value,
+      content: detailReview,
     };
 
     const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) =>
-      formData.append(key, `${value}`)
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(data)], { type: "application/json" })
     );
     images.forEach(({ file }) => {
       formData.append("image", file);
     });
+
+    if (theater) {
+      createReview({ theaterId: theater as string, payload: formData });
+    }
   };
 
+  const isValidForm = !!detailReview && rating > 0;
+
   return (
-    <form
-      className="flex flex-col gap-2"
-      {...props}
-      onSubmit={handleFormSubmit}
-    >
+    <form className="flex flex-col gap-2" {...props}>
       <Text as="h5" className="font-semibold">
-        앉았던 자리 선택하기
+        앉았던 자리 선택하기*
       </Text>
-      <section className="flex items-center gap-2 mb-4">
-        {seatInfo.map(({ id, title, options }, index) => (
-          <>
-            <Select
-              ref={seatsRef[index]}
-              id={id}
-              options={options}
-              className="max-w-[4rem] text-center"
-            />
-            <label htmlFor={id}>{title}</label>
-          </>
-        ))}
-      </section>
+      <SeatSelect seat={seat} setSeat={setSeat} />
+
       <Text as="h5" className="font-semibold">
-        자리가 어떠셨나요?
+        자리가 어떠셨나요?*
       </Text>
       <Rating
         value={rating}
@@ -124,61 +101,53 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
       />
 
       <Text as="h5" className="font-semibold">
-        자세한 후기를 알려주세요
+        자세한 후기를 알려주세요*
       </Text>
+      <Text>리뷰 내용을 1~200자로 입력해주세요.</Text>
       <Textarea
-        ref={detailReviewRef}
+        required
+        value={detailReview}
+        onChange={(e) => setDetailReview(e.target.value)}
         placeholder={`
         1. 시야는 어땠나요?
         2. 음향은 어땠나요?
         3. 단차는 어땠나요?`}
         cols={30}
         rows={10}
+        maxLength={200}
         className="mb-4"
       />
 
       <Text as="h5" className="font-semibold">
         시야 사진을 등록해주세요
       </Text>
-      <ul className="flex flex-wrap gap-5">
-        <label
-          htmlFor="imageFile"
-          className="flex flex-col items-center justify-center h-40 w-40 p-4 rounded-lg bg-light-fg dark:bg-dark-fg cursor-pointer"
-        >
-          <Icon as="camera" size={40} className="fill-primary-500" />
-          <Text>사진 등록하기</Text>
-        </label>
-        <input
-          type="file"
-          id="imageFile"
-          className="hidden"
-          multiple
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-        {images.map(({ file: { name }, previewUrl }, id) => (
-          <li
-            key={name}
-            className="relative inline-block max-w-[150px] rounded-lg"
-          >
-            <img
-              src={previewUrl}
-              alt="업로드된 이미지"
-              className="h-40 w-40 rounded-lg"
-            />
-            <Button
-              as="icon"
-              className="absolute top-1 right-1 rounded-full bg-primary-500"
-              onClick={() => handleImageDeleteButton(id)}
-            >
-              <Icon as="close" size={20} />
-            </Button>
-            <Text className="truncate">{name}</Text>
-          </li>
+      <div className="flex flex-wrap gap-5">
+        <ImageUploadButton onChange={handleFileChange} />
+        {images.map(({ imagePreviewUrl }, id) => (
+          <ImagePreview
+            key={imagePreviewUrl}
+            imagePreviewUrl={imagePreviewUrl}
+            onDeleteClick={() => handleImageDeleteButton(id)}
+          />
         ))}
-      </ul>
-
-      <Button>후기 공유하기</Button>
+      </div>
+      <Button
+        type="button"
+        onClick={() => setShowModal(true)}
+        disabled={!isValidForm}
+      >
+        {isValidForm ? "후기 작성하기" : "필수 요소를 채워주세요"}
+      </Button>
+      {showModal && (
+        <ConfirmModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          seat={{ ...seat }}
+          SubmitButton={
+            <Button onClick={handleFormSubmit}>후기 공유하기</Button>
+          }
+        />
+      )}
     </form>
   );
 }

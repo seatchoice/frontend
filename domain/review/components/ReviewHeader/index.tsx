@@ -7,7 +7,7 @@ type Seat = {
   theater: string;
   floor: number;
   section: string;
-  row: number;
+  seatRow: number;
   seatNumber?: number;
 };
 
@@ -22,7 +22,7 @@ export function ReviewHeader({
   ...props
 }: ReviewHeaderProps<"header">) {
   const router = useRouter();
-  const { theater, floor, section, row, seatNumber } = seat;
+  const { theater, floor, section, seatRow, seatNumber } = seat;
   return (
     <header
       className={tw("flex items-center gap-4 py-4", className)}
@@ -31,7 +31,7 @@ export function ReviewHeader({
       <BackButton onClick={() => router.back()} />
       <Text as="h3">{theater}</Text>
       <Text as="h4">
-        {floor}층 {section}구역 {row}열 {seatNumber && `${seatNumber}번`}
+        {floor}층 {section}구역 {seatRow}열 {seatNumber && `${seatNumber}번`}
       </Text>
     </header>
   );

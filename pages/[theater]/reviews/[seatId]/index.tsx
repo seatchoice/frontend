@@ -1,136 +1,62 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Image from "next/image";
+import { useMemo } from "react";
 
 import { Text, Rating, Icon } from "@/components";
 import { ReviewHeader, ReviewCard } from "@/domain/review/components";
-
-const reviewListMockData = {
-  totalRating: 4.5,
-  reviewList: [
-    {
-      id: 1,
-      floor: 1,
-      section: "A",
-      row: 2,
-      seatNumber: 3,
-      rating: 5,
-      content: "리뷰 내용",
-      thumbnail:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      likeAmount: 7,
-    },
-    {
-      id: 2,
-      floor: 1,
-      section: "A",
-      row: 2,
-      seatNumber: 3,
-      rating: 5,
-      content: "리뷰 내용",
-      thumbnail:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      likeAmount: 7,
-    },
-    {
-      id: 3,
-      floor: 1,
-      section: "A",
-      row: 2,
-      seatNumber: 3,
-      rating: 5,
-      content: "리뷰 내용",
-      thumbnail:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      likeAmount: 7,
-    },
-    {
-      id: 4,
-      floor: 1,
-      section: "A",
-      row: 2,
-      seatNumber: 3,
-      rating: 5,
-      content: "리뷰 내용",
-      thumbnail:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      likeAmount: 7,
-    },
-    {
-      id: 5,
-      floor: 1,
-      section: "A",
-      row: 2,
-      seatNumber: 3,
-      rating: 5,
-      content: "리뷰 내용",
-      thumbnail:
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      likeAmount: 7,
-    },
-  ],
-};
+import { useReviewListQuery } from "@/domain/review/hooks/query";
+import useIntersectionObserver from "@/domain/search/hooks/useObserver";
+import { useNextRouter } from "@/hooks/useNextRouter";
 
 export default function ReviewList() {
   const {
     query: { theater, seatId },
-  } = useRouter();
-  const { reviewList, totalRating } = reviewListMockData;
-  const [{ floor, section, row }] = reviewList;
+  } = useNextRouter();
+  const { data, fetchNextPage, hasNextPage, isFetching } = useReviewListQuery(
+    seatId as string
+  );
+  const reviewList = useMemo(
+    () => (data ? data.pages.flatMap(({ data }) => data.content) : []),
+    [data]
+  );
+  const [{ floor, section, seatRow, seatRating }] = reviewList;
+  const thumbnailList = reviewList
+    .filter(({ thumbnail }) => thumbnail)
+    .map(({ thumbnail }) => thumbnail);
+
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: ([entry]) =>
+      entry.isIntersecting && hasNextPage && !isFetching && fetchNextPage(),
+  });
+
   return (
     <>
-      <ReviewHeader seat={{ theater, floor, section, row }} />
+      <ReviewHeader seat={{ theater, floor, section, seatRow }} />
       <ul className="flex justify-evenly gap-2 p-4 bg-light-fg dark:bg-dark-fg rounded-lg">
         <li className="flex flex-col items-center px-2">
           <Text>리뷰 개수</Text>
-          <Text>{reviewList.length}</Text>
+          <Text>{reviewList?.length}</Text>
         </li>
         <li className="flex flex-col items-center px-2">
           <Text>평균 별점</Text>
-          <Rating value={totalRating} />
+          <Rating value={seatRating} />
         </li>
       </ul>
       <Text as="h3">시야 사진</Text>
       <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory">
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-          alt="좌석 시야"
-          className="rounded-md object-cover h-52"
-        />
+        {thumbnailList.length ? (
+          thumbnailList.map((thumbnail) => (
+            <Image
+              key={thumbnail}
+              src={thumbnail}
+              alt="좌석 리뷰 사진"
+              width={250}
+              height={250}
+            />
+          ))
+        ) : (
+          <div>등록된 이미지가 없습니다</div>
+        )}
       </div>
       <Text as="h3">리뷰 목록</Text>
       <Link
@@ -141,9 +67,11 @@ export default function ReviewList() {
         <Text>{theater} 리뷰 작성하기</Text>
       </Link>
       <section className="flex flex-col gap-4">
-        {reviewList.map((review) => (
-          <ReviewCard key={review.id} review={review} />
+        {reviewList?.map((review) => (
+          <ReviewCard key={review.reviewId} review={review} />
         ))}
+        {isFetching && <div>Loading...</div>}
+        <div ref={setTarget}></div>
       </section>
     </>
   );
