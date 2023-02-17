@@ -17,9 +17,10 @@ export function ReviewCard({
 }: ReviewCardProps<"div">) {
   const { asPath } = useRouter();
   const {
+    reviewId,
     floor,
     section,
-    row,
+    seatRow,
     seatNumber,
     likeAmount,
     rating,
@@ -34,22 +35,26 @@ export function ReviewCard({
       )}
       {...props}
     >
-      <Image
-        src={thumbnail}
-        alt="좌석 시야"
-        width={300}
-        height={300}
-        className="rounded-md"
-      />
+      {thumbnail ? (
+        <Image
+          src={thumbnail}
+          alt="좌석 시야"
+          width={300}
+          height={300}
+          className="rounded-md"
+        />
+      ) : (
+        <div className="w-60 h-60">NO IMAGE</div>
+      )}
       <div className="flex flex-col justify-center gap-2 px-2">
         <Text as="h4">
-          {floor}층 {section}구역 {row}열 {seatNumber}번
+          {floor}층 {section}구역 {seatRow}열 {seatNumber}번
         </Text>
         <Rating value={rating} />
         <LikeButton>{likeAmount}</LikeButton>
         <Text>{content}</Text>
         <Link
-          href={`${asPath}/4`}
+          href={`${asPath}/${reviewId}`}
           className="p-3 px-6 bg-primary-200 text-primary-900 dark:text-primary-200 dark:bg-primary-900 rounded-lg font-semibold"
         >
           리뷰 자세히 보기 →
