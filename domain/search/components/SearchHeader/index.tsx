@@ -1,19 +1,18 @@
 import { useRouter } from 'next/router';
+import { useTheme } from 'next-themes';
+
 import { Button } from '@/components';
-import { useEffect } from 'react';
 
 export default function SearchHeader() {
   const router = useRouter();
-
-  const handleDark = () => {
-    localStorage.setItem(
-      'darkMode',
-      document.querySelector('html')?.classList.toggle('dark')
-    );
-  };
+  const { theme, setTheme } = useTheme();
 
   const handleLogin = () => {
     router.push('login');
+  };
+
+  const handleDark = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   return (
