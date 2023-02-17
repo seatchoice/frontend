@@ -4,10 +4,12 @@ import { Button, LikeButton, Text } from "@/components";
 
 type CommentProps<T extends React.ElementType> = Component<T> & {
   comment: _Comment;
+  deleteButton: React.ReactNode;
 };
 
 export function Comment({
   comment,
+  deleteButton,
   className,
   children,
   ...props
@@ -35,9 +37,7 @@ export function Comment({
           <li>
             <Button className="bg-transparent dark:bg-transparent">편집</Button>
           </li>
-          <li>
-            <Button className="bg-transparent dark:bg-transparent">삭제</Button>
-          </li>
+          <li>{deleteButton}</li>
         </ul>
       </div>
       <Text>{content}</Text>
