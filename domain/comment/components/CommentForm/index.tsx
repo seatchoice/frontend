@@ -1,40 +1,56 @@
-import { useRef } from "react";
+import { useRef, Dispatch, SetStateAction } from "react";
 import { useNextRouter } from "@/hooks/useNextRouter";
 import { Button, Textarea } from "@/components";
-import { useCreateCommentMutation } from "../../hooks/query";
+import {
+  useCreateCommentMutation,
+  useEditCommentMutation,
+} from "../../hooks/query";
 
-type CommentFormProps<T extends React.ElementType> = Component<T> & {};
+type CommentFormProps = {
+  comment?: _Comment;
+  setIsEditMode?: Dispatch<SetStateAction<boolean>>;
+};
 
-export function CommentForm({
-  className,
-  children,
-  ...props
-}: CommentFormProps<"form">) {
+export function CommentForm({ comment, setIsEditMode }: CommentFormProps) {
   const {
     query: { reviewId },
   } = useNextRouter();
+
+  const isEditMode = !!comment;
+  const { id: commentId, content } = comment ?? {};
+
   const commentRef = useRef<HTMLTextAreaElement>(null);
+
   const { mutate: createComment } = useCreateCommentMutation(
     reviewId as string
   );
-
+  const { mutate: editComment } = useEditCommentMutation(reviewId as string);
   const handleCommentSubmit = (
     e: React.FormEvent<HTMLFormElement> & { target: HTMLFormElement }
   ) => {
     e.preventDefault();
 
-    const comment = commentRef.current?.value;
-    if (comment) {
-      createComment({ content: comment, reviewId: +(reviewId as string) });
-      e.target.reset();
+    const commentContent = commentRef.current?.value;
+    if (isEditMode) {
+      editComment({
+        commentId,
+        content: commentContent,
+      });
+      setIsEditMode(false);
+    } else {
+      createComment({
+        reviewId: +(reviewId as string),
+        content: commentContent,
+      });
     }
+    e.target.reset();
   };
 
   return (
     <form onSubmit={handleCommentSubmit}>
       <div className="rounded-lg">
         <label htmlFor="comment" className="sr-only">
-          댓글 작성하기
+          {isEditMode ? "댓글 수정하기" : "댓글 작성하기"}
         </label>
         <Textarea
           ref={commentRef}
@@ -43,9 +59,10 @@ export function CommentForm({
           placeholder="댓글을 작성해주세요."
           rows={6}
           className="w-full"
+          defaultValue={content}
         ></Textarea>
       </div>
-      <Button>댓글 작성하기</Button>
+      <Button>{isEditMode ? "댓글 수정하기" : "댓글 작성하기"}</Button>
     </form>
   );
 }

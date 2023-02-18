@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useState } from "react";
 
 import { Button, LikeButton, Text } from "@/components";
+import { CommentForm } from "../CommentForm";
 
 type CommentProps<T extends React.ElementType> = Component<T> & {
   comment: _Comment;
@@ -15,6 +17,7 @@ export function Comment({
   ...props
 }: CommentProps<"article">) {
   const { nickname, content, updatedAt, likeAmount } = comment;
+  const [isEditMode, setIsEditMode] = useState(false);
   return (
     <article className="rounded-lg">
       <div className="flex justify-between items-center mb-2">
@@ -35,7 +38,12 @@ export function Comment({
         </div>
         <ul className="flex">
           <li>
-            <Button className="bg-transparent dark:bg-transparent">편집</Button>
+            <Button
+              onClick={() => setIsEditMode(true)}
+              className="bg-transparent dark:bg-transparent"
+            >
+              편집
+            </Button>
           </li>
           <li>{deleteButton}</li>
         </ul>
@@ -44,6 +52,9 @@ export function Comment({
       <footer className="flex items-center mt-4 space-x-4">
         <LikeButton className="text-sm">{likeAmount}</LikeButton>
       </footer>
+      {isEditMode && (
+        <CommentForm comment={comment} setIsEditMode={setIsEditMode} />
+      )}
     </article>
   );
 }
