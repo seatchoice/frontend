@@ -6,9 +6,7 @@ import { useSuspenseQuery } from "@/hooks/useSuspenseQuery";
 
 import { api } from "@/api";
 
-type CommentListResponse = {
-  data: Array<_Comment>;
-};
+type CommentListResponse = Array<_Comment>;
 
 const getCommentList = (
   reviewId: string

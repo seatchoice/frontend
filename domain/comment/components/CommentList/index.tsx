@@ -11,9 +11,7 @@ export function CommentList() {
     query: { reviewId },
   } = useNextRouter();
 
-  const {
-    data: { data: commentList },
-  } = useCommentListQuery(reviewId as string);
+  const { data: commentList } = useCommentListQuery(reviewId as string);
 
   const { mutate: deleteComment } = useDeleteCommentMutation(
     reviewId as string
