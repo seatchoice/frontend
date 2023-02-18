@@ -53,9 +53,7 @@ export function Comment({ comment }: CommentProps) {
         </ul>
       </header>
       <Text>{content}</Text>
-      <footer className="flex items-center mt-4 space-x-4">
-        <LikeButton className="text-sm">{likeAmount}</LikeButton>
-      </footer>
+      <LikeButton className="mt-4 text-sm">{likeAmount}</LikeButton>
       {isEditMode && <CommentForm comment={comment} onSubmit={editComment} />}
     </article>
   );
