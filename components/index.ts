@@ -9,3 +9,4 @@ export * from "./Divider";
 export * from "./BackButton";
 export * from "./LikeButton";
 export * from "./SSRSuspense";
+export * from "./Profile";
