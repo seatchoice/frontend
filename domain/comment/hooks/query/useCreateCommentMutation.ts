@@ -19,13 +19,16 @@ const createComment = (payload: CommentRequest): Promise<AxiosResponse> => {
 
 export const useCreateCommentMutation = (
   reviewId: string,
-  options?: UseMutationOptions<AxiosResponse, AxiosError, CommentRequest>
+  options?: UseMutationOptions<AxiosResponse, AxiosError, string>
 ) => {
   const queryClient = useQueryClient();
-  return useMutation((payload) => createComment(payload), {
-    ...options,
-    onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEYS.COMMENT_LIST, reviewId]);
-    },
-  });
+  return useMutation(
+    (content) => createComment({ reviewId: +reviewId, content }),
+    {
+      ...options,
+      onSuccess: () => {
+        queryClient.invalidateQueries([QUERY_KEYS.COMMENT_LIST, reviewId]);
+      },
+    }
+  );
 };

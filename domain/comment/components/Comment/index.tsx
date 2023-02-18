@@ -3,6 +3,8 @@ import { useState } from "react";
 
 import { Button, LikeButton, Text } from "@/components";
 import { CommentForm } from "../CommentForm";
+import { useEditCommentMutation } from "../../hooks/query";
+import { useNextRouter } from "@/hooks/useNextRouter";
 
 type CommentProps<T extends React.ElementType> = Component<T> & {
   comment: _Comment;
@@ -16,8 +18,15 @@ export function Comment({
   children,
   ...props
 }: CommentProps<"article">) {
+  const {
+    query: { reviewId },
+  } = useNextRouter();
   const { nickname, content, updatedAt, likeAmount } = comment;
+
   const [isEditMode, setIsEditMode] = useState(false);
+
+  const { mutate: editComment } = useEditCommentMutation(reviewId as string);
+
   return (
     <article className="rounded-lg">
       <div className="flex justify-between items-center mb-2">
@@ -52,9 +61,7 @@ export function Comment({
       <footer className="flex items-center mt-4 space-x-4">
         <LikeButton className="text-sm">{likeAmount}</LikeButton>
       </footer>
-      {isEditMode && (
-        <CommentForm comment={comment} setIsEditMode={setIsEditMode} />
-      )}
+      {isEditMode && <CommentForm comment={comment} onSubmit={editComment} />}
     </article>
   );
 }
