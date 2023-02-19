@@ -1,4 +1,4 @@
-type ReviewResponse = {
+type Review = {
   id: number;
   floor: number;
   section: string;
@@ -16,4 +16,19 @@ type ReviewResponse = {
 
 type ReviewWithThumbnail = Omit<ReviewResponse, "image"> & {
   thumbnail: string;
+};
+
+type ReviewDetail = {
+  userId: number;
+  nickname: string;
+  createdAt: string;
+  floor: number;
+  section: string;
+  seatRow: number;
+  seatNumber: number;
+  rating: number;
+  content: string;
+  images: Array<string>;
+  likeAmount: number;
+  likeChecked: boolean;
 };

@@ -9,6 +9,8 @@ type ReviewRequest = {
   payload: FormData;
 };
 
+type ReviewResponse = Review;
+
 const createReview = ({
   theaterId,
   payload,
