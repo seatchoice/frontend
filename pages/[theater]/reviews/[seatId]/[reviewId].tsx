@@ -1,14 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 
-import { Text, Rating, Divider, LikeButton } from "@/components";
+import { useNextRouter } from "@/hooks/useNextRouter";
+import { getDateDiffTextFromNow } from "@/utils/date";
+import { Text, Rating, Divider, LikeButton, Button } from "@/components";
 import { ReviewHeader } from "@/domain/review/components";
 import { CommentForm, Comment } from "@/domain/comment/components";
-import { getDateDiffTextFromNow } from "@/utils/date";
-import { useNextRouter } from "@/hooks/useNextRouter";
-import { useReviewQuery } from "@/domain/review/hooks/query";
 import {
   useCreateReviewLikeMutation,
   useDeleteReviewLikeMutation,
+  useDeleteReviewMutation,
+  useReviewQuery,
 } from "@/domain/review/hooks/query";
 
 const commentListMockData = [
@@ -47,7 +49,7 @@ export default function Review() {
     likeChecked,
     createdAt,
     images,
-  } = data.data;
+  } = data;
 
   const { mutate: createReviewLike } = useCreateReviewLikeMutation(
     reviewId as string
@@ -55,12 +57,17 @@ export default function Review() {
   const { mutate: deleteReviewLike } = useDeleteReviewLikeMutation(
     reviewId as string
   );
+  const { mutate: deleteReview } = useDeleteReviewMutation();
   const handleLikeButtonClick = () => {
     if (likeChecked) {
       deleteReviewLike(reviewId as string);
     } else {
       createReviewLike(reviewId as string);
     }
+  };
+
+  const handleDeleteButtonClick = () => {
+    deleteReview(reviewId as string);
   };
 
   return (
@@ -80,6 +87,10 @@ export default function Review() {
             {getDateDiffTextFromNow(new Date(createdAt))}전
           </time>
         </Text>
+        <Link href={`/${theater}/post/${reviewId}/edit`}>편집</Link>
+        <Button as="icon" onClick={handleDeleteButtonClick}>
+          삭제
+        </Button>
       </div>
       <Rating value={rating} />
       <div className="flex overflow-x-auto gap-2">
