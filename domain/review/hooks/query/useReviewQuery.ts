@@ -5,22 +5,7 @@ import { QUERY_KEYS } from "@/constants";
 import { useSuspenseQuery } from "@/hooks/useSuspenseQuery";
 import { api } from "@/api";
 
-type ReviewResponse = {
-  data: {
-    userId: number;
-    nickname: string;
-    createdAt: string;
-    floor: number;
-    section: string;
-    seatRow: number;
-    seatNumber: number;
-    rating: number;
-    content: string;
-    images: Array<string>;
-    likeAmount: number;
-    likeChecked: boolean;
-  };
-};
+type ReviewResponse = ReviewDetail;
 
 const getReview = (
   reviewId: string
