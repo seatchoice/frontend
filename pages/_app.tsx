@@ -7,7 +7,8 @@ import {
 } from "@tanstack/react-query";
 
 import "@/styles/globals.css";
-import { SSRSuspense } from "@/components";
+import { SSRSuspense, Toast } from "@/components";
+import { ToastProvider } from "@/context/Toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -25,7 +26,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <SSRSuspense fallback={<div>Loading...</div>}>
-          <Component {...pageProps} />
+          <ToastProvider>
+            <Component {...pageProps} />
+            <Toast />
+          </ToastProvider>
         </SSRSuspense>
       </Hydrate>
     </QueryClientProvider>
