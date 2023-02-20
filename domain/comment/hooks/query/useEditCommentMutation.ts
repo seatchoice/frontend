@@ -7,6 +7,7 @@ import {
 
 import { api } from "@/api";
 import { QUERY_KEYS } from "@/constants/queryKey";
+import { useToast } from "@/hooks/useToast";
 
 type CommentEditRequest = {
   commentId: number;
@@ -25,11 +26,13 @@ export const useEditCommentMutation = (
   options?: UseMutationOptions<AxiosResponse, AxiosError, CommentEditRequest>
 ) => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   return useMutation(
     ({ commentId, content }) => editComment({ commentId, content }),
     {
       ...options,
       onSuccess: () => {
+        toast({ type: "success", content: "댓글이 수정되었습니다." });
         queryClient.invalidateQueries([QUERY_KEYS.COMMENT_LIST, reviewId]);
       },
     }
