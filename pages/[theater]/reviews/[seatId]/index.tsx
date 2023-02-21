@@ -25,8 +25,8 @@ export default function ReviewList() {
     .map(({ thumbnail }) => thumbnail);
 
   const { setTarget } = useIntersectionObserver({
-    onIntersect: ([entry]) =>
-      entry.isIntersecting && hasNextPage && !isFetching && fetchNextPage(),
+    onIntersect: ([{ isIntersecting }]) =>
+      isIntersecting && hasNextPage && !isFetching && fetchNextPage(),
   });
 
   return (
@@ -73,8 +73,8 @@ export default function ReviewList() {
           <ReviewCard key={review.reviewId} review={review} />
         ))}
         {isFetching && <div>Loading...</div>}
-        <div ref={setTarget}></div>
       </section>
+      <div ref={setTarget} className="h-2"></div>
     </>
   );
 }
