@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useNextRouter } from "@/hooks/useNextRouter";
 import { Text, Rating, Divider, LikeButton, Profile } from "@/components";
 import { ReviewHeader } from "@/domain/review/components";
-import { CommentForm } from "@/domain/comment/components";
+import { CommentForm, CommentList } from "@/domain/comment/components";
 import { getDateDiffTextFromNow } from "@/utils/date";
 import {
   useCreateReviewLikeMutation,
