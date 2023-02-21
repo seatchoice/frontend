@@ -48,7 +48,7 @@ export function ReviewCard({
           {floor}층 {section}구역 {seatRow}열 {seatNumber}번
         </Text>
         <Rating value={rating} />
-        <LikeButton>{likeAmount}</LikeButton>
+        <LikeButton disabled>{likeAmount}</LikeButton>
         <Text>{content}</Text>
         <Link
           href={`${asPath}/${reviewId}`}
