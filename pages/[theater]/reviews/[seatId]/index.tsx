@@ -46,19 +46,16 @@ export default function ReviewList() {
       </ul>
       <Text as="h3">시야 사진</Text>
       <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory">
-        {thumbnailList.length ? (
-          thumbnailList.map((thumbnail) => (
-            <Image
-              key={thumbnail}
-              src={thumbnail}
-              alt="좌석 리뷰 사진"
-              width={250}
-              height={250}
-            />
-          ))
-        ) : (
-          <div>등록된 이미지가 없습니다</div>
-        )}
+        {thumbnailList.map((thumbnail) => (
+          // TODO: NO IMAGE SRC
+          <Image
+            key={thumbnail}
+            src={thumbnail ?? ""}
+            alt="좌석 리뷰 사진"
+            width={250}
+            height={250}
+          />
+        ))}
       </div>
       <Text as="h3">리뷰 목록</Text>
       <Link
