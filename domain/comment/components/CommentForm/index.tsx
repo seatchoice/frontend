@@ -7,7 +7,7 @@ type CommentFormProps = {
     commentId,
     content,
   }: {
-    commentId?: number;
+    commentId: number;
     content: string;
   }) => void;
 };
@@ -23,7 +23,7 @@ export function CommentForm({ comment, onSubmit }: CommentFormProps) {
     e.preventDefault();
 
     const commentContent = commentRef.current?.value;
-    onSubmit({ commentId, content: commentContent });
+    onSubmit({ commentId: commentId ?? 0, content: commentContent ?? "" });
 
     e.target.reset();
   };

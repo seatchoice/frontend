@@ -51,7 +51,15 @@ export default function Review() {
 
   return (
     <div className="flex flex-col gap-2">
-      <ReviewHeader seat={{ theater, floor, section, seatRow, seatNumber }} />
+      <ReviewHeader
+        seat={{
+          theater: theater as string,
+          floor,
+          section,
+          seatRow,
+          seatNumber,
+        }}
+      />
       <Profile
         nickname={nickname}
         updatedAt={`${getDateDiffTextFromNow(new Date(createdAt))}전`}
