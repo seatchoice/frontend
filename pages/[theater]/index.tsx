@@ -50,7 +50,11 @@ export default function Theater() {
                               key={seatNumber}
                               href={`${asPath}/reviews/${seatWithReview.seatId}`}
                               rating={
-                                seatWithReview ? seatWithReview.rating : 0
+                                seatWithReview
+                                  ? (Math.floor(
+                                      seatWithReview.rating
+                                    ) as Rating)
+                                  : 0
                               }
                               className="m-1"
                             >

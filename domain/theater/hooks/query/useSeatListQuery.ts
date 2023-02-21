@@ -13,7 +13,7 @@ type SeatListResponse = Array<{
   seatRow: string;
   seatNumber: number;
   reviewAmount: number;
-  rating: 0 | 1 | 2 | 3 | 4 | 5;
+  rating: Rating;
 }>;
 
 const getSeatList = (
