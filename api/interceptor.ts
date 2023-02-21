@@ -19,15 +19,16 @@ export const setInterceptors = (instance: AxiosInstance) => {
     (response) => {
       const accessToken = response.headers.authorization;
       if (accessToken) {
-        localStorage.setItem("ACCESS_TOKEN", accessToken);
+        localStorage.setItem(STORAGE.ACCESS_TOKEN, accessToken);
       }
       return response;
     },
     async (error) => {
       try {
         const errorAPI = error.config;
-        if (error.response.status === 401 && errorAPI && !errorAPI._retry) {
+        if (error.response.status === 401 && errorAPI && !errorAPI.retry) {
           localStorage.removeItem(STORAGE.ACCESS_TOKEN);
+          errorAPI.retry = true;
 
           return instance(errorAPI);
         }
