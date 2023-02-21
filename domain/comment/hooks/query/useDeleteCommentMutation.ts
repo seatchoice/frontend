@@ -10,7 +10,7 @@ import { QUERY_KEYS } from "@/constants/queryKey";
 import { useToast } from "@/hooks/useToast";
 
 const deleteComment = (commentId: number): Promise<AxiosResponse> => {
-  return api.delete(`/comment/${commentId}`);
+  return api.delete(`/comments/${commentId}`);
 };
 
 export const useDeleteCommentMutation = (

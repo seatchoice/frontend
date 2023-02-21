@@ -18,7 +18,7 @@ const editComment = ({
   commentId,
   content,
 }: CommentEditRequest): Promise<AxiosResponse> => {
-  return api.put(`/comment/${commentId}`, content);
+  return api.put(`/comments/${commentId}`, content);
 };
 
 export const useEditCommentMutation = (

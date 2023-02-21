@@ -14,7 +14,7 @@ type CommentRequest = {
 };
 
 const createComment = (payload: CommentRequest): Promise<AxiosResponse> => {
-  return api.post(`/comment`, payload);
+  return api.post(`/comments`, payload);
 };
 
 export const useCreateCommentMutation = (
