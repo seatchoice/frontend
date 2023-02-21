@@ -11,7 +11,7 @@ type CommentListResponse = Array<_Comment>;
 const getCommentList = (
   reviewId: string
 ): Promise<AxiosResponse<CommentListResponse>> => {
-  return api.get(`/review/${reviewId}/comments`);
+  return api.get(`/reviews/${reviewId}/comments`);
 };
 
 export const useCommentListQuery = (

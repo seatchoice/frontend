@@ -31,7 +31,9 @@ export default function ReviewList() {
 
   return (
     <>
-      <ReviewHeader seat={{ theater, floor, section, seatRow }} />
+      <ReviewHeader
+        seat={{ theater: theater as string, floor, section, seatRow }}
+      />
       <ul className="flex justify-evenly gap-2 p-4 bg-light-fg dark:bg-dark-fg rounded-lg">
         <li className="flex flex-col items-center px-2">
           <Text>리뷰 개수</Text>

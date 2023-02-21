@@ -14,12 +14,16 @@ type CommentRequest = {
 };
 
 const createComment = (payload: CommentRequest): Promise<AxiosResponse> => {
-  return api.post(`/comment`, payload);
+  return api.post(`/comments`, payload);
 };
 
 export const useCreateCommentMutation = (
   reviewId: string,
-  options?: UseMutationOptions<AxiosResponse, AxiosError, CommentRequest>
+  options?: UseMutationOptions<
+    AxiosResponse,
+    AxiosError,
+    Omit<CommentRequest, "reviewId">
+  >
 ) => {
   const queryClient = useQueryClient();
   return useMutation(
