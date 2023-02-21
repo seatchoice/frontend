@@ -16,7 +16,7 @@ export default function ReviewList() {
     seatId as string
   );
   const reviewList = useMemo(
-    () => (data ? data.pages.flatMap(({ data }) => data.content) : []),
+    () => (data ? data.pages.flatMap(({ content }) => content) : []),
     [data]
   );
   const [{ floor, section, seatRow, seatRating }] = reviewList;

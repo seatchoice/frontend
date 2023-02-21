@@ -1,13 +1,13 @@
 import Image from "next/image";
+import { useNextRouter } from "@/hooks/useNextRouter";
 import { Text, Rating, Divider, LikeButton, Profile } from "@/components";
 import { ReviewHeader } from "@/domain/review/components";
 import { CommentForm, CommentList } from "@/domain/comment/components";
 import { getDateDiffTextFromNow } from "@/utils/date";
-import { useNextRouter } from "@/hooks/useNextRouter";
-import { useReviewQuery } from "@/domain/review/hooks/query";
 import {
   useCreateReviewLikeMutation,
   useDeleteReviewLikeMutation,
+  useReviewQuery,
 } from "@/domain/review/hooks/query";
 import { useCreateCommentMutation } from "@/domain/comment/hooks/query";
 
@@ -30,7 +30,7 @@ export default function Review() {
     likeChecked,
     createdAt,
     images,
-  } = data.data;
+  } = data;
 
   const { mutate: createReviewLike } = useCreateReviewLikeMutation(
     reviewId as string

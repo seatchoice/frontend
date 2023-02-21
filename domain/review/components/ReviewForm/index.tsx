@@ -6,55 +6,63 @@ import { SeatSelect } from "./SeatSelect";
 import { ImagePreview } from "./ImagePreview";
 import { ImageUploadButton } from "./ImageUploadButton";
 import { ConfirmModal } from "./ConfirmModal";
-import { useCreateReviewMutation } from "../../hooks/query";
-
-type ImageFiles = {
-  file: Blob;
-  imagePreviewUrl: string;
-}[];
+import { useImageList } from "../../hooks/useImageList";
 
 type ReviewFormProps<T extends React.ElementType> = Component<T> & {
-  value?: number;
+  data?: ReviewDetail;
+  onMutate: ({
+    theaterId,
+    reviewId,
+    payload,
+  }: {
+    theaterId: string;
+    reviewId: string;
+    payload: FormData;
+  }) => void;
 };
 
-export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
+export function ReviewForm({
+  data,
+  onMutate,
+  children,
+  ...props
+}: ReviewFormProps<"form">) {
   const {
-    query: { theater },
+    query: { theater, reviewId },
   } = useRouter();
 
+  const {
+    floor,
+    section,
+    seatRow,
+    seatNumber,
+    rating: _rating,
+    content,
+    images,
+  } = data ?? {};
+
+  const isEditMode = !!data;
+
   const [seat, setSeat] = useState({
-    floor: "1",
-    section: "OP",
-    seatRow: "1",
-    seatNumber: "1",
+    floor: floor ?? "1",
+    section: section ?? "OP",
+    seatRow: seatRow ?? "1",
+    seatNumber: seatNumber ?? "1",
   });
-  const [rating, setRating] = useState(0);
-  const [images, setImages] = useState<ImageFiles>([]);
-  const [detailReview, setDetailReview] = useState("");
+  const [rating, setRating] = useState(_rating ?? 0);
+  const [detailReview, setDetailReview] = useState(content ?? "");
   const [showModal, setShowModal] = useState(false);
 
-  const { mutate: createReview } = useCreateReviewMutation();
+  const { imageList, deletedImageList, onImageListChange, onImageDelete } =
+    useImageList({
+      initialImageList: images?.map((image) => ({
+        id: Symbol(),
+        imagePreviewUrl: image,
+      })),
+    });
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
-  };
-
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement> & { target: HTMLInputElement }
-  ) => {
-    const newImages = Array.from(e.target.files as ArrayLike<File>).map(
-      (file) => ({
-        file,
-        imagePreviewUrl: URL.createObjectURL(file),
-      })
-    );
-
-    setImages([...images, ...newImages]);
-  };
-
-  const handleImageDeleteButton = (id: number) => {
-    const newImages = images.filter((_, index) => index !== id);
-    setImages(newImages);
   };
 
   const handleFormSubmit = () => {
@@ -73,13 +81,18 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
       "data",
       new Blob([JSON.stringify(data)], { type: "application/json" })
     );
-    images.forEach(({ file }) => {
-      formData.append("image", file);
+    imageList.forEach(({ file }) => {
+      file && formData.append("image", file);
+    });
+    deletedImageList.forEach((image) => {
+      formData.append("deleteImages", image);
     });
 
-    if (theater) {
-      createReview({ theaterId: theater as string, payload: formData });
-    }
+    onMutate({
+      theaterId: theater as string,
+      reviewId: reviewId as string,
+      payload: formData,
+    });
   };
 
   const isValidForm = !!detailReview && rating > 0;
@@ -89,7 +102,7 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
       <Text as="h5" className="font-semibold">
         앉았던 자리 선택하기*
       </Text>
-      <SeatSelect seat={seat} setSeat={setSeat} />
+      <SeatSelect disabled={isEditMode} seat={seat} setSeat={setSeat} />
 
       <Text as="h5" className="font-semibold">
         자리가 어떠셨나요?*
@@ -122,12 +135,12 @@ export function ReviewForm({ children, ...props }: ReviewFormProps<"form">) {
         시야 사진을 등록해주세요
       </Text>
       <div className="flex flex-wrap gap-5">
-        <ImageUploadButton onChange={handleFileChange} />
-        {images.map(({ imagePreviewUrl }, id) => (
+        <ImageUploadButton onChange={onImageListChange} />
+        {imageList.map((image) => (
           <ImagePreview
-            key={imagePreviewUrl}
-            imagePreviewUrl={imagePreviewUrl}
-            onDeleteClick={() => handleImageDeleteButton(id)}
+            key={image.imagePreviewUrl}
+            imagePreviewUrl={image.imagePreviewUrl}
+            onDelete={() => onImageDelete(image.id)}
           />
         ))}
       </div>

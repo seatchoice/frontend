@@ -1,12 +1,14 @@
-import { useRouter } from "next/router";
-
 import { Text, Divider, BackButton } from "@/components";
 import { ReviewForm } from "@/domain/review/components";
+import { useCreateReviewMutation } from "@/domain/review/hooks/query";
+import { useNextRouter } from "@/hooks/useNextRouter";
 
 export default function ReviewPost() {
   const {
     query: { theater },
-  } = useRouter();
+  } = useNextRouter();
+
+  const { mutate: createReview } = useCreateReviewMutation();
 
   return (
     <>
@@ -18,7 +20,7 @@ export default function ReviewPost() {
       <Text as="h4" className="mb-2">
         {theater}
       </Text>
-      <ReviewForm />
+      <ReviewForm onMutate={createReview} />
     </>
   );
 }

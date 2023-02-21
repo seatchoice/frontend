@@ -6,15 +6,13 @@ import { QUERY_KEYS } from "@/constants";
 import { api } from "@/api";
 
 type ReviewListResponse = {
-  data: {
-    content: Array<ReviewWithThumbnail>;
-    empty: boolean;
-    first: boolean;
-    last: boolean;
-    number: number;
-    numberOfElements: number;
-    size: number;
-  };
+  content: Array<ReviewWithThumbnail>;
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  size: number;
 };
 
 const getReviewList = (
@@ -33,8 +31,7 @@ export const useReviewListQuery = (seatId: string, size = 2) => {
       return data;
     },
     {
-      getNextPageParam: ({ data: { last, number } }) =>
-        last ? undefined : number + 1,
+      getNextPageParam: ({ last, number }) => (last ? undefined : number + 1),
     }
   );
 };

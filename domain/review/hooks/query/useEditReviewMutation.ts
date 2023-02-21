@@ -1,24 +1,24 @@
 import { AxiosResponse, AxiosError } from "axios";
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-
-import { fileApi } from "@/api";
 import { useRouter } from "next/router";
 
+import { fileApi } from "@/api";
+
 type ReviewRequest = {
-  theaterId: string;
+  reviewId: string;
   payload: FormData;
 };
 
 type ReviewResponse = Review;
 
-const createReview = ({
-  theaterId,
+const editReview = ({
+  reviewId,
   payload,
 }: ReviewRequest): Promise<AxiosResponse<ReviewResponse>> => {
-  return fileApi.post(`theaters/${theaterId}/reviews`, payload);
+  return fileApi.post(`/reviews/${reviewId}`, payload);
 };
 
-export const useCreateReviewMutation = (
+export const useEditReviewMutation = (
   options?: UseMutationOptions<
     AxiosResponse<ReviewResponse>,
     AxiosError,
@@ -26,13 +26,12 @@ export const useCreateReviewMutation = (
   >
 ) => {
   const router = useRouter();
-  const { theater } = router.query;
   return useMutation(
-    ({ theaterId, payload }) => createReview({ theaterId, payload }),
+    ({ reviewId, payload }) => editReview({ reviewId, payload }),
     {
       ...options,
       onSuccess: () => {
-        router.push(`/${theater}`);
+        router.back();
       },
     }
   );

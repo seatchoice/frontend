@@ -6,17 +6,15 @@ import { QUERY_KEYS } from "@/constants";
 import { api } from "@/api";
 import { useSuspenseQuery } from "@/hooks/useSuspenseQuery";
 
-type SeatListResponse = {
-  data: Array<{
-    seatId: number;
-    floor: number;
-    section: string;
-    seatRow: string;
-    seatNumber: number;
-    reviewAmount: number;
-    rating: 0 | 1 | 2 | 3 | 4 | 5;
-  }>;
-};
+type SeatListResponse = Array<{
+  seatId: number;
+  floor: number;
+  section: string;
+  seatRow: string;
+  seatNumber: number;
+  reviewAmount: number;
+  rating: 0 | 1 | 2 | 3 | 4 | 5;
+}>;
 
 const getSeatList = (
   theaterId: string
