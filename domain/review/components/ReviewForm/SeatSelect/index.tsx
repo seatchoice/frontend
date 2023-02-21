@@ -61,7 +61,7 @@ export function SeatSelect({ disabled, seat, setSeat }: SeatSelectProps) {
 
   return (
     <section className="flex items-center gap-2 mb-4">
-      {seatInfo.map(({ id, title, options }, index) => (
+      {seatInfo.map(({ id, title, options }) => (
         <>
           <Select
             disabled={disabled}
