@@ -1,37 +1,19 @@
+import { useRouter } from 'next/router';
 import useIntersectionObserver from '../../hooks/useObserver';
 
 import Theater from '.';
 
-export default function Theaters() {
-  const showSeats = () => {
-    console.log('해당 좌석목록을 보여줍니다. /api/reviews/:id');
+export default function Theaters({ theaters, getMoreSearched, nomore }) {
+  const router = useRouter();
+
+  const showSeats = e => {
+    router.push(`chat/${+e.target.closest('li').id}`);
   };
 
-  const props = [
-    { test: 1, caption: 'a' },
-    { test: 2, caption: 'b' },
-    { test: 3, caption: 'c' },
-    { test: 4, caption: 'd' },
-    { test: 5, caption: 'e' },
-    { test: 6, caption: 'f' },
-    { test: 7, caption: 'g' },
-    { test: 8, caption: 'h' },
-  ];
-
-  const props2 = [
-    { test: 10, caption: 'a1' },
-    { test: 20, caption: 'b1' },
-    { test: 30, caption: 'c1' },
-    { test: 40, caption: 'd1' },
-    { test: 50, caption: 'e1' },
-    { test: 60, caption: 'f1' },
-    { test: 70, caption: 'g1' },
-    { test: 80, caption: 'h1' },
-  ];
-
-  const onIntersect: IntersectionObserverCallback = ([{ isIntersecting }]) => {
+  // https://dev.to/manojpatra1991/intersection-observer-in-react-24od
+  const onIntersect: IntersectionObserverCallback = async ([{ isIntersecting }]) => {
     if (isIntersecting) {
-      console.log(props2);
+      getMoreSearched();
     }
   };
 
@@ -39,15 +21,16 @@ export default function Theaters() {
 
   return (
     <ul onClick={showSeats}>
-      {props.map(prop => (
+      {theaters.map(theater => (
         <li
-          key={prop.test}
+          id={theater.id}
+          key={theater.id}
           className="rounded-xl border-2 border-gray-100 bg-white dark:text-white
         dark:rounded-xl dark:border-2 dark:border-gray-100 dark:bg-slate-900 relative">
-          <Theater prop={prop} />
+          <Theater theater={theater} />
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-16 w-16 absolute bottom-0 right-0 pr-4"
+            className="h-16 w-16 absolute bottom-0 right-0 pr-4 hover:text-slate-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -57,7 +40,10 @@ export default function Theaters() {
           </svg>
         </li>
       ))}
-      <li ref={setTarget}>more</li>
+      <li ref={setTarget} className={nomore ? 'hidden' : ''}>
+        more
+      </li>
+      {nomore ? <li>결과가 없습니다.</li> : ''}
     </ul>
   );
 }

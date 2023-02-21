@@ -12,8 +12,8 @@ export const useLogin = (
 ) => {
   return useMutation((authCode) => login(authCode), {
     ...options,
-    onSuccess: ({ data }) => {
-      const { accessToken } = data.data;
+    onSuccess: (res) => {
+      const accessToken = res.headers.authorization;
       localStorage.setItem("ACCESS_TOKEN", accessToken);
     },
   });

@@ -1,13 +1,13 @@
 import type { AppProps } from "next/app";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   QueryClient,
   QueryClientProvider,
   Hydrate,
 } from "@tanstack/react-query";
-
 import "@/styles/globals.css";
-import { SSRSuspense } from "@/components";
+import { SSRSuspense, Toast } from "@/components";
+import { ToastProvider } from "@/context/Toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -21,11 +21,24 @@ export default function App({ Component, pageProps }: AppProps) {
       })
   );
 
+  useEffect(() => {
+    document
+      .querySelector("html")
+      ?.classList.toggle(
+        "dark",
+        JSON.parse(localStorage.getItem("darkMode")) ??
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+      );
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <SSRSuspense fallback={<div>Loading...</div>}>
-          <Component {...pageProps} />
+          <ToastProvider>
+            <Component {...pageProps} />
+            <Toast />
+          </ToastProvider>
         </SSRSuspense>
       </Hydrate>
     </QueryClientProvider>
