@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-import { useLogin } from "@/domain/login/hooks/query";
+import { useLogin } from "@/domain/auth/hooks/query";
 
 export default function KakaoAuth() {
   const router = useRouter();

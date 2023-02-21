@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 
 import { Text, Button, Icon } from "@/components";
-import { KakaoLoginButton } from "@/domain/login/components";
+import { KakaoLoginButton } from "@/domain/auth/components";
 
 const Modal = dynamic(
   () => import("@/components/Modal").then(({ Modal }) => Modal),
