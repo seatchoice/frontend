@@ -62,7 +62,7 @@ export default function Review() {
       />
       <Profile
         nickname={nickname}
-        updatedAt={`${getDateDiffTextFromNow(new Date(createdAt))}전`}
+        updatedAt={`${getDateDiffTextFromNow(createdAt)} 전`}
       />
       <Rating value={rating} />
       <div className="flex overflow-x-auto gap-2">
