@@ -7,6 +7,7 @@ import {
   useDeleteCommentMutation,
   useEditCommentMutation,
 } from "../../hooks/query";
+import { getDateDiffTextFromNow } from "@/utils/date";
 
 type CommentProps = {
   comment: _Comment;
@@ -32,7 +33,10 @@ export function Comment({ comment }: CommentProps) {
   return (
     <article className="rounded-lg">
       <header className="flex justify-between items-center mb-2">
-        <Profile nickname={nickname} updatedAt={updatedAt} />
+        <Profile
+          nickname={nickname}
+          updatedAt={`${getDateDiffTextFromNow(updatedAt)} 전`}
+        />
         <ul className="flex">
           <li>
             <Button

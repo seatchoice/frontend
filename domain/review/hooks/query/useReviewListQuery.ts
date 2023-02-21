@@ -17,21 +17,24 @@ type ReviewListResponse = {
 
 const getReviewList = (
   seatId: string,
-  page: number,
-  size: number
+  size: number,
+  lastReviewId?: number
 ): Promise<AxiosResponse<ReviewListResponse>> => {
-  return api.get(`/reviews?seatId=${seatId}&page=${page}&size=${size}`);
+  return api.get(
+    `/reviews?seatId=${seatId}&size=${size}&lastReviewId=${lastReviewId}`
+  );
 };
 
 export const useReviewListQuery = (seatId: string, size = 2) => {
   return useInfiniteQuery(
     [QUERY_KEYS.REVIEW_LIST, seatId],
-    async ({ queryKey: [, seatId], pageParam = 0 }) => {
-      const { data } = await getReviewList(seatId, pageParam, size);
+    async ({ queryKey: [, seatId], pageParam }) => {
+      const { data } = await getReviewList(seatId, size, pageParam ?? "");
       return data;
     },
     {
-      getNextPageParam: ({ last, number }) => (last ? undefined : number + 1),
+      getNextPageParam: ({ last, content }) =>
+        last ? undefined : content ? content.at(-1)?.reviewId : "",
     }
   );
 };
