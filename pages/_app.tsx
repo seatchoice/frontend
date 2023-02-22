@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query
 import '@/styles/globals.css';
 import { SSRSuspense, Toast } from '@/components';
 import { ToastProvider } from '@/context/Toast';
+import { ThemeProvider } from 'next-themes';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -22,7 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.dehydratedState}>
         <SSRSuspense fallback={<div>Loading...</div>}>
           <ToastProvider>
-            <Component {...pageProps} />
+            <ThemeProvider attribute="class">
+              <Component {...pageProps} />
+            </ThemeProvider>
             <Toast />
           </ToastProvider>
         </SSRSuspense>
