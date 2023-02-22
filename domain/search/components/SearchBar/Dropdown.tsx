@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-export default function Dropdown({ handleSearchType }) {
+type DropdownProps = {
+  handleSearchType: (type: string) => void;
+};
+
+export default function Dropdown({ handleSearchType }: DropdownProps) {
   const [menu, setMenu] = useState({
     visible: false,
     type: 'FACILITY',
@@ -13,8 +17,10 @@ export default function Dropdown({ handleSearchType }) {
     });
   };
 
-  const handleDropMenu = e => {
-    const type = e.target.textContent === '공연' ? 'PERFORMANCE' : 'FACILITY';
+  const handleDropMenu = ({ target }: React.MouseEvent<HTMLButtonElement>) => {
+    const type =
+      (target as HTMLButtonElement).textContent === '공연' ? 'PERFORMANCE' : 'FACILITY';
+
     setMenu({
       visible: false,
       type,

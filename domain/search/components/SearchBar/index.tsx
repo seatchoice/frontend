@@ -1,7 +1,15 @@
 import Dropdown from './Dropdown';
 import SearchIcon from './SearchIcon';
 
-export default function SearchBar({ handleSearchForm, handleSearchType }) {
+type SearchBarProps = {
+  handleSearchType: (type: string) => void;
+  handleSearchForm: (event: React.FormEvent<HTMLFormElement>) => void;
+};
+
+export default function SearchBar({
+  handleSearchForm,
+  handleSearchType,
+}: SearchBarProps) {
   return (
     <div className="flex flex-row items-stretch mb-2">
       <Dropdown handleSearchType={handleSearchType} />

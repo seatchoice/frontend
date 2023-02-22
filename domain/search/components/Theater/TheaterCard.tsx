@@ -1,4 +1,10 @@
-export default function TheaterCard({ theater }) {
+import { TheaterType } from './type';
+
+type TheaterProps = {
+  theater: TheaterType;
+};
+
+export default function TheaterCard({ theater }: TheaterProps) {
   const { name = '', address, id } = theater;
   return (
     <div className="ml-4">

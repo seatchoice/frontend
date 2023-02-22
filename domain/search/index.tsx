@@ -1,12 +1,22 @@
 import { api } from '@/api';
 import { useState } from 'react';
 
+import { TheaterType } from './components/Theater/type';
+
 import SearchHeader from './components/SearchHeader';
 import SearchBar from './components/SearchBar';
 import Theaters from './components/Theater/Theaters';
 
+interface SearchInfo {
+  theaters: TheaterType[];
+  searchStr: string;
+  pageSize: number;
+  nomore: boolean;
+  type: string;
+}
+
 export default function Search() {
-  const [search, setSearch] = useState({
+  const [search, setSearch] = useState<SearchInfo>({
     theaters: [],
     searchStr: '',
     pageSize: 10,
@@ -14,11 +24,12 @@ export default function Search() {
     type: 'FACILITY',
   });
 
-  const handleSearchForm: Promise<void> = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    const { theater } = event.target as HTMLFormElement;
     try {
-      e.preventDefault();
+      event.preventDefault();
 
-      const searchStr = e.target.theater.value;
+      const searchStr = theater.value;
 
       await api.get(`/search?type=${search.type}&name=${searchStr}`).then(({ data }) => {
         setSearch({
@@ -33,7 +44,7 @@ export default function Search() {
       // if (err.response.status === 502) console.log('502 err');
       console.log(err);
     } finally {
-      e.target.theater.value = '';
+      theater.value = '';
     }
   };
 
@@ -42,7 +53,7 @@ export default function Search() {
       await api
         .get(
           `/search?type=${search.type}&name=${search.searchStr}&after=${
-            search.theaters.at(-1).id
+            search?.theaters.at(-1)?.id
           }`
         )
         .then(({ data }) => {
@@ -53,6 +64,7 @@ export default function Search() {
           }
 
           setSearch({
+            ...search,
             searchStr: search.searchStr,
             theaters: [...search.theaters, ...searchedArr],
             pageSize: search.pageSize,
@@ -64,7 +76,7 @@ export default function Search() {
     }
   };
 
-  const handleSearchType = type => {
+  const handleSearchType = (type: string) => {
     setSearch({ ...search, type });
   };
 
