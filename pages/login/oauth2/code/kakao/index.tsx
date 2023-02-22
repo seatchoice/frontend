@@ -4,19 +4,16 @@ import { useEffect } from "react";
 import { useLogin } from "@/domain/auth/hooks/query";
 
 export default function KakaoAuth() {
-  const router = useRouter();
   const {
     query: { code: kakaoAuthCode },
-  } = router;
+  } = useRouter();
   const { mutate: login } = useLogin();
 
   useEffect(() => {
     if (kakaoAuthCode) {
       login(kakaoAuthCode as string);
-
-      router.replace("/");
     }
-  }, [kakaoAuthCode]);
+  }, [kakaoAuthCode, login]);
 
   return null;
 }
