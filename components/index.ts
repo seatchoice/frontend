@@ -11,3 +11,5 @@ export * from "./LikeButton";
 export * from "./SSRSuspense";
 export * from "./Profile";
 export * from "./Toast";
+export * from "./MainHeader";
+export * from "./Dropdown";
