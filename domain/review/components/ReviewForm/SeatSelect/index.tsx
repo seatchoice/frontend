@@ -3,12 +3,12 @@ import { Select } from "@/components";
 import { StateAndAction } from "@/types/state";
 import { getSections, getRows, getSeatNumbers } from "../../../utils";
 
-type SeatSelectProps = StateAndAction<
+type SeatSelectProps = { disabled?: boolean } & StateAndAction<
   { floor: string; section: string; seatRow: string; seatNumber: string },
   "seat"
 >;
 
-export function SeatSelect({ seat, setSeat }: SeatSelectProps) {
+export function SeatSelect({ disabled, seat, setSeat }: SeatSelectProps) {
   const seatInfo: Array<{
     id: "floor" | "section" | "seatRow" | "seatNumber";
     title: string;
@@ -61,9 +61,10 @@ export function SeatSelect({ seat, setSeat }: SeatSelectProps) {
 
   return (
     <section className="flex items-center gap-2 mb-4">
-      {seatInfo.map(({ id, title, options }, index) => (
+      {seatInfo.map(({ id, title, options }) => (
         <>
           <Select
+            disabled={disabled}
             id={id}
             options={options}
             className="max-w-[4rem] text-center"

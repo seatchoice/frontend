@@ -38,7 +38,7 @@ export default function Theater() {
                       <div key={row} className="flex items-center">
                         <Text>{row}</Text>
                         {SEATS[floor][section][row].map((seatNumber) => {
-                          const seatWithReview = seatList.data.find(
+                          const seatWithReview = seatList.find(
                             (seat) =>
                               seat.floor === +floor &&
                               seat.section === section &&
@@ -50,7 +50,11 @@ export default function Theater() {
                               key={seatNumber}
                               href={`${asPath}/reviews/${seatWithReview.seatId}`}
                               rating={
-                                seatWithReview ? seatWithReview.rating : 0
+                                seatWithReview
+                                  ? (Math.floor(
+                                      seatWithReview.rating
+                                    ) as Rating)
+                                  : 0
                               }
                               className="m-1"
                             >

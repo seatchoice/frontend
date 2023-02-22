@@ -1,10 +1,15 @@
-type ReviewResponse = {
-  id: number;
+type Rating = 0 | 1 | 2 | 3 | 4 | 5;
+
+type Seat = {
   floor: number;
   section: string;
-  row: number;
+  seatRow: number;
   seatNumber: number;
-  rating: number;
+};
+
+type Review = Seat & {
+  id: number;
+  rating: Rating;
   content: string;
   likeAmount: number;
   image: [
@@ -16,4 +21,15 @@ type ReviewResponse = {
 
 type ReviewWithThumbnail = Omit<ReviewResponse, "image"> & {
   thumbnail: string;
+};
+
+type ReviewDetail = Seat & {
+  userId: number;
+  nickname: string;
+  createdAt: string;
+  rating: Rating;
+  content: string;
+  images: Array<string>;
+  likeAmount: number;
+  likeChecked: boolean;
 };

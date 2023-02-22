@@ -5,7 +5,7 @@ import { Button } from "@/components";
 
 type SeatProps<T extends React.ElementType> = Component<T> & {
   href?: string | UrlObject;
-  rating: 0 | 1 | 2 | 3 | 4 | 5;
+  rating: Rating;
 };
 
 export function Seat({

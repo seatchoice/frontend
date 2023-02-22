@@ -3,13 +3,10 @@ import Image from "next/image";
 
 type ImagePreviewProps = {
   imagePreviewUrl: string;
-  onDeleteClick: () => void;
+  onDelete: () => void;
 };
 
-export function ImagePreview({
-  imagePreviewUrl,
-  onDeleteClick,
-}: ImagePreviewProps) {
+export function ImagePreview({ imagePreviewUrl, onDelete }: ImagePreviewProps) {
   return (
     <div className="relative inline-block max-w-[150px] rounded-lg">
       <Image
@@ -22,7 +19,7 @@ export function ImagePreview({
       <Button
         as="icon"
         className="absolute top-1 right-1 rounded-full bg-primary-500"
-        onClick={onDeleteClick}
+        onClick={onDelete}
       >
         <Icon as="close" size={20} />
       </Button>

@@ -13,7 +13,7 @@ export function Button({
 }: ButtonProps<"button">) {
   const buttonStyle = {
     primary:
-      "font-semibold bg-primary-200 text-primary-900 dark:bg-primary-800 dark:text-primary-200 disabled:bg-gray-300",
+      "font-semibold bg-primary-200 text-primary-900 dark:bg-primary-800 dark:text-primary-200 disabled:bg-gray-300 dark:disabled:bg-dark-fg",
     icon: "bg-transparent p-0",
   };
 

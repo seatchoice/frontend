@@ -3,29 +3,30 @@ import { UseQueryOptions } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "@/constants";
 import { useSuspenseQuery } from "@/hooks/useSuspenseQuery";
+
 import { api } from "@/api";
 
-type ReviewResponse = ReviewDetail;
+type CommentListResponse = Array<_Comment>;
 
-const getReview = (
+const getCommentList = (
   reviewId: string
-): Promise<AxiosResponse<ReviewResponse>> => {
-  return api.get(`reviews/${reviewId}`);
+): Promise<AxiosResponse<CommentListResponse>> => {
+  return api.get(`/reviews/${reviewId}/comments`);
 };
 
-export const useReviewQuery = (
+export const useCommentListQuery = (
   reviewId: string,
   options?: UseQueryOptions<
-    ReviewResponse,
+    CommentListResponse,
     AxiosError,
-    ReviewResponse,
+    CommentListResponse,
     string[]
   >
 ) => {
   return useSuspenseQuery(
-    [QUERY_KEYS.REVIEW, reviewId],
+    [QUERY_KEYS.COMMENT_LIST, reviewId],
     async ({ queryKey: [, reviewId] }) => {
-      const { data } = await getReview(reviewId);
+      const { data } = await getCommentList(reviewId);
       return data;
     },
     {

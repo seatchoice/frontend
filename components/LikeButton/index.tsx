@@ -15,7 +15,7 @@ export function LikeButton({
     <Button
       as="icon"
       className={tw(
-        "flex justify-evenly items-center max-w-[80px] gap-2 p-2 rounded-2xl",
+        "flex justify-evenly items-center max-w-[80px] gap-2 p-2 rounded-2xl disabled:text-gray-300",
         liked ? "text-red-600" : "hover:text-red-600",
         className
       )}
