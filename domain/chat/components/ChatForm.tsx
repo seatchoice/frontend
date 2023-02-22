@@ -1,4 +1,7 @@
-export default function ChatForm({ handleMessage }) {
+type ChatFormProps = {
+  handleMessage: (event: React.FormEvent<HTMLFormElement>) => void;
+};
+export default function ChatForm({ handleMessage }: ChatFormProps) {
   return (
     <section className="p-4 bottom-0 w-full sticky">
       <form onSubmit={handleMessage} className="relative">
