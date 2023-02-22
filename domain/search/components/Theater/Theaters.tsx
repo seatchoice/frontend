@@ -20,15 +20,16 @@ export default function Theaters({ theaters, getMoreSearched, nomore }) {
   const { setTarget } = useIntersectionObserver({ onIntersect });
 
   return (
-    <ul onClick={showSeats}>
+    <ul>
       {theaters.map(theater => (
         <li
           id={theater.id}
           key={theater.id}
-          className="rounded-xl border-2 border-gray-100 bg-white dark:text-white
+          className="rounded-xl mb-2 border-2 border-gray-100 bg-white dark:text-white
         dark:rounded-xl dark:border-2 dark:border-gray-100 dark:bg-slate-900 relative">
           <Theater theater={theater} />
           <svg
+            onClick={showSeats}
             xmlns="http://www.w3.org/2000/svg"
             className="h-16 w-16 absolute bottom-0 right-0 pr-4 hover:text-slate-500"
             fill="none"

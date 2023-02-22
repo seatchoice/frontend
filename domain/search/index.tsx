@@ -20,13 +20,13 @@ export default function Search() {
 
       const searchStr = e.target.theater.value;
 
-      await api.get(`/search?type=FACILITY&name=${searchStr}`).then(({ data }) => {
+      await api.get(`/search?type=${search.type}&name=${searchStr}`).then(({ data }) => {
         setSearch({
           searchStr,
           theaters: data,
           pageSize: search.pageSize,
           nomore: false,
-          type: 'FACILITY',
+          type: search.type,
         });
       });
     } catch (err) {
@@ -41,7 +41,7 @@ export default function Search() {
     try {
       await api
         .get(
-          `/search?type=FACILITY&name=${search.searchStr}&after=${
+          `/search?type=${search.type}&name=${search.searchStr}&after=${
             search.theaters.at(-1).id
           }`
         )
@@ -64,10 +64,17 @@ export default function Search() {
     }
   };
 
+  const handleSearchType = type => {
+    setSearch({ ...search, type });
+  };
+
   return (
     <section className="m-8">
       <SearchHeader />
-      <SearchBar handleSearchForm={handleSearchForm} />
+      <SearchBar
+        handleSearchForm={handleSearchForm}
+        handleSearchType={handleSearchType}
+      />
       {search.theaters.length === 0 ? (
         ''
       ) : (

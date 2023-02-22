@@ -1,9 +1,11 @@
+import Dropdown from './Dropdown';
 import SearchIcon from './SearchIcon';
 
-export default function SearchBar({ handleSearchForm }) {
+export default function SearchBar({ handleSearchForm, handleSearchType }) {
   return (
-    <>
-      <form className="relative" onSubmit={handleSearchForm}>
+    <div className="flex flex-row items-stretch mb-2">
+      <Dropdown handleSearchType={handleSearchType} />
+      <form className="relative flex-grow" onSubmit={handleSearchForm}>
         <input
           name="theater"
           type="text"
@@ -15,6 +17,6 @@ export default function SearchBar({ handleSearchForm }) {
 
         <SearchIcon />
       </form>
-    </>
+    </div>
   );
 }
