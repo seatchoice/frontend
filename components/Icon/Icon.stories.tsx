@@ -44,9 +44,16 @@ Like.args = {
   height: "30",
 };
 
-export const Plus = Template.bind({});
-Plus.args = {
-  as: "plus",
+export const Logo = Template.bind({});
+Logo.args = {
+  as: "logo",
+  width: "30",
+  height: "30",
+};
+
+export const Notification = Template.bind({});
+Notification.args = {
+  as: "notification",
   width: "30",
   height: "30",
 };

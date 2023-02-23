@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { KAKAO_AUTH_URL } from "@/domain/login/constants/kakaoAuth";
+import { KAKAO_AUTH_URL } from "@/domain/auth/constants/kakaoAuth";
 
 import { KakaoIcon } from "./KakaoIcon";
 
