@@ -13,4 +13,6 @@ export default {
   },
 } as ComponentMeta<typeof ReviewForm>;
 
-export const Default: ComponentStory<typeof ReviewForm> = () => <ReviewForm />;
+export const Default: ComponentStory<typeof ReviewForm> = (arg) => (
+  <ReviewForm {...arg} />
+);

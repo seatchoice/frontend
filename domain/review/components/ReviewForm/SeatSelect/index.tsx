@@ -3,16 +3,13 @@ import { Select } from "@/components";
 import { StateAndAction } from "@/types/state";
 import { getSections, getRows, getSeatNumbers } from "../../../utils";
 
-type SeatSelectProps = { disabled?: boolean } & StateAndAction<
-  { floor: string; section: string; seatRow: string; seatNumber: string },
-  "seat"
->;
+type SeatSelectProps = { disabled?: boolean } & StateAndAction<Seat, "seat">;
 
 export function SeatSelect({ disabled, seat, setSeat }: SeatSelectProps) {
   const seatInfo: Array<{
     id: "floor" | "section" | "seatRow" | "seatNumber";
     title: string;
-    options: Array<{ value: string }>;
+    options: Array<{ value: string | number }>;
   }> = [
     {
       id: "floor",
@@ -34,7 +31,7 @@ export function SeatSelect({ disabled, seat, setSeat }: SeatSelectProps) {
     {
       id: "seatNumber",
       title: "번호",
-      options: getSeatNumbers(seat.floor, seat.section, seat.seatRow).map(
+      options: getSeatNumbers(seat.floor, seat.section, `${seat.seatRow}`).map(
         (seatNumber) => ({ value: seatNumber })
       ),
     },
@@ -44,16 +41,19 @@ export function SeatSelect({ disabled, seat, setSeat }: SeatSelectProps) {
     e: React.ChangeEvent<HTMLSelectElement>,
     id: keyof typeof seat
   ) => {
-    const { floor, section, seatRow } = { ...seat, [id]: e.target.value };
+    const { floor, section, seatRow } = {
+      ...seat,
+      [id]: e.target.value,
+    };
     const newSection = id === "floor" ? getSections(floor)[0] : section;
     const newSeatRow =
       id !== "seatNumber" ? getRows(floor, newSection)[0] : seatRow;
-    const [newSeatNumber] = getSeatNumbers(floor, newSection, newSeatRow);
+    const [newSeatNumber] = getSeatNumbers(floor, newSection, `${newSeatRow}`);
 
     setSeat({
       ...seat,
       section: newSection,
-      seatRow: newSeatRow,
+      seatRow: +newSeatRow,
       seatNumber: newSeatNumber,
       [id]: e.target.value,
     });
