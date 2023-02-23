@@ -5,14 +5,8 @@ import { QUERY_KEYS } from "@/constants";
 
 import { api } from "@/api";
 
-type ReviewListResponse = {
+type ReviewListResponse = Pagination & {
   content: Array<ReviewWithThumbnail>;
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  size: number;
 };
 
 const getReviewList = (
