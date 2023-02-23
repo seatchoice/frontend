@@ -41,7 +41,7 @@ export function SeatSelect({ disabled, seat, setSeat }: SeatSelectProps) {
     e: React.ChangeEvent<HTMLSelectElement>,
     id: keyof typeof seat
   ) => {
-    const { floor, section, seatRow } = {
+    const { floor, section, seatRow }: Seat = {
       ...seat,
       [id]: e.target.value,
     };

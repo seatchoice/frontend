@@ -24,7 +24,7 @@ Default.args = {
     theater: "체조경기장",
     floor: 1,
     section: "A",
-    row: 2,
+    seatRow: 2,
     seatNumber: 23,
   },
 };
