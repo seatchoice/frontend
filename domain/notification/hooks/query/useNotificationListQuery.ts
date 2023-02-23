@@ -9,24 +9,18 @@ type NotificationListResponse = Pagination & {
   content: Array<_Notification>;
 };
 
-const getNotificationList = (): Promise<
-  AxiosResponse<NotificationListResponse>
-> => {
-  return api.get(`/alarms/list`);
+const getNotificationList = (
+  page: number,
+  size: number
+): Promise<AxiosResponse<NotificationListResponse>> => {
+  return api.get(`/alarms/list?page=${page}&size=${size}`);
 };
 
-export const useNotificationListQuery = (
-  options?: UseQueryOptions<
-    NotificationListResponse,
-    AxiosError,
-    NotificationListResponse,
-    string[]
-  >
-) => {
+export const useNotificationListQuery = (size = 10) => {
   return useInfiniteQuery(
     [QUERY_KEYS.NOTIFICATION_LIST],
-    async ({ queryKey }) => {
-      const { data } = await getNotificationList();
+    async ({ queryKey, pageParam }) => {
+      const { data } = await getNotificationList(pageParam ?? 0, size);
       return data;
     },
     {
