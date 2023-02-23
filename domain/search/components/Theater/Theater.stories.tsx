@@ -7,4 +7,8 @@ export default {
   component: Theater,
 } as ComponentMeta<typeof Theater>;
 
-export const TheaterCard: ComponentStory<typeof Theater> = () => <Theater />;
+const Template: ComponentStory<typeof Theater> = args => <Theater {...args} />;
+
+export const Default = Template.bind({});
+
+Default.args = {};
