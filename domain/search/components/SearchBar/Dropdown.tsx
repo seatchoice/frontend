@@ -30,7 +30,7 @@ export default function Dropdown({ handleSearchType }: DropdownProps) {
 
   return (
     <div className="relative">
-      <div className="h-full inline-flex items-center divide-x divide-gray-100 overflow-hidden rounded-md border bg-white">
+      <div className="h-full inline-flex items-center divide-x divide-gray-100 overflow-hidden rounded-md bg-slate-900">
         <label className="px-4 py-2 text-sm leading-none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
           {menu.type === 'FACILITY' ? '공연시설' : '공연'}
         </label>
@@ -59,24 +59,29 @@ export default function Dropdown({ handleSearchType }: DropdownProps) {
       </div>
 
       <div
-        className={`absolute left-0 z-10 mt-2 w-56 rounded-md border border-gray-100 bg-white shadow-lg ${
-          menu.visible ? '' : 'hidden'
-        }`}
+        className={`absolute left-0 z-10 mt-2 w-56 rounded-md border border-gray-100 
+        bg-inherit shadow-lg ${menu.visible ? '' : 'hidden'}`}
         role="menu">
         <div className="p-2">
-          <button
-            onClick={handleDropMenu}
-            className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-            role="menuitem">
-            공연시설
-          </button>
+          <div className="flex flex-row justify-between">
+            <button
+              onClick={handleDropMenu}
+              className="block rounded-lg px-4 py-2 text-sm hover:bg-gray-50 hover:text-gray-700"
+              role="menuitem">
+              공연시설
+            </button>
+            <button className="text-gray-500">more</button>
+          </div>
 
-          <button
-            onClick={handleDropMenu}
-            className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-            role="menuitem">
-            공연
-          </button>
+          <div className="flex flex-row justify-between">
+            <button
+              onClick={handleDropMenu}
+              className="block rounded-lg px-4 py-2 text-sm  hover:bg-gray-50 hover:text-gray-700"
+              role="menuitem">
+              공연
+            </button>
+            <button className="text-gray-500">more</button>
+          </div>
         </div>
       </div>
     </div>
