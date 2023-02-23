@@ -1,39 +1,50 @@
 import { api } from '@/api';
 import { useState } from 'react';
 
+import { TheaterType } from './components/Theater/type';
+
 import SearchHeader from './components/SearchHeader';
 import SearchBar from './components/SearchBar';
 import Theaters from './components/Theater/Theaters';
 
+interface SearchInfo {
+  theaters: TheaterType[];
+  searchStr: string;
+  pageSize: number;
+  nomore: boolean;
+  type: string;
+}
+
 export default function Search() {
-  const [search, setSearch] = useState({
+  const [search, setSearch] = useState<SearchInfo>({
     theaters: [],
     searchStr: '',
     pageSize: 10,
     nomore: false,
+    type: 'FACILITY',
   });
 
-  const handleSearchForm: Promise<void> = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    const { theater } = event.target as HTMLFormElement;
     try {
-      e.preventDefault();
+      event.preventDefault();
 
-      const searchStr = e.target.theater.value;
+      const searchStr = theater.value;
 
-      await api
-        .get(`/api/search/facility?name=${searchStr}&size=${search.pageSize}`)
-        .then(({ data }) => {
-          setSearch({
-            searchStr,
-            theaters: data.data,
-            pageSize: search.pageSize,
-            nomore: false,
-          });
+      await api.get(`/search?type=${search.type}&name=${searchStr}`).then(({ data }) => {
+        setSearch({
+          searchStr,
+          theaters: data,
+          pageSize: search.pageSize,
+          nomore: false,
+          type: search.type,
         });
+      });
     } catch (err) {
       // if (err.response.status === 502) console.log('502 err');
       console.log(err);
     } finally {
-      e.target.theater.value = '';
+      theater.value = '';
     }
   };
 
@@ -41,20 +52,21 @@ export default function Search() {
     try {
       await api
         .get(
-          `/api/search/facility?name=${search.searchStr}&size=${search.pageSize}&after=${
-            search.theaters.at(-1).id
+          `/search?type=${search.type}&name=${search.searchStr}&after=${
+            search?.theaters.at(-1)?.id
           }`
         )
         .then(({ data }) => {
-          const searchedArr = data.data;
+          const searchedArr = data;
           if (searchedArr.length === 0) {
             setSearch({ ...search, nomore: true });
             return;
           }
 
           setSearch({
+            ...search,
             searchStr: search.searchStr,
-            theaters: [...search.theaters, ...data.data],
+            theaters: [...search.theaters, ...searchedArr],
             pageSize: search.pageSize,
             nomore: false,
           });
@@ -64,10 +76,17 @@ export default function Search() {
     }
   };
 
+  const handleSearchType = (type: string) => {
+    setSearch({ ...search, type });
+  };
+
   return (
     <section className="m-8">
       <SearchHeader />
-      <SearchBar handleSearchForm={handleSearchForm} />
+      <SearchBar
+        handleSearchForm={handleSearchForm}
+        handleSearchType={handleSearchType}
+      />
       {search.theaters.length === 0 ? (
         ''
       ) : (

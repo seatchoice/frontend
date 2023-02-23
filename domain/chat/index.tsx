@@ -1,5 +1,6 @@
 import { getRoomId } from '@/domain/chat/apis/getRoomId';
 import SocketClient from '@/domain/chat/hooks/useWebsocket';
+import { Client, StompSubscription } from '@stomp/stompjs';
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -10,23 +11,27 @@ import ChatHeader from './components/ChatHeader';
 import ChatPanel from './components/ChatPanel';
 import ChatForm from './components/ChatForm';
 
-let stompClient = null;
-let subscription;
+let stompClient: Client;
+let subscription: StompSubscription;
 let roomId: number;
 let token: string;
 
 export default function Chat() {
-  const panelRef = useRef(null);
-  const [chats, setChats] = useState([]);
+  const panelRef = useRef<HTMLElement>(null);
+  const [chats, setChats] = useState<string[]>([]);
 
   const router = useRouter();
+
   const { id } = router.query;
 
-  const handleMessage = e => {
-    e.preventDefault();
-    const chat = e.target.message.value;
+  const handleMessage = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const { message } = event.target as HTMLFormElement;
+    const chat = message.value;
+
     if (chat.trim() === '') return;
-    e.target.message.value = '';
+    message.value = '';
 
     stompClient.publish({
       destination: `/api/send/${roomId}`,
@@ -39,11 +44,11 @@ export default function Chat() {
   };
 
   const setroomId = async (token: string) => {
-    roomId = await getRoomId(1018, token).then(response => response.data.data.roomId);
+    roomId = await getRoomId(`${id}`, token).then(response => response.data.roomId);
   };
 
   useEffect(() => {
-    token = localStorage.getItem(STORAGE.ACCESS_TOKEN);
+    token = localStorage.getItem(STORAGE.ACCESS_TOKEN) ?? '';
     setroomId(token);
 
     stompClient = SocketClient(token);

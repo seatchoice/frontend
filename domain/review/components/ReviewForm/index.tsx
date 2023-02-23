@@ -43,11 +43,11 @@ export function ReviewForm({
 
   const isEditMode = !!data;
 
-  const [seat, setSeat] = useState({
-    floor: floor ?? "1",
+  const [seat, setSeat] = useState<Seat>({
+    floor: floor ?? 1,
     section: section ?? "OP",
-    seatRow: seatRow ?? "1",
-    seatNumber: seatNumber ?? "1",
+    seatRow: seatRow ?? 1,
+    seatNumber: seatNumber ?? 1,
   });
   const [rating, setRating] = useState(_rating ?? 0);
   const [detailReview, setDetailReview] = useState(content ?? "");
@@ -62,7 +62,7 @@ export function ReviewForm({
     });
 
   const handleRatingChange = (newRating: number) => {
-    setRating(newRating);
+    setRating(newRating as Rating);
   };
 
   const handleFormSubmit = () => {
@@ -102,7 +102,7 @@ export function ReviewForm({
       <Text as="h5" className="font-semibold">
         앉았던 자리 선택하기*
       </Text>
-      <SeatSelect disabled={isEditMode} seat={seat} setSeat={setSeat} />
+      <SeatSelect disabled={isEditMode} seat={seat as Seat} setSeat={setSeat} />
 
       <Text as="h5" className="font-semibold">
         자리가 어떠셨나요?*
@@ -155,7 +155,7 @@ export function ReviewForm({
         <ConfirmModal
           showModal={showModal}
           setShowModal={setShowModal}
-          seat={{ ...seat }}
+          seat={seat as Seat}
           SubmitButton={
             <Button onClick={handleFormSubmit}>후기 공유하기</Button>
           }

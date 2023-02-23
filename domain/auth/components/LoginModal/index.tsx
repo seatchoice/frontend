@@ -1,17 +1,21 @@
 import dynamic from "next/dynamic";
-import { useState } from "react";
 
 import { Text, Button, Icon } from "@/components";
 import { KakaoLoginButton } from "@/domain/auth/components";
+import { StateAndAction } from "@/types/state";
 
 const Modal = dynamic(
   () => import("@/components/Modal").then(({ Modal }) => Modal),
   { ssr: false }
 );
 
-export default function Login() {
-  const [showModal, setShowModal] = useState(true);
+type LoginModalProps<T extends React.ElementType> = Component<T> &
+  StateAndAction<boolean, "showModal">;
 
+export function LoginModal({
+  showModal,
+  setShowModal,
+}: LoginModalProps<"div">) {
   return (
     <Modal open={showModal} className="min-w-[400px]">
       <header className="flex justify-between items-center">

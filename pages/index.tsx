@@ -1,6 +1,7 @@
-import Head from 'next/head';
+import Head from "next/head";
 
-import Search from '@/domain/search';
+import Search from "@/domain/search";
+import { MainHeader } from "@/components";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <MainHeader />
         <Search />
       </main>
     </>
