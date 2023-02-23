@@ -2,12 +2,7 @@ import { Button, Modal, Text } from "@/components";
 import { StateAndAction } from "@/types/state";
 
 type ConfirmModal = {
-  seat: {
-    floor: string;
-    section: string;
-    seatRow: string;
-    seatNumber: string;
-  };
+  seat: Seat;
   SubmitButton: React.ReactNode;
 } & StateAndAction<boolean, "showModal">;
 

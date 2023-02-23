@@ -2,7 +2,7 @@ import { tw } from "@/utils/tailwindMerge";
 import { forwardRef } from "react";
 
 type SelectProps<T extends React.ElementType> = Component<T> & {
-  options: Array<{ value: string }>;
+  options: Array<{ value: string | number }>;
 };
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps<"select">>(
