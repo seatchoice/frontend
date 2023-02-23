@@ -20,7 +20,7 @@ export default function SearchBar({
           placeholder="공연장을 검색하세요."
           className="w-full rounded-md border-gray-200 py-2.5  indent-2 pb-4
           bg-white dark:bg-slate-900 
-          text-black dark:text-white pr-10 shadow-sm sm:text-sm"
+          text-black dark:text-white pr-10 shadow-sm"
         />
 
         <SearchIcon />
