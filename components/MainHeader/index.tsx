@@ -25,9 +25,9 @@ export function MainHeader() {
             <Icon as="notification" />
           </Link>
           <Dropdown
-            buttonText="username"
+            buttonText={user}
             items={[
-              { content: "username" },
+              { content: user },
               {
                 content: (
                   <Button as="icon" onClick={() => logout()}>
