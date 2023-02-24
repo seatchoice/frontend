@@ -9,16 +9,16 @@ export function useAuth() {
 
   const removeToken = () => localStorage.removeItem(STORAGE.ACCESS_TOKEN);
 
-  const getNickname = () => {
+  const getUser = () => {
     const token = getToken();
     if (!token) return null;
 
-    const { nickname } = parseJwt(token);
-    return nickname;
+    const { nickname, sub: userId } = parseJwt(token);
+    return { nickname, userId };
   };
 
   return {
-    user: getNickname(),
+    user: getUser(),
     getToken,
     setToken,
     removeToken,
