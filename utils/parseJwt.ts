@@ -5,7 +5,7 @@ type JwtPayload = {
   nickname: string;
 };
 
-export const parseJwt = (token: string | null): JwtPayload => {
+export const parseJwt = (token: string): JwtPayload => {
   if (!token) throw new Error("Invalid token");
 
   const [, payload] = token.split(".");

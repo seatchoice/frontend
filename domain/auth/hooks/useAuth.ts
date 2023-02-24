@@ -11,6 +11,8 @@ export function useAuth() {
 
   const getNickname = () => {
     const token = getToken();
+    if (!token) return null;
+
     const { nickname } = parseJwt(token);
     return nickname;
   };
