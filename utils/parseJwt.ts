@@ -1,7 +1,7 @@
 type JwtPayload = {
   exp: number;
   iat: number;
-  id: number;
+  sub: string;
   nickname: string;
 };
 
