@@ -1,6 +1,10 @@
-import { AxiosInstance, AxiosError } from "axios";
+import axios, { AxiosInstance, AxiosError } from "axios";
 
 import { STORAGE } from "@/constants";
+
+const getAccessToken = () => {
+  return axios.get(`/api/auth/tokens`);
+};
 
 export const setInterceptors = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
@@ -29,6 +33,8 @@ export const setInterceptors = (instance: AxiosInstance) => {
         if (error.response.status === 401 && errorAPI && !errorAPI.retry) {
           localStorage.removeItem(STORAGE.ACCESS_TOKEN);
           errorAPI.retry = true;
+
+          await getAccessToken();
 
           return instance(errorAPI);
         }
