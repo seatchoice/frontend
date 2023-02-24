@@ -1,9 +1,15 @@
-export default function TheaterCard({ theater }) {
-  const { name = '', address } = theater;
+import { TheaterType } from './type';
+
+type TheaterProps = {
+  theater: TheaterType;
+};
+
+export default function TheaterCard({ theater }: TheaterProps) {
+  const { name = '', address, id } = theater;
   return (
     <div className="ml-4">
       <h3 className="font-medium sm:text-lg">
-        <a href="#" className="hover:underline">
+        <a href={`/${id}`} className="hover:underline">
           {name}
         </a>
       </h3>

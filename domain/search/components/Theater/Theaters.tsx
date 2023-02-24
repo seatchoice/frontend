@@ -1,13 +1,22 @@
 import { useRouter } from 'next/router';
 import useIntersectionObserver from '../../hooks/useObserver';
 
+import { TheaterType } from './type';
+
 import Theater from '.';
 
-export default function Theaters({ theaters, getMoreSearched, nomore }) {
+type TheatersProps = {
+  theaters: TheaterType[];
+  getMoreSearched: () => void;
+  nomore: boolean;
+};
+
+export default function Theaters({ theaters, getMoreSearched, nomore }: TheatersProps) {
   const router = useRouter();
 
-  const showSeats = e => {
-    router.push(`chat/${+e.target.closest('li').id}`);
+  const showSeats = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    const id = String((event.target as SVGSVGElement).closest('li')?.id);
+    router.push(`chat/${+id}`);
   };
 
   // https://dev.to/manojpatra1991/intersection-observer-in-react-24od
@@ -20,15 +29,16 @@ export default function Theaters({ theaters, getMoreSearched, nomore }) {
   const { setTarget } = useIntersectionObserver({ onIntersect });
 
   return (
-    <ul onClick={showSeats}>
+    <ul>
       {theaters.map(theater => (
         <li
-          id={theater.id}
+          id={`${theater.id}`}
           key={theater.id}
-          className="rounded-xl border-2 border-gray-100 bg-white dark:text-white
+          className="rounded-xl mb-2 border-2 border-gray-100 bg-white dark:text-white
         dark:rounded-xl dark:border-2 dark:border-gray-100 dark:bg-slate-900 relative">
           <Theater theater={theater} />
           <svg
+            onClick={showSeats}
             xmlns="http://www.w3.org/2000/svg"
             className="h-16 w-16 absolute bottom-0 right-0 pr-4 hover:text-slate-500"
             fill="none"

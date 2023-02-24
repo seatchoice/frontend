@@ -1,6 +1,7 @@
+import { AxiosResponse } from 'axios';
 import { api } from '@/api';
 
-const getRoomId = (id, token): Promise<T> =>
+const getRoomId = (id: string, token: string): Promise<AxiosResponse> =>
   api.post(
     '/chat',
     { theaterId: id },
