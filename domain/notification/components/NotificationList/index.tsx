@@ -47,7 +47,7 @@ export function NotificationList() {
                   {getDateDiffTextFromNow(createdAt)}
                 </Text>
               </Button>
-              <Button as="icon" onClick={() => handleDeleteButtonClick(id)}>
+              <Button as="icon" onClick={() => handleDeleteButtonClick(+id)}>
                 <Icon as="close" />
               </Button>
             </li>
