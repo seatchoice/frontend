@@ -1,6 +1,9 @@
 type _Notification = {
   id: string;
-  type: string;
-  url: string;
+  type: "LIKE" | "COMMENT";
+  targetId: number;
+  alarmMessage: string;
   checkAlarm: boolean;
+  madeBy: number;
+  createdAt: string;
 };
