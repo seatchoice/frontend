@@ -19,7 +19,7 @@ export default function ReviewList() {
     () => (data ? data.pages.flatMap(({ content }) => content) : []),
     [data]
   );
-  const [{ floor, section, seatRow, seatRating }] = reviewList;
+  const [{ floor, section, seatRow, seatNumber, seatRating }] = reviewList;
   const thumbnailList = reviewList
     .filter(({ thumbnail }) => thumbnail)
     .map(({ thumbnail }) => thumbnail);
@@ -59,7 +59,10 @@ export default function ReviewList() {
       </div>
       <Text as="h3">리뷰 목록</Text>
       <Link
-        href={`/${theater}/post`}
+        href={{
+          pathname: `/${theater}/post`,
+          query: { floor, section, seatRow, seatNumber },
+        }}
         className="flex flex-col justify-center items-center gap-2 w-full p-4 bg-primary-100 dark:bg-primary-500/50 border-primary-300 border-2 rounded-lg font-semibold"
       >
         <Icon as="plus" className="fill-primary-300" />
