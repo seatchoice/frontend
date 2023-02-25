@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Text, Rating, Divider, LikeButton, Profile } from "@/components";
-import { ReviewHeader } from "@/domain/review/components";
+import { Text, Rating, Divider, LikeButton } from "@/components";
+import { ReviewHeader, Reviewer } from "@/domain/review/components";
 import { CommentForm, CommentList } from "@/domain/comment/components";
-import { getDateDiffTextFromNow } from "@/utils/date";
 import {
   useCreateReviewLikeMutation,
   useDeleteReviewLikeMutation,
@@ -30,6 +29,7 @@ export default function Review() {
     likeChecked,
     createdAt,
     images,
+    userId,
   } = data;
 
   const { mutate: createReviewLike } = useCreateReviewLikeMutation(
@@ -41,6 +41,7 @@ export default function Review() {
   const { mutate: createComment } = useCreateCommentMutation(
     reviewId as string
   );
+
   const handleLikeButtonClick = () => {
     if (likeChecked) {
       deleteReviewLike(reviewId as string);
@@ -60,10 +61,7 @@ export default function Review() {
           seatNumber,
         }}
       />
-      <Profile
-        nickname={nickname}
-        updatedAt={`${getDateDiffTextFromNow(createdAt)} 전`}
-      />
+      <Reviewer nickname={nickname} createdAt={createdAt} userId={userId} />
       <Rating value={rating} />
       <div className="flex overflow-x-auto gap-2">
         {images?.map((imageUrl) => (
