@@ -1,4 +1,6 @@
 import { useMemo } from "react";
+import { Text, Button, Icon } from "@/components";
+import { getDateDiffTextFromNow } from "@/utils/date";
 import { useNotificationListQuery } from "@/domain/notification/hooks/query";
 import useIntersectionObserver from "@/domain/search/hooks/useObserver";
 
@@ -14,19 +16,33 @@ export function NotificationList() {
       isIntersecting && hasNextPage && !isFetching && fetchNextPage(),
   });
 
+  const alarmMessage = {
+    LIKE: "좋아요를 눌렀습니다.",
+    COMMENT: "댓글을 남겼습니다.",
+  };
+
   return (
     <>
       <ul className="flex flex-col gap-4">
-        {notificationList.map(({ id, type, url, checkAlarm }) => (
-          <li
-            key={id}
-            className={`p-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg
+        {notificationList.map(
+          ({ id, type, targetId, checkAlarm, createdAt, madeBy }) => (
+            <li
+              key={id}
+              className={`flex justify-between items-center p-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg
             ${!checkAlarm && "bg-light-fg dark:bg-dark-fg"}`}
-          >
-            {type}
-            {url}
-          </li>
-        ))}
+            >
+              <Button as="icon" className="flex gap-4">
+                <Text>{`${madeBy}님이 ${alarmMessage[type]}`}</Text>
+                <Text className="text-gray-400">
+                  {getDateDiffTextFromNow(createdAt)}
+                </Text>
+              </Button>
+              <Button as="icon">
+                <Icon as="close" />
+              </Button>
+            </li>
+          )
+        )}
       </ul>
       <div ref={setTarget} className="h-2"></div>
     </>
