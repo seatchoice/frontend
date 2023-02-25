@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Button, LikeButton, Text, Profile } from "@/components";
+import { Button, Text, Profile } from "@/components";
 import { CommentForm } from "../CommentForm";
 import {
   useDeleteCommentMutation,
@@ -57,7 +57,6 @@ export function Comment({ comment }: CommentProps) {
         </ul>
       </header>
       <Text>{content}</Text>
-      <LikeButton className="mt-4 text-sm">{likeAmount}</LikeButton>
       {isEditMode && <CommentForm comment={comment} onSubmit={editComment} />}
     </article>
   );
