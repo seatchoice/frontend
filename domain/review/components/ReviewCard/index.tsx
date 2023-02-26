@@ -35,14 +35,15 @@ export function ReviewCard({
       )}
       {...props}
     >
-      {/* TODO: NO IMAGE URL */}
-      <Image
-        src={thumbnail ?? ""}
-        alt="좌석 시야"
-        width={300}
-        height={300}
-        className="rounded-md"
-      />
+      {thumbnail && (
+        <Image
+          src={thumbnail}
+          alt="좌석 시야"
+          width={300}
+          height={300}
+          className="rounded-md"
+        />
+      )}
       <div className="flex flex-col justify-center gap-2 px-2">
         <Text as="h4">
           {floor}층 {section}구역 {seatRow}열 {seatNumber}번

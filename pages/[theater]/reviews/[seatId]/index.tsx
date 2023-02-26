@@ -1,12 +1,15 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useMemo } from "react";
 
-import { Text, Rating, Icon } from "@/components";
-import { ReviewHeader, ReviewCard } from "@/domain/review/components";
+import { useNextRouter } from "@/hooks/useNextRouter";
+import { Text, Rating, Icon, MainHeader } from "@/components";
+import {
+  ReviewHeader,
+  ReviewCard,
+  ReviewImageList,
+} from "@/domain/review/components";
 import { useReviewListQuery } from "@/domain/review/hooks/query";
 import useIntersectionObserver from "@/domain/search/hooks/useObserver";
-import { useNextRouter } from "@/hooks/useNextRouter";
 
 export default function ReviewList() {
   const {
@@ -20,9 +23,6 @@ export default function ReviewList() {
     [data]
   );
   const [{ floor, section, seatRow, seatNumber, seatRating }] = reviewList;
-  const thumbnailList = reviewList
-    .filter(({ thumbnail }) => thumbnail)
-    .map(({ thumbnail }) => thumbnail);
 
   const { setTarget } = useIntersectionObserver({
     onIntersect: ([{ isIntersecting }]) =>
@@ -31,6 +31,7 @@ export default function ReviewList() {
 
   return (
     <>
+      <MainHeader />
       <ReviewHeader
         seat={{ theater: theater as string, floor, section, seatRow }}
       />
@@ -45,18 +46,7 @@ export default function ReviewList() {
         </li>
       </ul>
       <Text as="h3">시야 사진</Text>
-      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory">
-        {thumbnailList.map((thumbnail) => (
-          // TODO: NO IMAGE SRC
-          <Image
-            key={thumbnail}
-            src={thumbnail ?? ""}
-            alt="좌석 리뷰 사진"
-            width={250}
-            height={250}
-          />
-        ))}
-      </div>
+      <ReviewImageList />
       <Text as="h3">리뷰 목록</Text>
       <Link
         href={{
