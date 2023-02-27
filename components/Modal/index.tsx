@@ -36,7 +36,7 @@ function ModalContainer({ open, className, children }: ModalProps<"div">) {
 function Header({ className, children, ...props }: ModalItemProps<"header">) {
   return (
     <header className={tw("", className)} {...props}>
-      <Text as="h4">{children}</Text>
+      {children}
     </header>
   );
 }
