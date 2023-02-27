@@ -22,6 +22,7 @@ export const Default = Template.bind({});
 Default.args = {
   comment: {
     id: 1,
+    userId: 2,
     nickname: "nickname",
     content: "content",
     updatedAt: "2022-02-01",
