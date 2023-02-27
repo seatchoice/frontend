@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Text, Rating, Divider, LikeButton } from "@/components";
+import { Text, Rating, Divider, LikeButton, MainHeader } from "@/components";
 import { ReviewHeader, Reviewer } from "@/domain/review/components";
 import { CommentForm, CommentList } from "@/domain/comment/components";
 import {
@@ -51,38 +51,41 @@ export default function Review() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <ReviewHeader
-        seat={{
-          theater: theater as string,
-          floor,
-          section,
-          seatRow,
-          seatNumber,
-        }}
-      />
-      <Reviewer nickname={nickname} createdAt={createdAt} userId={userId} />
-      <Rating value={rating} />
-      <div className="flex overflow-x-auto gap-2">
-        {images?.map((imageUrl) => (
-          <Image
-            key={imageUrl}
-            src={imageUrl}
-            alt="좌석 시야"
-            width={500}
-            height={500}
-          />
-        ))}
+    <>
+      <MainHeader />
+      <div className="flex flex-col gap-2">
+        <ReviewHeader
+          seat={{
+            theater: theater as string,
+            floor,
+            section,
+            seatRow,
+            seatNumber,
+          }}
+        />
+        <Reviewer nickname={nickname} createdAt={createdAt} userId={userId} />
+        <Rating value={rating} />
+        <div className="flex overflow-x-auto gap-2">
+          {images?.map((imageUrl) => (
+            <Image
+              key={imageUrl}
+              src={imageUrl}
+              alt="좌석 시야"
+              width={500}
+              height={500}
+            />
+          ))}
+        </div>
+        <Text>{content}</Text>
+        <LikeButton liked={likeChecked} onClick={handleLikeButtonClick}>
+          {likeAmount}
+        </LikeButton>
+
+        <Divider />
+
+        <CommentForm onSubmit={createComment} />
+        <CommentList />
       </div>
-      <Text>{content}</Text>
-      <LikeButton liked={likeChecked} onClick={handleLikeButtonClick}>
-        {likeAmount}
-      </LikeButton>
-
-      <Divider />
-
-      <CommentForm onSubmit={createComment} />
-      <CommentList />
-    </div>
+    </>
   );
 }

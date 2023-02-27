@@ -13,7 +13,13 @@ export function ReviewImageList() {
     <section className="flex gap-4 overflow-x-auto snap-x snap-mandatory">
       {thumbnailList.map(({ reviewId, imageUrl }) => (
         <Link key={reviewId} href={`${asPath}/${reviewId}`}>
-          <Image src={imageUrl} alt="좌석 리뷰 사진" width={250} height={250} />
+          <Image
+            src={imageUrl}
+            alt="좌석 리뷰 사진"
+            width={250}
+            height={250}
+            className="rounded-lg hover:scale-105 duration-500"
+          />
         </Link>
       ))}
     </section>

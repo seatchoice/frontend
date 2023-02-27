@@ -30,7 +30,7 @@ export function ReviewCard({
   return (
     <div
       className={tw(
-        "flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-300 dark:border-gray-600",
+        "flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-300 dark:border-gray-600 hover:-translate-y-0.5 duration-500",
         className
       )}
       {...props}

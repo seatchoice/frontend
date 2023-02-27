@@ -165,7 +165,9 @@ export function ReviewForm({
           setShowModal={setShowModal}
           seat={seat as Seat}
           SubmitButton={
-            <Button onClick={handleFormSubmit}>후기 공유하기</Button>
+            <Button onClick={handleFormSubmit} className="w-full">
+              후기 공유하기
+            </Button>
           }
         />
       )}
