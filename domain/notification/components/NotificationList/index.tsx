@@ -35,14 +35,14 @@ export function NotificationList() {
     <>
       <ul className="flex flex-col gap-4">
         {notificationList.map(
-          ({ id, type, targetId, checkAlarm, createdAt, madeBy }) => (
+          ({ id, type, targetId, checkAlarm, createdAt, targetMember }) => (
             <li
               key={id}
               className={`flex justify-between items-center p-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg
             ${!checkAlarm && "bg-light-fg dark:bg-dark-fg"}`}
             >
               <Button as="icon" className="flex gap-4">
-                <Text>{`${madeBy}님이 ${alarmMessage[type]}`}</Text>
+                <Text>{`${targetMember}님이 ${alarmMessage[type]}`}</Text>
                 <Text className="text-gray-400">
                   {getDateDiffTextFromNow(createdAt)}
                 </Text>
