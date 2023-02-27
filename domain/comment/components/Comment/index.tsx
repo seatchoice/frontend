@@ -1,13 +1,14 @@
 import { useState } from "react";
 
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Button, LikeButton, Text, Profile } from "@/components";
+import { Button, Text, Profile } from "@/components";
+import { getDateDiffTextFromNow } from "@/utils/date";
+import { useAuth } from "@/domain/auth/hooks/useAuth";
 import { CommentForm } from "../CommentForm";
 import {
   useDeleteCommentMutation,
   useEditCommentMutation,
 } from "../../hooks/query";
-import { getDateDiffTextFromNow } from "@/utils/date";
 
 type CommentProps = {
   comment: _Comment;
@@ -17,7 +18,8 @@ export function Comment({ comment }: CommentProps) {
   const {
     query: { reviewId },
   } = useNextRouter();
-  const { id, nickname, content, updatedAt, likeAmount } = comment;
+  const { user } = useAuth();
+  const { id, nickname, content, updatedAt, userId } = comment;
 
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -31,33 +33,28 @@ export function Comment({ comment }: CommentProps) {
   };
 
   return (
-    <article className="rounded-lg">
-      <header className="flex justify-between items-center mb-2">
+    <article className="rounded-lg mb-2">
+      <header className="flex justify-between items-center mb-2 py-2">
         <Profile
           nickname={nickname}
           updatedAt={`${getDateDiffTextFromNow(updatedAt)} 전`}
         />
-        <ul className="flex">
-          <li>
-            <Button
-              onClick={() => setIsEditMode(true)}
-              className="bg-transparent dark:bg-transparent"
-            >
-              편집
-            </Button>
-          </li>
-          <li>
-            <Button
-              onClick={handleDeleteButtonClick}
-              className="bg-transparent dark:bg-transparent"
-            >
-              삭제
-            </Button>
-          </li>
-        </ul>
+        {user?.userId === String(userId) && (
+          <ul className="flex gap-4">
+            <li>
+              <Button as="icon" onClick={() => setIsEditMode(true)}>
+                편집
+              </Button>
+            </li>
+            <li>
+              <Button as="icon" onClick={handleDeleteButtonClick}>
+                삭제
+              </Button>
+            </li>
+          </ul>
+        )}
       </header>
-      <Text>{content}</Text>
-      <LikeButton className="mt-4 text-sm">{likeAmount}</LikeButton>
+      <Text className="py-2">{content}</Text>
       {isEditMode && <CommentForm comment={comment} onSubmit={editComment} />}
     </article>
   );

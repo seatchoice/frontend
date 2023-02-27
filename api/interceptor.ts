@@ -1,6 +1,11 @@
-import { AxiosInstance, AxiosError } from "axios";
+import axios, { AxiosInstance, AxiosError } from "axios";
 
 import { STORAGE } from "@/constants";
+import { useAuth } from "@/domain/auth/hooks/useAuth";
+
+const getAccessToken = () => {
+  return axios.get(`/api/auth/tokens`);
+};
 
 export const setInterceptors = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
@@ -25,10 +30,19 @@ export const setInterceptors = (instance: AxiosInstance) => {
     },
     async (error) => {
       try {
+        const { user, removeToken } = useAuth();
         const errorAPI = error.config;
-        if (error.response.status === 401 && errorAPI && !errorAPI.retry) {
-          localStorage.removeItem(STORAGE.ACCESS_TOKEN);
+        if (
+          user &&
+          error.response.status === 401 &&
+          errorAPI &&
+          !errorAPI.retry
+        ) {
+          removeToken();
+
           errorAPI.retry = true;
+
+          await getAccessToken();
 
           return instance(errorAPI);
         }

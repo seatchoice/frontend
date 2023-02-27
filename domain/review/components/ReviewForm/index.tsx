@@ -28,7 +28,7 @@ export function ReviewForm({
   ...props
 }: ReviewFormProps<"form">) {
   const {
-    query: { theater, reviewId },
+    query: { theater, reviewId, ...seatInfo },
   } = useRouter();
 
   const {
@@ -44,10 +44,18 @@ export function ReviewForm({
   const isEditMode = !!data;
 
   const [seat, setSeat] = useState<Seat>({
-    floor: floor ?? 1,
-    section: section ?? "OP",
-    seatRow: seatRow ?? 1,
-    seatNumber: seatNumber ?? 1,
+    floor: floor ? floor : seatInfo.floor ? +(seatInfo.floor as string) : 1,
+    section: section ? section : (seatInfo.section as string) ?? "OP",
+    seatRow: seatRow
+      ? seatRow
+      : seatInfo.seatRow
+      ? +(seatInfo.seatRow as string)
+      : 1,
+    seatNumber: seatNumber
+      ? seatNumber
+      : seatInfo.seatNumber
+      ? +(seatInfo.seatNumber as string)
+      : 1,
   });
   const [rating, setRating] = useState(_rating ?? 0);
   const [detailReview, setDetailReview] = useState(content ?? "");
