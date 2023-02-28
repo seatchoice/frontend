@@ -11,15 +11,15 @@ const logout = (): Promise<AxiosResponse> => {
 export const useLogout = (
   options?: UseMutationOptions<AxiosResponse, AxiosError<ErrorResponse>>
 ) => {
-  const { removeToken } = useAuth();
+  const { removeUser } = useAuth();
   return useMutation(logout, {
     ...options,
     onSuccess: () => {
-      removeToken();
+      removeUser();
     },
     onError: ({ response }) => {
       if (response?.data.errorCode === "EMPTY_TOKEN") {
-        removeToken();
+        removeUser();
       }
     },
   });

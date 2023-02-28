@@ -7,20 +7,34 @@ export function useAuth() {
   const setToken = (token: string) =>
     localStorage.setItem(STORAGE.ACCESS_TOKEN, token);
 
-  const removeToken = () => localStorage.removeItem(STORAGE.ACCESS_TOKEN);
+  const getUsername = () => localStorage.getItem(STORAGE.USERNAME);
+
+  const setUsername = (username: string) =>
+    localStorage.setItem(STORAGE.USERNAME, username);
 
   const getUser = () => {
     const token = getToken();
     if (!token) return null;
 
-    const { nickname, sub: userId } = parseJwt(token);
+    const { sub: userId } = parseJwt(token);
+    const nickname = getUsername();
+
     return { nickname, userId };
+  };
+
+  const setUser = (token: string, username: string) => {
+    setToken(token);
+    setUsername(username);
+  };
+
+  const removeUser = () => {
+    localStorage.removeItem(STORAGE.ACCESS_TOKEN);
+    localStorage.removeItem(STORAGE.USERNAME);
   };
 
   return {
     user: getUser(),
-    getToken,
-    setToken,
-    removeToken,
+    setUser,
+    removeUser,
   };
 }
