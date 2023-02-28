@@ -25,12 +25,13 @@ export const setInterceptors = (instance: AxiosInstance) => {
       const accessToken = response.headers.authorization;
       if (accessToken) {
         localStorage.setItem(STORAGE.ACCESS_TOKEN, accessToken);
+        localStorage.setItem(STORAGE.USERNAME, response.data.nickname);
       }
       return response;
     },
     async (error) => {
       try {
-        const { user, removeToken } = useAuth();
+        const { user, removeUser } = useAuth();
         const errorAPI = error.config;
         if (
           user &&
@@ -38,7 +39,7 @@ export const setInterceptors = (instance: AxiosInstance) => {
           errorAPI &&
           !errorAPI.retry
         ) {
-          removeToken();
+          removeUser();
 
           errorAPI.retry = true;
 
