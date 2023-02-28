@@ -1,13 +1,11 @@
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { SEATS } from "@/constants";
 import { MainHeader, Text } from "@/components";
-import { Seat } from "@/domain/theater/components";
+import { Seat, Section } from "@/domain/theater/components";
 import { useSeatListQuery } from "@/domain/theater/hooks/query";
 
 export default function Theater() {
   const router = useNextRouter();
   const {
-    asPath,
     query: { theater },
   } = router;
 
@@ -27,56 +25,21 @@ export default function Theater() {
           <Seat rating={4}>4</Seat>
           <Seat rating={5}>5</Seat>
         </div>
-        <div className="flex flex-col gap-10">
-          {Object.keys(SEATS).map((floor) => (
-            <>
-              <Text as="h2">{floor}층</Text>
-              <div key={floor} className="overflow-x-auto">
-                <div className="flex">
-                  {Object.keys(SEATS[floor]).map((section) => (
-                    <div key={section} className="mx-10">
-                      <Text as="h3">{section}구역</Text>
-                      {Object.keys(SEATS[floor][section]).map((row) => (
-                        <div key={row} className="flex items-center">
-                          <Text>{row}</Text>
-                          {SEATS[floor][section][row].map((seatNumber) => {
-                            const seatWithReview = seatList.find(
-                              (seat) =>
-                                seat.floor === +floor &&
-                                seat.section === section &&
-                                seat.seatRow === row &&
-                                seat.seatNumber === +seatNumber
-                            );
-                            return seatWithReview ? (
-                              <Seat
-                                key={seatNumber}
-                                href={`${asPath}/reviews/${seatWithReview.seatId}`}
-                                rating={
-                                  seatWithReview
-                                    ? (Math.floor(
-                                        seatWithReview.rating
-                                      ) as Rating)
-                                    : 0
-                                }
-                                className="m-1"
-                              >
-                                {seatNumber}
-                              </Seat>
-                            ) : (
-                              <Seat rating={0} className="m-1">
-                                {seatNumber}
-                              </Seat>
-                            );
-                          })}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+        <>
+          {seatList.map(({ floor, sections }) => (
+            <div
+              key={floor}
+              className="flex flex-col min-h-screen mb-10 overflow-auto"
+            >
+              <Text as="h3" className="text-left">{`${floor}층`}</Text>
+              <div className="flex gap-4">
+                {sections.map(({ section, seats }) => (
+                  <Section key={section} section={section} seats={seats} />
+                ))}
               </div>
-            </>
+            </div>
           ))}
-        </div>
+        </>
       </div>
     </>
   );

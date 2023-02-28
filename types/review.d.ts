@@ -1,12 +1,3 @@
-type Rating = 0 | 1 | 2 | 3 | 4 | 5;
-
-type Seat = {
-  floor: number;
-  section: string;
-  seatRow: number;
-  seatNumber: number;
-};
-
 type Review = Seat & {
   id: number;
   rating: Rating;

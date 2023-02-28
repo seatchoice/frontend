@@ -2,13 +2,18 @@ import Link from "next/link";
 import { UrlObject } from "url";
 import { tw } from "@/utils/tailwindMerge";
 import { Button } from "@/components";
+import { SEAT_SIZE } from "@/constants";
 
 type SeatProps<T extends React.ElementType> = Component<T> & {
+  x?: number;
+  y?: number;
   href?: string | UrlObject;
   rating: Rating;
 };
 
 export function Seat({
+  x,
+  y,
   href,
   rating,
   className,
@@ -30,6 +35,15 @@ export function Seat({
           `inline-block w-9 h-9 p-1 text-center rounded-lg text-dark-fg dark:text-light-fg ${ratingColor[rating]}`,
           className
         )}
+        style={
+          x && y
+            ? {
+                position: "absolute",
+                top: `${y * SEAT_SIZE}px`,
+                left: `${x * SEAT_SIZE}px`,
+              }
+            : undefined
+        }
       >
         {children}
       </Button>
@@ -43,6 +57,15 @@ export function Seat({
         ratingColor[rating],
         className
       )}
+      style={
+        x && y
+          ? {
+              position: "absolute",
+              top: `${y * SEAT_SIZE}px`,
+              left: `${x * SEAT_SIZE}px`,
+            }
+          : undefined
+      }
       {...props}
     >
       {children}
