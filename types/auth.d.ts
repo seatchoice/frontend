@@ -1,5 +1,3 @@
-type TokenResponse = {
-  data: {
-    accessToken: string;
-  };
+type LoginResponse = {
+  nickname: string;
 };
