@@ -2,7 +2,7 @@ import { tw } from "@/utils/tailwindMerge";
 import { forwardRef } from "react";
 
 type SelectProps<T extends React.ElementType> = Component<T> & {
-  options: Array<{ value: string | number }>;
+  options?: Array<{ value: string | number }>;
 };
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps<"select">>(
@@ -19,7 +19,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps<"select">>(
         )}
         {...props}
       >
-        {options.map(({ value }, index) => (
+        {options?.map(({ value }, index) => (
           <option key={index} value={value}>
             {value}
           </option>
