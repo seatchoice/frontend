@@ -7,13 +7,17 @@ import { api } from "@/api";
 import { useSuspenseQuery } from "@/hooks/useSuspenseQuery";
 
 type SeatListResponse = Array<{
-  seatId: number;
   floor: number;
-  section: string;
-  seatRow: string;
-  seatNumber: number;
-  reviewAmount: number;
-  rating: Rating;
+  sections: Array<{
+    section: string;
+    seats: Array<{
+      seatId: number;
+      seatRow: string;
+      seatNumber: number;
+      reviewAmount: number;
+      rating: Rating;
+    }>;
+  }>;
 }>;
 
 const getSeatList = (
