@@ -1,17 +1,32 @@
-import { SEATS } from "@/constants";
-
-type Floor = keyof typeof SEATS;
-
-const getSections = (floor: Floor) => {
-  return Object.keys(SEATS[floor]).map((section) => section);
+const getSections = (seatList: SeatList, floor: number) => {
+  return seatList
+    .find((seat) => seat.floor === +floor)
+    ?.sections.filter(({ seats }) => seats.length > 0)
+    .map(({ section }) => section);
 };
 
-const getRows = (floor: Floor, section: string) => {
-  return Object.keys(SEATS[floor][section]).map((row) => row);
+const getRows = (seatList: SeatList, floor: number, section: string) => {
+  return Array.from(
+    new Set(
+      seatList
+        .find((seat) => +floor === seat.floor)
+        ?.sections.find((seat) => section === seat.section)
+        ?.seats.map(({ seatRow }) => seatRow)
+    )
+  );
 };
 
-const getSeatNumbers = (floor: Floor, section: string, row: string) => {
-  return SEATS[floor][section][row].map((seatNumber) => seatNumber);
+const getSeatNumbers = (
+  seatList: SeatList,
+  floor: number,
+  section: string,
+  seatRow: number
+) => {
+  return seatList
+    .find((seat) => +floor === seat.floor)
+    ?.sections.find((seat) => section === seat.section)
+    ?.seats.filter((seat) => String(seatRow) === String(seat.seatRow))
+    .map(({ seatNumber }) => seatNumber);
 };
 
 export { getSections, getRows, getSeatNumbers };
