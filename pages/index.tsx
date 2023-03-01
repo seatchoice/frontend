@@ -1,7 +1,7 @@
-import Head from "next/head";
+import Head from 'next/head';
 
-import Search from "@/domain/search";
-import { MainHeader } from "@/components";
+import Search from '@/domain/search';
+import { MainHeader } from '@/components';
 
 export default function Home() {
   return (
