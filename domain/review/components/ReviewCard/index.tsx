@@ -30,19 +30,20 @@ export function ReviewCard({
   return (
     <div
       className={tw(
-        "flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-300 dark:border-gray-600",
+        "flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-300 dark:border-gray-600 hover:-translate-y-0.5 duration-500",
         className
       )}
       {...props}
     >
-      {/* TODO: NO IMAGE URL */}
-      <Image
-        src={thumbnail ?? ""}
-        alt="좌석 시야"
-        width={300}
-        height={300}
-        className="rounded-md"
-      />
+      {thumbnail && (
+        <Image
+          src={thumbnail}
+          alt="좌석 시야"
+          width={300}
+          height={300}
+          className="rounded-md"
+        />
+      )}
       <div className="flex flex-col justify-center gap-2 px-2">
         <Text as="h4">
           {floor}층 {section}구역 {seatRow}열 {seatNumber}번

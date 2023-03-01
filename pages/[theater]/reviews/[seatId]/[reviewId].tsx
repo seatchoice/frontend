@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Text, Rating, Divider, LikeButton, Profile } from "@/components";
-import { ReviewHeader } from "@/domain/review/components";
+import { Text, Rating, Divider, LikeButton, MainHeader } from "@/components";
+import { ReviewHeader, Reviewer } from "@/domain/review/components";
 import { CommentForm, CommentList } from "@/domain/comment/components";
-import { getDateDiffTextFromNow } from "@/utils/date";
 import {
   useCreateReviewLikeMutation,
   useDeleteReviewLikeMutation,
@@ -30,6 +29,7 @@ export default function Review() {
     likeChecked,
     createdAt,
     images,
+    userId,
   } = data;
 
   const { mutate: createReviewLike } = useCreateReviewLikeMutation(
@@ -41,6 +41,7 @@ export default function Review() {
   const { mutate: createComment } = useCreateCommentMutation(
     reviewId as string
   );
+
   const handleLikeButtonClick = () => {
     if (likeChecked) {
       deleteReviewLike(reviewId as string);
@@ -50,41 +51,41 @@ export default function Review() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <ReviewHeader
-        seat={{
-          theater: theater as string,
-          floor,
-          section,
-          seatRow,
-          seatNumber,
-        }}
-      />
-      <Profile
-        nickname={nickname}
-        updatedAt={`${getDateDiffTextFromNow(createdAt)} 전`}
-      />
-      <Rating value={rating} />
-      <div className="flex overflow-x-auto gap-2">
-        {images?.map((imageUrl) => (
-          <Image
-            key={imageUrl}
-            src={imageUrl}
-            alt="좌석 시야"
-            width={500}
-            height={500}
-          />
-        ))}
+    <>
+      <MainHeader />
+      <div className="flex flex-col gap-2">
+        <ReviewHeader
+          seat={{
+            theater: theater as string,
+            floor,
+            section,
+            seatRow,
+            seatNumber,
+          }}
+        />
+        <Reviewer nickname={nickname} createdAt={createdAt} userId={userId} />
+        <Rating value={rating} />
+        <div className="flex overflow-x-auto gap-2">
+          {images?.map((imageUrl) => (
+            <Image
+              key={imageUrl}
+              src={imageUrl}
+              alt="좌석 시야"
+              width={500}
+              height={500}
+            />
+          ))}
+        </div>
+        <Text>{content}</Text>
+        <LikeButton liked={likeChecked} onClick={handleLikeButtonClick}>
+          {likeAmount}
+        </LikeButton>
+
+        <Divider />
+
+        <CommentForm onSubmit={createComment} />
+        <CommentList />
       </div>
-      <Text>{content}</Text>
-      <LikeButton liked={likeChecked} onClick={handleLikeButtonClick}>
-        {likeAmount}
-      </LikeButton>
-
-      <Divider />
-
-      <CommentForm onSubmit={createComment} />
-      <CommentList />
-    </div>
+    </>
   );
 }
