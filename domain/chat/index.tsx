@@ -54,6 +54,7 @@ export default function Chat() {
 
   const setroomId = async (token: string) => {
     roomId = await getRoomId(`${id}`, token).then(response => response.data.roomId);
+    if (roomId < 0) router.push('/');
   };
 
   useEffect(() => {

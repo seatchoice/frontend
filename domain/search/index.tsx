@@ -93,9 +93,9 @@ export default function Search() {
   const handleAutocomplete = _.debounce(
     async (event: React.FormEvent<HTMLFormElement>) => {
       try {
-        const { theater } = event.target as HTMLFormElement;
+        const { value } = event.target as HTMLFormElement;
         await api
-          .get(`/search?type=${search.type}&name=${theater.value}`)
+          .get(`/search?type=${search.type}&name=${value}`)
           .then(({ data }) => {
             setAuto(
               data.filter(({ id, name }: auto) => ({
