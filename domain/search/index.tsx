@@ -1,6 +1,8 @@
 import { api } from '@/api';
 import { useState } from 'react';
 
+import _ from 'lodash';
+
 import { TheaterType } from './components/Theater/type';
 
 import SearchHeader from './components/SearchHeader';
@@ -15,6 +17,11 @@ interface SearchInfo {
   type: string;
 }
 
+type auto = {
+  id: number;
+  name: string;
+};
+
 export default function Search() {
   const [search, setSearch] = useState<SearchInfo>({
     theaters: [],
@@ -23,6 +30,8 @@ export default function Search() {
     nomore: false,
     type: 'FACILITY',
   });
+
+  const [auto, setAuto] = useState<auto[]>([]);
 
   const handleSearchForm = async (event: React.FormEvent<HTMLFormElement>) => {
     const { theater } = event.target as HTMLFormElement;
@@ -39,6 +48,7 @@ export default function Search() {
           nomore: false,
           type: search.type,
         });
+        setAuto([]);
       });
     } catch (err) {
       // if (err.response.status === 502) console.log('502 err');
@@ -80,12 +90,36 @@ export default function Search() {
     setSearch({ ...search, type });
   };
 
+  const handleAutocomplete = _.debounce(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      try {
+        const { theater } = event.target as HTMLFormElement;
+        await api
+          .get(`/search?type=${search.type}&name=${theater.value}`)
+          .then(({ data }) => {
+            setAuto(
+              data.filter(({ id, name }: auto) => ({
+                id,
+                name,
+              }))
+            );
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    500,
+    { maxWait: 1000 }
+  );
+
   return (
     <section className="m-8">
       <SearchHeader />
       <SearchBar
         handleSearchForm={handleSearchForm}
         handleSearchType={handleSearchType}
+        handleAutocomplete={handleAutocomplete}
+        auto={auto}
       />
       {search.theaters.length === 0 ? (
         ''
