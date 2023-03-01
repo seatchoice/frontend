@@ -5,7 +5,7 @@ import { Client, StompSubscription } from '@stomp/stompjs';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import useAuth from '@/domain/auth/hooks/useAuth';
+import { useAuth } from '@/domain/auth/hooks/useAuth';
 
 import { STORAGE } from '@/constants';
 
