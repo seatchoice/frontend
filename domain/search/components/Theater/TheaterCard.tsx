@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { TheaterType } from './type';
 
 type TheaterProps = {
@@ -6,12 +7,16 @@ type TheaterProps = {
 
 export default function TheaterCard({ theater }: TheaterProps) {
   const { name = '', address, id } = theater;
+  const arr = [562, 768, 767, 1984, 1554];
+
   return (
     <div className="ml-4">
       <h3 className="font-medium sm:text-lg">
-        <a href={`/${id}`} className="hover:underline">
+        <Link
+          href={`/${arr[Math.floor(Math.random() * arr.length)]}`}
+          className="hover:underline">
           {name}
-        </a>
+        </Link>
       </h3>
 
       <p className="text-sm text-gray-700 line-clamp-2">{address}</p>

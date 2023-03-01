@@ -25,11 +25,15 @@ export default function SearchBar({
   const searchInput = useRef<HTMLInputElement>(null);
 
   const handleAuto = (event: React.KeyboardEvent) => {
-    const arrows = ['ArrowUp', 'ArrowDown'];
-    const { key } = event;
-    if (arrows.includes(key)) {
-      const { children } = autocompleteDiv.current as HTMLDivElement;
-      (children[focusIdx] as HTMLElement).focus();
+    try {
+      const arrows = ['ArrowUp', 'ArrowDown'];
+      const { key } = event;
+      if (arrows.includes(key)) {
+        const { children } = autocompleteDiv.current as HTMLDivElement;
+        (children[focusIdx] as HTMLElement).focus();
+      }
+    } catch (err) {
+      console.log('null');
     }
   };
 
