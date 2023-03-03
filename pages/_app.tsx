@@ -1,10 +1,14 @@
-import type { AppProps } from 'next/app';
-import { useState } from 'react';
-import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query';
-import '@/styles/globals.css';
-import { SSRSuspense, Toast } from '@/components';
-import { ToastProvider } from '@/context/Toast';
-import { ThemeProvider } from 'next-themes';
+import type { AppProps } from "next/app";
+import { useState } from "react";
+import {
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+} from "@tanstack/react-query";
+import { ThemeProvider } from "next-themes";
+import "@/styles/globals.css";
+import { Loading, SSRSuspense, Toast } from "@/components";
+import { ToastProvider } from "@/context/Toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -21,13 +25,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <SSRSuspense fallback={<div>Loading...</div>}>
-          <ToastProvider>
-            <ThemeProvider attribute="class">
+        <SSRSuspense fallback={<Loading content="로딩 중..." />}>
+          <ThemeProvider attribute="class">
+            <ToastProvider>
               <Component {...pageProps} />
-            </ThemeProvider>
-            <Toast />
-          </ToastProvider>
+              <Toast />
+            </ToastProvider>
+          </ThemeProvider>
         </SSRSuspense>
       </Hydrate>
     </QueryClientProvider>
