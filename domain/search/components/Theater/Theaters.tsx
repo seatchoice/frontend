@@ -15,8 +15,9 @@ export default function Theaters({ theaters, getMoreSearched, nomore }: Theaters
   const router = useRouter();
 
   const showSeats = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    const id = String((event.target as SVGSVGElement).closest('li')?.id);
-    router.push(`chat/${+id}`);
+    const motherBox = (event.target as SVGSVGElement).closest('li');
+    const id = String(motherBox?.id);
+    router.push(`chat/${+id}?name=${motherBox?.textContent}`);
   };
 
   // https://dev.to/manojpatra1991/intersection-observer-in-react-24od

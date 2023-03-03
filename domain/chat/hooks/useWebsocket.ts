@@ -6,7 +6,7 @@ export default function SocketClient(token: string) {
     brokerURL: 'wss://seatchoice.site/api/websocket',
     connectHeaders: { Authorization: token, 'Content-Type': 'application/json' },
     debug(str) {
-      console.log(str);
+      // console.log(str);
     },
 
     onStompError(frame) {

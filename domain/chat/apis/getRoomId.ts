@@ -23,6 +23,7 @@ const getRoomId = (id: string, token: string): Promise<any | AxiosResponse> =>
       }
       return {
         data: {
+          error,
           roomId: -2,
         },
       };
