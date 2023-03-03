@@ -50,10 +50,11 @@ export function MainHeader() {
           </>
         )}
         <Button
-          children={theme === 'dark' ? 'light' : 'dark'}
           onClick={() => {
             setTheme(theme === 'dark' ? 'light' : 'dark');
-          }}></Button>
+          }}>
+          {theme === 'dark' ? 'light' : 'dark'}
+        </Button>
       </div>
     </header>
   );
