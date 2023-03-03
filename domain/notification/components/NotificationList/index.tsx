@@ -33,28 +33,34 @@ export function NotificationList() {
 
   return (
     <>
-      <ul className="flex flex-col gap-4">
-        {notificationList.map(
-          ({ id, type, targetId, checkAlarm, createdAt, targetMember }) => (
-            <li
-              key={id}
-              className={`flex justify-between items-center p-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg
+      {notificationList.length ? (
+        <ul className="flex flex-col gap-4">
+          {notificationList.map(
+            ({ id, type, targetId, checkAlarm, createdAt, targetMember }) => (
+              <li
+                key={id}
+                className={`flex justify-between items-center p-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg
             ${!checkAlarm && "bg-light-fg dark:bg-dark-fg"}`}
-            >
-              <Button as="icon" className="flex gap-4">
-                <Text>{`${targetMember}님이 ${alarmMessage[type]}`}</Text>
-                <Text className="text-gray-400">
-                  {getDateDiffTextFromNow(createdAt)}
-                </Text>
-              </Button>
-              <Button as="icon" onClick={() => handleDeleteButtonClick(+id)}>
-                <Icon as="close" />
-              </Button>
-            </li>
-          )
-        )}
-      </ul>
-      <div ref={setTarget} className="h-2"></div>
+              >
+                <Button as="icon" className="flex gap-4">
+                  <Text>{`${targetMember}님이 ${alarmMessage[type]}`}</Text>
+                  <Text className="text-gray-400">
+                    {getDateDiffTextFromNow(createdAt)}
+                  </Text>
+                </Button>
+                <Button as="icon" onClick={() => handleDeleteButtonClick(+id)}>
+                  <Icon as="close" />
+                </Button>
+              </li>
+            )
+          )}
+          <div ref={setTarget} className="h-2"></div>
+        </ul>
+      ) : (
+        <Text className="py-4 text-lg text-center font-semibold">
+          알림이 없습니다
+        </Text>
+      )}
     </>
   );
 }
