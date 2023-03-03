@@ -2,11 +2,20 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Text, Rating, Icon, MainHeader } from "@/components";
+import {
+  Text,
+  Rating,
+  Icon,
+  MainHeader,
+  SSRSuspense,
+  Loading,
+} from "@/components";
 import {
   ReviewHeader,
   ReviewCard,
   ReviewImageList,
+  ReviewImageSkeleton,
+  ReviewCardSkeleton,
 } from "@/domain/review/components";
 import { useReviewListQuery } from "@/domain/review/hooks/query";
 import useIntersectionObserver from "@/domain/search/hooks/useObserver";
@@ -47,7 +56,9 @@ export default function ReviewList() {
           </li>
         </ul>
         <Text as="h3">시야 사진</Text>
-        <ReviewImageList />
+        <SSRSuspense fallback={<ReviewImageSkeleton />}>
+          <ReviewImageList />
+        </SSRSuspense>
         <Text as="h3">리뷰 목록</Text>
         <Link
           href={{
@@ -60,10 +71,12 @@ export default function ReviewList() {
           <Text>{theater} 리뷰를 남겨주세요</Text>
         </Link>
         <section className="flex flex-col gap-6">
-          {reviewList?.map((review) => (
-            <ReviewCard key={review.reviewId} review={review} />
-          ))}
-          {isFetching && <div>Loading...</div>}
+          <SSRSuspense fallback={<ReviewCardSkeleton />}>
+            {reviewList?.map((review) => (
+              <ReviewCard key={review.reviewId} review={review} />
+            ))}
+          </SSRSuspense>
+          {isFetching && <Loading content="리뷰 불러오는 중.." />}
         </section>
         <div ref={setTarget} className="h-2"></div>
       </div>
