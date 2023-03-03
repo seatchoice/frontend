@@ -1,4 +1,4 @@
-import { SSRSuspense, MainHeader } from "@/components";
+import { SSRSuspense, MainHeader, Loading } from "@/components";
 import {
   NotificationHeader,
   NotificationList,
@@ -9,7 +9,7 @@ export default function Notification() {
     <>
       <MainHeader />
       <NotificationHeader />
-      <SSRSuspense fallback={<div>알림 조회 중..</div>}>
+      <SSRSuspense fallback={<Loading content="알림을 조회하는 중입니다" />}>
         <NotificationList />
       </SSRSuspense>
     </>

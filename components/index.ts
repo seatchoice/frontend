@@ -13,3 +13,4 @@ export * from "./Profile";
 export * from "./Toast";
 export * from "./MainHeader";
 export * from "./Dropdown";
+export * from "./Loading";
