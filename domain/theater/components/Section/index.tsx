@@ -1,4 +1,3 @@
-import { useNextRouter } from "@/hooks/useNextRouter";
 import { Text } from "@/components";
 import { Seat } from "../Seat";
 import { SEAT_SIZE } from "@/constants";
@@ -15,7 +14,6 @@ type SectionProps = {
 };
 
 export function Section({ section, seats }: SectionProps) {
-  const { asPath } = useNextRouter();
   const sectionWidth =
     Math.max(...seats.map(({ seatNumber }) => seatNumber)) * (SEAT_SIZE + 5);
   return (
@@ -33,10 +31,11 @@ export function Section({ section, seats }: SectionProps) {
             ({ seatId, seatRow, seatNumber, rating, reviewAmount }) => (
               <Seat
                 key={seatId}
+                seatId={seatId}
                 x={seatNumber}
                 y={+seatRow}
                 rating={Math.floor(rating) as Rating}
-                href={reviewAmount ? `${asPath}/reviews/${seatId}` : undefined}
+                reviewAmount={reviewAmount}
               >
                 {seatNumber}
               </Seat>
