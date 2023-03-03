@@ -2,6 +2,8 @@ import { Text, Divider, BackButton } from "@/components";
 import { ReviewForm } from "@/domain/review/components";
 import { useCreateReviewMutation } from "@/domain/review/hooks/query";
 import { useNextRouter } from "@/hooks/useNextRouter";
+import { useAuth } from "@/domain/auth/hooks/useAuth";
+import { LoginRequired } from "@/domain/auth/components";
 
 export default function ReviewPost() {
   const {
@@ -9,6 +11,9 @@ export default function ReviewPost() {
   } = useNextRouter();
 
   const { mutate: createReview } = useCreateReviewMutation();
+
+  const { user } = useAuth();
+  if (!user) return <LoginRequired />;
 
   return (
     <>
