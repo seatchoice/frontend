@@ -25,10 +25,10 @@ export function ReviewHeader({
   const { theater, floor, section, seatRow, seatNumber } = seat;
   return (
     <header
-      className={tw("flex items-center gap-4 py-4", className)}
+      className={tw("flex items-center gap-4 py-3", className)}
       {...props}
     >
-      <BackButton onClick={() => router.back()} />
+      <BackButton />
       <Text as="h3">{theater}</Text>
       <Text as="h4">
         {floor}층 {section}구역 {seatRow}열 {seatNumber && `${seatNumber}번`}

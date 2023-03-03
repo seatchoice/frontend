@@ -17,7 +17,7 @@ export function MainHeader() {
   const { mutate: logout } = useLogout();
   const { theme, setTheme } = useTheme();
   return (
-    <header className="flex justify-between items-center">
+    <header className="flex justify-between items-center min-h-[70px] px-6">
       <Link href="/">
         <Icon as="logo" className="fill-primary-500" />
       </Link>
@@ -43,7 +43,7 @@ export function MainHeader() {
           </div>
         ) : (
           <>
-            <Button onClick={() => setShowModal(true)} as="icon">
+            <Button as="icon" onClick={() => setShowModal(true)}>
               로그인
             </Button>
             <LoginModal showModal={showModal} setShowModal={setShowModal} />

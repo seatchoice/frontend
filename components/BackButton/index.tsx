@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { tw } from "@/utils/tailwindMerge";
 import { Button, Icon } from "@/components";
 
@@ -8,6 +9,7 @@ export function BackButton({
   children,
   ...props
 }: BackButtonProps<"button">) {
+  const router = useRouter();
   return (
     <Button
       as="icon"
@@ -15,6 +17,7 @@ export function BackButton({
         "flex items-center gap-2 p-2 hover:text-primary-500",
         className
       )}
+      onClick={() => router.back()}
       {...props}
     >
       <span className="sr-only">뒤로 가기</span>
