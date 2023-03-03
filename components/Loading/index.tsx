@@ -12,7 +12,7 @@ export function Loading({
   ...props
 }: LoadingProps<"div">) {
   return (
-    <div className={tw("", className)} {...props}>
+    <div className={tw("text-center py-5", className)} {...props}>
       <Button as="icon">
         <Icon as="logo" className="animate-spin" />
       </Button>
