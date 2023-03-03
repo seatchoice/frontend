@@ -1,20 +1,22 @@
 import Link from "next/link";
-import { UrlObject } from "url";
 import { tw } from "@/utils/tailwindMerge";
 import { Button } from "@/components";
 import { SEAT_SIZE } from "@/constants";
+import { useNextRouter } from "@/hooks/useNextRouter";
 
 type SeatProps<T extends React.ElementType> = Component<T> & {
+  seatId: number;
   x?: number;
   y?: number;
-  href?: string | UrlObject;
+  reviewAmount?: number;
   rating: Rating;
 };
 
 export function Seat({
+  seatId,
   x,
   y,
-  href,
+  reviewAmount,
   rating,
   className,
   children,
@@ -28,11 +30,16 @@ export function Seat({
     4: "bg-green-400 dark:bg-green-400",
     5: "bg-green-600 dark:bg-green-600",
   };
-  if (!href) {
+
+  const { asPath } = useNextRouter();
+
+  if (reviewAmount) {
     return (
-      <Button
+      <Link
+        href={`${asPath}/reviews/${seatId}`}
         className={tw(
-          `inline-block w-9 h-9 p-1 text-center rounded-lg text-dark-fg dark:text-light-fg ${ratingColor[rating]}`,
+          "inline-block w-9 h-9 p-1 text-center rounded-lg hover:opacity-80",
+          ratingColor[rating],
           className
         )}
         style={
@@ -44,17 +51,17 @@ export function Seat({
               }
             : undefined
         }
+        {...props}
       >
         {children}
-      </Button>
+      </Link>
     );
   }
+
   return (
-    <Link
-      href={href}
+    <Button
       className={tw(
-        "inline-block w-9 h-9 p-1 text-center rounded-lg hover:opacity-80",
-        ratingColor[rating],
+        `inline-block w-9 h-9 p-1 text-center rounded-lg text-dark-fg dark:text-light-fg ${ratingColor[rating]}`,
         className
       )}
       style={
@@ -66,9 +73,8 @@ export function Seat({
             }
           : undefined
       }
-      {...props}
     >
       {children}
-    </Link>
+    </Button>
   );
 }
