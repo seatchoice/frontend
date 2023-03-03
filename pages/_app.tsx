@@ -25,14 +25,14 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <SSRSuspense fallback={<Loading content="로딩 중..." />}>
-          <ThemeProvider attribute="class">
+        <ThemeProvider attribute="class">
+          <SSRSuspense fallback={<Loading content="로딩 중..." />}>
             <ToastProvider>
               <Component {...pageProps} />
               <Toast />
             </ToastProvider>
-          </ThemeProvider>
-        </SSRSuspense>
+          </SSRSuspense>
+        </ThemeProvider>
       </Hydrate>
     </QueryClientProvider>
   );
