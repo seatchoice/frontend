@@ -7,7 +7,7 @@ import { SEAT_SIZE } from "@/constants";
 import { NoReviewModal } from "../NoReviewModal";
 
 type SeatProps<T extends React.ElementType> = Component<T> & {
-  seatId: number;
+  seatId?: number;
   x?: number;
   y?: number;
   reviewAmount?: number;
