@@ -15,7 +15,7 @@ type SectionProps = {
 
 export function Section({ section, seats }: SectionProps) {
   const sectionWidth =
-    Math.max(...seats.map(({ seatNumber }) => seatNumber)) * (SEAT_SIZE + 5);
+    Math.max(...seats.map(({ seatNumber }) => seatNumber), 0) * (SEAT_SIZE + 5);
   return (
     <div
       key={section}
