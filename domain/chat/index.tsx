@@ -29,7 +29,10 @@ export default function Chat() {
   const { id, name } = router.query;
   const { user } = useAuth();
 
-  const [msg, setMsg] = useState<info>({ message: '입장', nickname: user?.nickname });
+  const [msg, setMsg] = useState<info>({
+    message: '입장',
+    nickname: String(user?.nickname),
+  });
   const [chats, setChats] = useState<info[]>([]);
 
   const conn = () => {
@@ -90,7 +93,7 @@ export default function Chat() {
     if (chat.trim() === '') return;
     message.value = '';
 
-    send(chat, user?.nickname);
+    send(chat, String(user?.nickname));
   };
 
   useEffect(() => {
