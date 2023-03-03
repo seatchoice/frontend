@@ -28,36 +28,32 @@ export function ReviewCard({
     content,
   } = review;
   return (
-    <div
-      className={tw(
-        "flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-300 dark:border-gray-600 hover:-translate-y-0.5 duration-500",
-        className
-      )}
-      {...props}
-    >
-      {thumbnail && (
-        <Image
-          src={thumbnail}
-          alt="좌석 시야"
-          width={300}
-          height={300}
-          className="rounded-md"
-        />
-      )}
-      <div className="flex flex-col justify-center gap-2 px-2">
-        <Text as="h4">
-          {floor}층 {section}구역 {seatRow}열 {seatNumber}번
-        </Text>
-        <Rating value={rating} />
-        <LikeButton disabled>{likeAmount}</LikeButton>
-        <Text>{content}</Text>
-        <Link
-          href={`${asPath}/${reviewId}`}
-          className="p-3 px-6 bg-primary-200 text-primary-900 dark:text-primary-200 dark:bg-primary-900 rounded-lg font-semibold"
-        >
-          리뷰 자세히 보기 →
-        </Link>
+    <Link href={`${asPath}/${reviewId}`}>
+      <div
+        className={tw(
+          "flex flex-col sm:flex-row gap-4 p-6 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-light-fg hover:dark:bg-dark-fg hover:-translate-y-2 duration-500",
+          className
+        )}
+        {...props}
+      >
+        {thumbnail && (
+          <Image
+            src={thumbnail}
+            alt="좌석 시야"
+            width={300}
+            height={300}
+            className="rounded-md"
+          />
+        )}
+        <div className="flex flex-col justify-center gap-2 px-6">
+          <Text as="h4">
+            {floor}층 {section}구역 {seatRow}열 {seatNumber}번
+          </Text>
+          <Rating value={rating} />
+          <Text>{content}</Text>
+          <LikeButton disabled>{likeAmount}</LikeButton>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
