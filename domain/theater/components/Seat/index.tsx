@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { useState } from "react";
+import { useNextRouter } from "@/hooks/useNextRouter";
 import { tw } from "@/utils/tailwindMerge";
 import { Button } from "@/components";
 import { SEAT_SIZE } from "@/constants";
-import { useNextRouter } from "@/hooks/useNextRouter";
+import { NoReviewModal } from "../NoReviewModal";
 
 type SeatProps<T extends React.ElementType> = Component<T> & {
   seatId: number;
@@ -33,6 +35,8 @@ export function Seat({
 
   const { asPath } = useNextRouter();
 
+  const [showModal, setShowModal] = useState(false);
+
   if (reviewAmount) {
     return (
       <Link
@@ -59,22 +63,26 @@ export function Seat({
   }
 
   return (
-    <Button
-      className={tw(
-        `inline-block w-9 h-9 p-1 text-center rounded-lg text-dark-fg dark:text-light-fg ${ratingColor[rating]}`,
-        className
-      )}
-      style={
-        x && y
-          ? {
-              position: "absolute",
-              top: `${y * SEAT_SIZE}px`,
-              left: `${x * SEAT_SIZE}px`,
-            }
-          : undefined
-      }
-    >
-      {children}
-    </Button>
+    <>
+      <Button
+        onClick={() => setShowModal(true)}
+        className={tw(
+          `inline-block w-9 h-9 p-1 text-center rounded-lg text-dark-fg dark:text-light-fg ${ratingColor[rating]}`,
+          className
+        )}
+        style={
+          x && y
+            ? {
+                position: "absolute",
+                top: `${y * SEAT_SIZE}px`,
+                left: `${x * SEAT_SIZE}px`,
+              }
+            : undefined
+        }
+      >
+        {children}
+      </Button>
+      <NoReviewModal showModal={showModal} setShowModal={setShowModal} />
+    </>
   );
 }
