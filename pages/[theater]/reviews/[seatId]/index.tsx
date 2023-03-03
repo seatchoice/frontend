@@ -35,36 +35,38 @@ export default function ReviewList() {
       <ReviewHeader
         seat={{ theater: theater as string, floor, section, seatRow }}
       />
-      <ul className="flex justify-evenly gap-2 p-4 bg-light-fg dark:bg-dark-fg rounded-lg">
-        <li className="flex flex-col items-center px-2">
-          <Text>리뷰 개수</Text>
-          <Text>{reviewList?.length}</Text>
-        </li>
-        <li className="flex flex-col items-center px-2">
-          <Text>평균 별점</Text>
-          <Rating value={seatRating} />
-        </li>
-      </ul>
-      <Text as="h3">시야 사진</Text>
-      <ReviewImageList />
-      <Text as="h3">리뷰 목록</Text>
-      <Link
-        href={{
-          pathname: `/${theater}/post`,
-          query: { floor, section, seatRow, seatNumber },
-        }}
-        className="flex flex-col justify-center items-center gap-2 w-full p-4 bg-primary-100 dark:bg-primary-500/50 border-primary-300 border-2 rounded-lg font-semibold"
-      >
-        <Icon as="plus" className="fill-primary-300" />
-        <Text>{theater} 리뷰 작성하기</Text>
-      </Link>
-      <section className="flex flex-col gap-4">
-        {reviewList?.map((review) => (
-          <ReviewCard key={review.reviewId} review={review} />
-        ))}
-        {isFetching && <div>Loading...</div>}
-      </section>
-      <div ref={setTarget} className="h-2"></div>
+      <div className="flex flex-col gap-4">
+        <ul className="flex justify-evenly gap-2 p-4 bg-light-fg dark:bg-dark-fg rounded-lg">
+          <li className="flex flex-col items-center px-2">
+            <Text>리뷰 개수</Text>
+            <Text>{reviewList?.length}</Text>
+          </li>
+          <li className="flex flex-col items-center px-2">
+            <Text>평균 별점</Text>
+            <Rating value={seatRating} />
+          </li>
+        </ul>
+        <Text as="h3">시야 사진</Text>
+        <ReviewImageList />
+        <Text as="h3">리뷰 목록</Text>
+        <Link
+          href={{
+            pathname: `/${theater}/post`,
+            query: { floor, section, seatRow, seatNumber },
+          }}
+          className="flex flex-col justify-center items-center gap-2 w-full p-4 bg-primary-100 dark:bg-primary-500/50 rounded-lg font-semibold"
+        >
+          <Icon as="plus" className="fill-primary-300" />
+          <Text>{theater} 리뷰를 남겨주세요</Text>
+        </Link>
+        <section className="flex flex-col gap-6">
+          {reviewList?.map((review) => (
+            <ReviewCard key={review.reviewId} review={review} />
+          ))}
+          {isFetching && <div>Loading...</div>}
+        </section>
+        <div ref={setTarget} className="h-2"></div>
+      </div>
     </>
   );
 }

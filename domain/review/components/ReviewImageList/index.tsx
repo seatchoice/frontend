@@ -18,7 +18,7 @@ export function ReviewImageList() {
             alt="좌석 리뷰 사진"
             width={250}
             height={250}
-            className="rounded-lg hover:scale-105 duration-500"
+            className="rounded-lg hover:opacity-70 hover:scale-105 duration-500"
           />
         </Link>
       ))}

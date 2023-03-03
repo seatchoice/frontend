@@ -25,7 +25,7 @@ export function ReviewHeader({
   const { theater, floor, section, seatRow, seatNumber } = seat;
   return (
     <header
-      className={tw("flex items-center gap-4 py-4", className)}
+      className={tw("flex items-center gap-4 py-3", className)}
       {...props}
     >
       <BackButton onClick={() => router.back()} />
