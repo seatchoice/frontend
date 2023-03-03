@@ -60,7 +60,7 @@ export default function SearchBar({
   };
 
   return (
-    <div className="flex flex-row items-stretch mb-2">
+    <div className="flex flex-col sm:flex-row  sm:items-stretch mb-2">
       <Dropdown handleSearchType={handleSearchType} />
       <form
         className="relative flex-grow"

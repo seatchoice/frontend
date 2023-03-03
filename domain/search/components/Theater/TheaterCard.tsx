@@ -7,14 +7,11 @@ type TheaterProps = {
 
 export default function TheaterCard({ theater }: TheaterProps) {
   const { name = '', address, id } = theater;
-  const arr = [562, 768, 767, 1984, 1554];
 
   return (
     <div className="ml-4">
       <h3 className="font-medium sm:text-lg">
-        <Link
-          href={`/${arr[Math.floor(Math.random() * arr.length)]}`}
-          className="hover:underline">
+        <Link href={`/${id}`} className="hover:underline">
           {name}
         </Link>
       </h3>

@@ -94,22 +94,20 @@ export default function Search() {
     async (event: React.FormEvent<HTMLFormElement>) => {
       try {
         const { value } = event.target as HTMLFormElement;
-        await api
-          .get(`/search?type=${search.type}&name=${value}`)
-          .then(({ data }) => {
-            setAuto(
-              data.filter(({ id, name }: auto) => ({
-                id,
-                name,
-              }))
-            );
-          });
+        await api.get(`/search?type=${search.type}&name=${value}`).then(({ data }) => {
+          setAuto(
+            data.filter(({ id, name }: auto) => ({
+              id,
+              name,
+            }))
+          );
+        });
       } catch (error) {
         console.log(error);
       }
     },
-    500,
-    { maxWait: 1000 }
+    100,
+    { maxWait: 300 }
   );
 
   return (
