@@ -6,3 +6,5 @@ export * from "./Like";
 export * from "./Plus";
 export * from "./Logo";
 export * from "./Notification";
+export * from "./Light";
+export * from "./Dark";
