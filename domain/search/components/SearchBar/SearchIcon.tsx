@@ -1,7 +1,7 @@
 export default function SearchIcon() {
   return (
     <span className="absolute inset-y-0 right-0 grid w-10 place-content-center">
-      <button type="button" className="rounded-full">
+      <button type="submit" className="rounded-full">
         <span className="sr-only">Submit</span>
         <svg
           className="h-5 w-5"
