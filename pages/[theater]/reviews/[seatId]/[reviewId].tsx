@@ -13,7 +13,7 @@ import { useCreateCommentMutation } from "@/domain/comment/hooks/query";
 export default function Review() {
   const router = useNextRouter();
   const {
-    query: { theater, reviewId },
+    query: { name: theaterName, reviewId },
   } = router;
 
   const { data } = useReviewQuery(reviewId as string);
@@ -56,7 +56,7 @@ export default function Review() {
       <div className="flex flex-col gap-2">
         <ReviewHeader
           seat={{
-            theater: theater as string,
+            theater: theaterName as string,
             floor,
             section,
             seatRow,

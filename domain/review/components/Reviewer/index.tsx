@@ -18,7 +18,7 @@ export function Reviewer({
 }: ReviewerProps<"section">) {
   const { user } = useAuth();
   const {
-    query: { theater, reviewId },
+    query: { theater, name: theaterName, reviewId },
   } = useNextRouter();
 
   const { mutate: deleteReview } = useDeleteReviewMutation();
@@ -36,7 +36,9 @@ export function Reviewer({
       />
       {user?.userId === String(userId) && (
         <>
-          <Link href={`/${theater}/post/${reviewId}/edit`}>편집</Link>
+          <Link href={`/${theater}/post/${reviewId}/edit?name=${theaterName}`}>
+            편집
+          </Link>
           <Button as="icon" onClick={handleDeleteButtonClick}>
             삭제
           </Button>
