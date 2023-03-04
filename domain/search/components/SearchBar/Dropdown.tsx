@@ -29,8 +29,10 @@ export default function Dropdown({ handleSearchType }: DropdownProps) {
   };
 
   return (
-    <div className="relative dark:bg-black mb-2 sm:mb-0">
-      <div className="h-full inline-flex items-center divide-x divide-gray-100 overflow-hidden rounded-md bg-slate-900">
+    <div className="relative dark:bg-black bg-white mb-2 sm:mb-0">
+      <div
+        className="h-full inline-flex items-center divide-x divide-slate-900 
+      overflow-hidden rounded-md dark:bg-slate-900 bg-white border border-slate-900 ">
         <label className="px-4 py-2 text-sm leading-none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
           {menu.type === 'FACILITY' ? '공연시설' : '공연'}
         </label>

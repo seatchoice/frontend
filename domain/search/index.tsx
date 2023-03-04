@@ -53,8 +53,6 @@ export default function Search() {
     } catch (err) {
       // if (err.response.status === 502) console.log('502 err');
       console.log(err);
-    } finally {
-      theater.value = '';
     }
   };
 
