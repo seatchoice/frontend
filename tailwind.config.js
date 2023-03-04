@@ -22,6 +22,27 @@ module.exports = {
     extend: {
       colors: {
         primary: colors.violet,
+        dark: {
+          bg: colors.black,
+          fg: "#333333",
+          text: colors.white,
+        },
+        light: {
+          bg: colors.white,
+          fg: "#F5F5F7",
+          text: colors.black,
+        },
+      },
+      fontFamily: {
+        pretendardBlack: "pretendard-black",
+        pretendardBold: "pretendard-bold",
+        pretendardExtraBold: "pretendard-extra-bold",
+        pretendardExtraLight: "pretendard-extra-light",
+        pretendardLight: "pretendard-light",
+        pretendardMedium: "pretendard-medium",
+        pretendardRegular: "pretendard-regular cursive",
+        pretendardSemiBold: "pretendard-semi-bold",
+        pretendardThin: "pretendard-thin",
       },
     },
   },
