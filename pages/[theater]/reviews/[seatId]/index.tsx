@@ -9,6 +9,7 @@ import {
   MainHeader,
   SSRSuspense,
   Loading,
+  Container,
 } from "@/components";
 import {
   ReviewHeader,
@@ -44,17 +45,17 @@ export default function ReviewList() {
       <ReviewHeader
         seat={{ theater: theaterName as string, floor, section, seatRow }}
       />
-      <div className="flex flex-col gap-4">
-        <ul className="flex justify-evenly gap-2 p-4 bg-light-fg dark:bg-dark-fg rounded-lg">
-          <li className="flex flex-col items-center px-2">
-            <Text>리뷰 개수</Text>
-            <Text>{reviewList?.length}</Text>
-          </li>
-          <li className="flex flex-col items-center px-2">
-            <Text>평균 별점</Text>
-            <Rating value={seatRating} />
-          </li>
-        </ul>
+      <ul className="flex justify-evenly gap-2 p-4 bg-light-fg dark:bg-dark-fg rounded-lg">
+        <li className="flex flex-col items-center px-2">
+          <Text>리뷰 개수</Text>
+          <Text>{reviewList?.length}</Text>
+        </li>
+        <li className="flex flex-col items-center px-2">
+          <Text>평균 별점</Text>
+          <Rating value={seatRating} />
+        </li>
+      </ul>
+      <Container className="flex flex-col gap-4">
         <Text as="h3">시야 사진</Text>
         <SSRSuspense fallback={<ReviewImageSkeleton />}>
           <ReviewImageList />
@@ -84,7 +85,7 @@ export default function ReviewList() {
           {isFetching && <Loading content="리뷰 불러오는 중.." />}
         </section>
         <div ref={setTarget} className="h-2"></div>
-      </div>
+      </Container>
     </>
   );
 }
