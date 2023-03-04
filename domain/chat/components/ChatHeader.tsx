@@ -1,4 +1,5 @@
 import { Button } from '@/components';
+import { useState } from 'react';
 
 type ChatHeaderProps = {
   theater: string;
@@ -6,7 +7,7 @@ type ChatHeaderProps = {
   disconn: () => void;
 };
 export default function ChatHeader({ theater, conn, disconn }: ChatHeaderProps) {
-  const time = new Date();
+  const [time, setTime] = useState<Date>(new Date());
 
   return (
     <header className="p-4 sticky top-0 dark:bg-slate-800 bg-white rounded-b-lg">
