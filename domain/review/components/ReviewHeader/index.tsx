@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-
 import { tw } from "@/utils/tailwindMerge";
 import { Text, BackButton } from "@/components";
 
@@ -21,7 +19,6 @@ export function ReviewHeader({
   children,
   ...props
 }: ReviewHeaderProps<"header">) {
-  const router = useRouter();
   const { theater, floor, section, seatRow, seatNumber } = seat;
   return (
     <header
@@ -29,8 +26,10 @@ export function ReviewHeader({
       {...props}
     >
       <BackButton />
-      <Text as="h3">{theater}</Text>
-      <Text as="h4">
+      <Text as="h3" className="whitespace-nowrap text-ellipsis overflow-hidden">
+        {theater}
+      </Text>
+      <Text as="h4" className="shrink-0">
         {floor}층 {section}구역 {seatRow}열 {seatNumber && `${seatNumber}번`}
       </Text>
     </header>

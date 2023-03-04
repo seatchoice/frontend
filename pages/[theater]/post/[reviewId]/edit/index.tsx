@@ -10,7 +10,7 @@ import { LoginRequired } from "@/domain/auth/components";
 
 export default function ReviewEdit() {
   const {
-    query: { theater, reviewId },
+    query: { name: theaterName, reviewId },
   } = useNextRouter();
 
   const { data } = useReviewQuery(reviewId as string);
@@ -28,7 +28,7 @@ export default function ReviewEdit() {
       </header>
       <Divider className="my-2" />
       <Text as="h4" className="mb-2">
-        {theater}
+        {theaterName}
       </Text>
       <ReviewForm data={data} onMutate={editReview} />
     </>

@@ -7,7 +7,7 @@ import { useCreateReviewMutation } from "@/domain/review/hooks/query";
 
 export default function ReviewPost() {
   const {
-    query: { theater },
+    query: { theaterName },
   } = useNextRouter();
 
   const { mutate: createReview } = useCreateReviewMutation();
@@ -24,7 +24,7 @@ export default function ReviewPost() {
       </header>
       <Divider className="my-2" />
       <Text as="h4" className="mb-2">
-        {theater}
+        {theaterName}
       </Text>
       <ReviewForm onMutate={createReview} />
     </>

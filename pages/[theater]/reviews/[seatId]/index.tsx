@@ -22,7 +22,7 @@ import useIntersectionObserver from "@/domain/search/hooks/useObserver";
 
 export default function ReviewList() {
   const {
-    query: { theater, seatId },
+    query: { theater, name: theaterName, seatId },
   } = useNextRouter();
   const { data, fetchNextPage, hasNextPage, isFetching } = useReviewListQuery(
     seatId as string
@@ -42,7 +42,7 @@ export default function ReviewList() {
     <>
       <MainHeader />
       <ReviewHeader
-        seat={{ theater: theater as string, floor, section, seatRow }}
+        seat={{ theater: theaterName as string, floor, section, seatRow }}
       />
       <div className="flex flex-col gap-4">
         <ul className="flex justify-evenly gap-2 p-4 bg-light-fg dark:bg-dark-fg rounded-lg">
@@ -63,12 +63,17 @@ export default function ReviewList() {
         <Link
           href={{
             pathname: `/${theater}/post`,
-            query: { floor, section, seatRow, seatNumber },
+            query: { theaterName, floor, section, seatRow, seatNumber },
           }}
           className="flex flex-col justify-center items-center gap-2 w-full p-4 bg-primary-100 dark:bg-primary-500/50 rounded-lg font-semibold"
         >
           <Icon as="plus" className="fill-primary-300" />
-          <Text>{theater} 리뷰를 남겨주세요</Text>
+          <Text className="flex">
+            <span className="inline-block sm:max-w-none max-w-[200px] whitespace-nowrap text-ellipsis overflow-hidden text-primary-300">
+              {theaterName}
+            </span>
+            에 리뷰를 남겨주세요
+          </Text>
         </Link>
         <section className="flex flex-col gap-6">
           <SSRSuspense fallback={<ReviewCardSkeleton />}>
