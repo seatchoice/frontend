@@ -161,18 +161,16 @@ export function ReviewForm({
       >
         {isValidForm ? "후기 작성하기" : "필수 요소를 채워주세요"}
       </Button>
-      {showModal && (
-        <ConfirmModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          seat={seat as Seat}
-          SubmitButton={
-            <Button onClick={handleFormSubmit} className="w-full">
-              후기 공유하기
-            </Button>
-          }
-        />
-      )}
+      <ConfirmModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        seat={seat as Seat}
+        SubmitButton={
+          <Button onClick={handleFormSubmit} className="w-full">
+            후기 공유하기
+          </Button>
+        }
+      />
     </form>
   );
 }
