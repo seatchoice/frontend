@@ -9,6 +9,8 @@ import {
   Plus,
   Logo,
   Notification,
+  Dark,
+  Light,
 } from "./assets";
 
 type IconProps<T extends React.ElementType> = Component<T> & {
@@ -20,7 +22,9 @@ type IconProps<T extends React.ElementType> = Component<T> & {
     | "like"
     | "plus"
     | "logo"
-    | "notification";
+    | "notification"
+    | "light"
+    | "dark";
   size?: number;
 };
 
@@ -118,6 +122,30 @@ export function Icon({
     case "notification":
       return (
         <Notification
+          className={tw("", className)}
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          {...props}
+        />
+      );
+    case "dark":
+      return (
+        <Dark
+          className={tw("", className)}
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          {...props}
+        />
+      );
+    case "light":
+      return (
+        <Light
           className={tw("", className)}
           viewBox="0 0 24 24"
           fill="currentColor"
