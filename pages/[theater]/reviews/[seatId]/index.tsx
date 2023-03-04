@@ -63,7 +63,7 @@ export default function ReviewList() {
         <Link
           href={{
             pathname: `/${theater}/post`,
-            query: { floor, section, seatRow, seatNumber },
+            query: { theaterName, floor, section, seatRow, seatNumber },
           }}
           className="flex flex-col justify-center items-center gap-2 w-full p-4 bg-primary-100 dark:bg-primary-500/50 rounded-lg font-semibold"
         >
