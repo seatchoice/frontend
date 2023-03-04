@@ -11,7 +11,12 @@ export default function Theater() {
     <>
       <MainHeader />
       <div className="text-center">
-        <Text as="h1">{theaterName}</Text>
+        <Text
+          as="h1"
+          className="whitespace-nowrap text-ellipsis overflow-hidden"
+        >
+          {theaterName}
+        </Text>
         <SSRSuspense
           fallback={<Loading content={"공연장을 불러오는 중입니다."} />}
         >
