@@ -109,7 +109,7 @@ export default function Search() {
   );
 
   return (
-    <section className="m-8">
+    <section>
       <SearchHeader />
       <SearchBar
         handleSearchForm={handleSearchForm}
