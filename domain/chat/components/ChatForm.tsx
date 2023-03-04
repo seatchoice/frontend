@@ -10,7 +10,7 @@ export default function ChatForm({ handleMessage }: ChatFormProps) {
           className="dark:bg-slate-800 w-10/12 p-1 rounded"
           name="message"
         />
-        <button type="submit" className="absolute right-0 w-2/12 p-1">
+        <button type="submit" disabled={false} className="absolute right-0 w-2/12 p-1">
           보내기
         </button>
       </form>

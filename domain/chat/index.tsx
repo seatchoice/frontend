@@ -58,7 +58,6 @@ export default function Chat() {
       const chattingMessages = await getHistory(String(roomId), token).then(
         res => res.data.chattingMessages
       );
-      console.log(chattingMessages);
       setChats(chattingMessages);
     };
     chatHistory();
@@ -74,14 +73,18 @@ export default function Chat() {
   };
 
   const send = (message: string, nickname: string) => {
-    stompClient.publish({
-      destination: `/pub/chat.message.${roomId}`,
-      body: JSON.stringify({ message, nickname }),
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json',
-      },
-    });
+    try {
+      stompClient.publish({
+        destination: `/pub/chat.message.${roomId}`,
+        body: JSON.stringify({ message, nickname }),
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (error) {
+      conn();
+    }
   };
 
   const handleMessage = (event: React.FormEvent<HTMLFormElement>) => {
