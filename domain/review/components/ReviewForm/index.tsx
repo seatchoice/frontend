@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { Text, Button, Rating, Textarea } from "@/components";
+import { Text, Button, Rating, Textarea, Required } from "@/components";
 import { SeatSelect } from "./SeatSelect";
 import { ImagePreview } from "./ImagePreview";
 import { ImageUploadButton } from "./ImageUploadButton";
@@ -106,14 +106,14 @@ export function ReviewForm({
   const isValidForm = !!detailReview && rating > 0;
 
   return (
-    <form className="flex flex-col gap-2" {...props}>
+    <form className="flex flex-col gap-3" {...props}>
       <Text as="h5" className="font-semibold">
-        앉았던 자리 선택하기*
+        앉았던 자리 선택하기 <Required />
       </Text>
       <SeatSelect disabled={isEditMode} seat={seat as Seat} setSeat={setSeat} />
 
       <Text as="h5" className="font-semibold">
-        자리가 어떠셨나요?*
+        자리가 어떠셨나요? <Required />
       </Text>
       <Rating
         value={rating}
@@ -122,9 +122,11 @@ export function ReviewForm({
       />
 
       <Text as="h5" className="font-semibold">
-        자세한 후기를 알려주세요*
+        자세한 후기를 알려주세요 <Required />
       </Text>
-      <Text>리뷰 내용을 1~200자로 입력해주세요.</Text>
+      <Text className="text-semibold text-gray-500 dark:text-gray-300">
+        리뷰 내용을 1~200자로 입력해주세요.
+      </Text>
       <Textarea
         required
         value={detailReview}
@@ -159,18 +161,16 @@ export function ReviewForm({
       >
         {isValidForm ? "후기 작성하기" : "필수 요소를 채워주세요"}
       </Button>
-      {showModal && (
-        <ConfirmModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          seat={seat as Seat}
-          SubmitButton={
-            <Button onClick={handleFormSubmit} className="w-full">
-              후기 공유하기
-            </Button>
-          }
-        />
-      )}
+      <ConfirmModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        seat={seat as Seat}
+        SubmitButton={
+          <Button onClick={handleFormSubmit} className="w-full">
+            후기 공유하기
+          </Button>
+        }
+      />
     </form>
   );
 }

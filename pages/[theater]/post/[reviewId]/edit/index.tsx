@@ -27,7 +27,7 @@ export default function ReviewEdit() {
         <Text as="h3">리뷰 수정하기</Text>
       </header>
       <Divider className="my-2" />
-      <Text as="h4" className="mb-2">
+      <Text as="h4" className="py-4">
         {theaterName}
       </Text>
       <ReviewForm data={data} onMutate={editReview} />

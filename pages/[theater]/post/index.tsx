@@ -23,7 +23,7 @@ export default function ReviewPost() {
         <Text as="h3">리뷰 작성하기</Text>
       </header>
       <Divider className="my-2" />
-      <Text as="h4" className="mb-2">
+      <Text as="h4" className="py-4">
         {theaterName}
       </Text>
       <ReviewForm onMutate={createReview} />
