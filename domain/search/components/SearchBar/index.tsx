@@ -98,7 +98,7 @@ export default function SearchBar({
           ref={autocompleteDiv}
           className={`z-50 absolute p-2 text-sm shadow-lg 
             rounded border border-slate-900
-            dark:bg-lack bg-white
+            dark:bg-black bg-white
             left-36 mt-10 ${autoBool ? '' : 'hidden'}`}
           onKeyDown={handleAuto2}>
           <label htmlFor="" className="text-stone-300">

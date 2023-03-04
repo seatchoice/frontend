@@ -35,8 +35,9 @@ export default function Theaters({ theaters, getMoreSearched, nomore }: Theaters
         <li
           id={`${theater.id}`}
           key={theater.id}
-          className="rounded-xl mb-2 border-2 border-gray-100 bg-white dark:text-white
-        dark:rounded-xl dark:border-2 dark:border-gray-100 dark:bg-slate-900 relative">
+          className=" text-primary-900 bg-primary-200 dark:bg-primary-900 dark:text-primary-200
+          rounded-xl mb-2 border-2 border-gray-100 
+        dark:rounded-xl dark:border-2 dark:border-gray-100  relative">
           <Theater theater={theater} />
           <svg
             onClick={showSeats}
