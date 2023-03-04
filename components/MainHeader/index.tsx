@@ -1,13 +1,13 @@
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useTheme } from 'next-themes';
-import { Button, Icon, Dropdown } from '@/components';
-import { useAuth } from '@/domain/auth/hooks/useAuth';
-import { useLogout } from '@/domain/auth/hooks/query';
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useState } from "react";
+import { useTheme } from "next-themes";
+import { Button, Icon, Dropdown } from "@/components";
+import { useAuth } from "@/domain/auth/hooks/useAuth";
+import { useLogout } from "@/domain/auth/hooks/query";
 
 const LoginModal = dynamic(
-  () => import('@/domain/auth/components').then(({ LoginModal }) => LoginModal),
+  () => import("@/domain/auth/components").then(({ LoginModal }) => LoginModal),
   { ssr: false }
 );
 
@@ -24,9 +24,6 @@ export function MainHeader() {
       <div className="flex flex-row gap-1">
         {user ? (
           <div className="flex items-center gap-4">
-            <Link href="/notification">
-              <Icon as="notification" />
-            </Link>
             <Dropdown
               buttonText={user.nickname}
               items={[
@@ -40,6 +37,9 @@ export function MainHeader() {
                 },
               ]}
             />
+            <Link href="/notification">
+              <Icon as="notification" />
+            </Link>
           </div>
         ) : (
           <>
@@ -50,10 +50,13 @@ export function MainHeader() {
           </>
         )}
         <Button
+          as="icon"
           onClick={() => {
-            setTheme(theme === 'dark' ? 'light' : 'dark');
-          }}>
-          {theme === 'dark' ? 'light' : 'dark'}
+            setTheme(theme === "dark" ? "light" : "dark");
+          }}
+          className="px-4"
+        >
+          <Icon as={theme === "dark" ? "light" : "dark"} />
         </Button>
       </div>
     </header>
