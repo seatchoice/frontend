@@ -11,7 +11,7 @@ export default function TheaterCard({ theater }: TheaterProps) {
   return (
     <div className="ml-4">
       <h3 className="font-medium sm:text-lg">
-        <Link href={`/${id}`} className="hover:underline">
+        <Link href={`/${id}?name=${name}`} className="hover:underline">
           {name}
         </Link>
       </h3>
