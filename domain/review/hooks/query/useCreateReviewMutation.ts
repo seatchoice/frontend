@@ -26,13 +26,13 @@ export const useCreateReviewMutation = (
   >
 ) => {
   const router = useRouter();
-  const { theater } = router.query;
+  const { theater, name } = router.query;
   return useMutation(
     ({ theaterId, payload }) => createReview({ theaterId, payload }),
     {
       ...options,
       onSuccess: () => {
-        router.push(`/${theater}`);
+        router.push(`/${theater}?name=${name}`);
       },
     }
   );
