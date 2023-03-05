@@ -27,9 +27,7 @@ export function NoReviewModal({ showModal, setShowModal }: ReviewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex flex-col py-2">
         <Link
-          href={{
-            pathname: `/${theater}/post?name=${name}`,
-          }}
+          href={`/${theater}/post?name=${name}`}
           className="p-3 px-6 rounded-lg font-semibold bg-primary-200 text-primary-900 dark:bg-primary-800 dark:text-primary-200 active:translate-y-px"
         >
           리뷰 작성하기
