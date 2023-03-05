@@ -36,18 +36,34 @@ export function NotificationList() {
       {notificationList.length ? (
         <ul className="flex flex-col gap-4">
           {notificationList.map(
-            ({ id, type, targetId, checkAlarm, createdAt, targetMember }) => (
+            ({
+              id,
+              type,
+              targetId,
+              checkAlarm,
+              createdAt,
+              targetMember,
+              alarmMessage: message,
+            }) => (
               <li
                 key={id}
                 className={`flex justify-between items-center p-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg
             ${!checkAlarm && "bg-light-fg dark:bg-dark-fg"}`}
               >
-                <Button as="icon" className="flex gap-4">
-                  <Text>{`${targetMember}님이 ${alarmMessage[type]}`}</Text>
-                  <Text className="text-gray-400">
-                    {getDateDiffTextFromNow(createdAt)}
-                  </Text>
-                </Button>
+                <div>
+                  <Button as="icon" className="flex gap-4">
+                    <Text>
+                      <span className="font-semibold">{targetMember}</span>
+                      {`님이 ${alarmMessage[type]}`}
+                    </Text>
+                    <Text className="text-gray-400">
+                      {getDateDiffTextFromNow(createdAt)}
+                    </Text>
+                  </Button>
+                  {type === "COMMENT" && (
+                    <Text className="mt-2 font-semibold">{message}</Text>
+                  )}
+                </div>
                 <Button as="icon" onClick={() => handleDeleteButtonClick(+id)}>
                   <Icon as="close" />
                 </Button>
