@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { Modal, Text, Button, Icon } from '@/components';
+
 type DropdownProps = {
   handleSearchType: (type: string) => void;
 };
@@ -9,6 +11,8 @@ export default function Dropdown({ handleSearchType }: DropdownProps) {
     visible: false,
     type: "FACILITY",
   });
+
+  const [facilityMore, setFacilityMore] = useState<boolean>(false);
 
   const handleDropdown = () => {
     setMenu({
@@ -79,7 +83,6 @@ export default function Dropdown({ handleSearchType }: DropdownProps) {
             >
               공연시설
             </button>
-            <button className="text-gray-500">more</button>
           </div>
 
           <div className="flex flex-row justify-between">
@@ -90,7 +93,6 @@ export default function Dropdown({ handleSearchType }: DropdownProps) {
             >
               공연
             </button>
-            <button className="text-gray-500">more</button>
           </div>
         </div>
       </div>

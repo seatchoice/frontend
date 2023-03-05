@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
-import Dropdown from "./Dropdown";
-import SearchIcon from "./SearchIcon";
+import Dropdown from './Dropdown';
+import SearchIcon from './SearchIcon';
 
 type auto = {
   id: number;
@@ -27,30 +27,30 @@ export default function SearchBar({
 
   const handleAuto = (event: React.KeyboardEvent) => {
     try {
-      const arrows = ["ArrowUp", "ArrowDown"];
+      const arrows = ['ArrowUp', 'ArrowDown'];
       const { key } = event;
       if (arrows.includes(key)) {
         const { children } = autocompleteDiv.current as HTMLDivElement;
         (children[focusIdx] as HTMLElement).focus();
       }
+      if (key === 'Escape') setautoBool(false);
     } catch (err) {
-      console.log("null");
+      console.log('null');
     }
   };
 
   const handleAuto2 = (event: React.KeyboardEvent) => {
-    const arrows = ["ArrowUp", "ArrowDown"];
+    const arrows = ['ArrowUp', 'ArrowDown'];
 
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       if (searchInput.current) {
-        searchInput.current.value =
-          (event.target as HTMLDivElement).textContent ?? "";
+        searchInput.current.value = (event.target as HTMLDivElement).textContent ?? '';
         searchInput.current.focus();
       }
     }
 
     if (!arrows.includes(event.key)) return;
-    const calc = event.key === "ArrowDown" ? focusIdx + 1 : focusIdx - 1;
+    const calc = event.key === 'ArrowDown' ? focusIdx + 1 : focusIdx - 1;
     setFocusIdx(calc === 0 ? auto.length : calc === auto.length + 1 ? 1 : calc);
     const { children } = autocompleteDiv.current as HTMLDivElement;
     (children[focusIdx] as HTMLElement).focus();
@@ -79,8 +79,7 @@ export default function SearchBar({
           setautoBool(false);
         }}
         onChange={getAutoComplelte}
-        onKeyDown={handleAuto}
-      >
+        onKeyDown={handleAuto}>
         <input
           ref={searchInput}
           name="theater"
@@ -95,33 +94,31 @@ export default function SearchBar({
         />
 
         <SearchIcon />
-      </form>
-      {auto.length > 0 ? (
-        <div
-          ref={autocompleteDiv}
-          className={`z-50 absolute p-2 text-sm shadow-lg 
+        {auto.length > 0 ? (
+          <div
+            ref={autocompleteDiv}
+            className={`z-50 absolute p-2 text-sm shadow-lg 
             rounded border border-dark-fg
             dark:bg-dark-bg bg-light-bg
-            left-36 mt-10 ${autoBool ? "" : "hidden"}`}
-          onKeyDown={handleAuto2}
-        >
-          <label htmlFor="" className="text-stone-300">
-            자동완성
-          </label>
-          {auto.map(({ id, name }) => (
-            <div
-              tabIndex={0}
-              className="hover:border-black hover:border hover:rounded hover:p-2"
-              onClick={handleAuto3}
-              key={id}
-            >
-              {name}
-            </div>
-          ))}
-        </div>
-      ) : (
-        ""
-      )}
+            mt-2 ${autoBool ? '' : 'hidden'}`}
+            onKeyDown={handleAuto2}>
+            <label htmlFor="" className="text-stone-300">
+              자동완성
+            </label>
+            {auto.map(({ id, name }) => (
+              <div
+                tabIndex={0}
+                className="hover:border-black hover:border hover:rounded hover:p-2"
+                onClick={handleAuto3}
+                key={id}>
+                {name}
+              </div>
+            ))}
+          </div>
+        ) : (
+          ''
+        )}
+      </form>
     </div>
   );
 }
