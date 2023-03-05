@@ -28,6 +28,8 @@
 
 ## 채팅
 
+![채팅](./docs/assets/chat.gif)
+
 ### 입장
 
 ![입장](./docs/assets/chat_enter.gif)
@@ -47,3 +49,21 @@
 ### 나가기 그 이후 참여하기
 
 ![나가기 그 이후](./docs/assets/chat_exit.gif)
+
+## 리뷰
+
+### 공연장 리뷰 조회
+
+![공연장 리뷰 조회](./docs/assets/review.gif)
+
+### 리뷰 조회
+
+![리뷰 조회](./docs/assets/review_detail.gif)
+
+### 리뷰 댓글 추가 & 수정
+
+![리뷰 댓글](./docs/assets/review_create.gif)
+
+### 리뷰 좋아요
+
+![리뷰 좋아요](./docs/assets/review_like.gif)
