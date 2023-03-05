@@ -22,7 +22,7 @@ export function ReviewHeader({
   const { theater, floor, section, seatRow, seatNumber } = seat;
   return (
     <header
-      className={tw("flex items-center gap-4 py-3", className)}
+      className={tw("flex items-center gap-4 py-3 px-4", className)}
       {...props}
     >
       <BackButton />
