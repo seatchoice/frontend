@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
-import Dropdown from './Dropdown';
-import SearchIcon from './SearchIcon';
+import Dropdown from "./Dropdown";
+import SearchIcon from "./SearchIcon";
 
 type auto = {
   id: number;
@@ -27,7 +27,7 @@ export default function SearchBar({
 
   const handleAuto = (event: React.KeyboardEvent) => {
     try {
-      const arrows = ['ArrowUp', 'ArrowDown'];
+      const arrows = ["ArrowUp", "ArrowDown"];
       const { key } = event;
       if (arrows.includes(key)) {
         const { children } = autocompleteDiv.current as HTMLDivElement;
@@ -35,22 +35,23 @@ export default function SearchBar({
       }
       if (key === 'Escape') setautoBool(false);
     } catch (err) {
-      console.log('null');
+      console.log("null");
     }
   };
 
   const handleAuto2 = (event: React.KeyboardEvent) => {
-    const arrows = ['ArrowUp', 'ArrowDown'];
+    const arrows = ["ArrowUp", "ArrowDown"];
 
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       if (searchInput.current) {
-        searchInput.current.value = (event.target as HTMLDivElement).textContent ?? '';
+        searchInput.current.value =
+          (event.target as HTMLDivElement).textContent ?? "";
         searchInput.current.focus();
       }
     }
 
     if (!arrows.includes(event.key)) return;
-    const calc = event.key === 'ArrowDown' ? focusIdx + 1 : focusIdx - 1;
+    const calc = event.key === "ArrowDown" ? focusIdx + 1 : focusIdx - 1;
     setFocusIdx(calc === 0 ? auto.length : calc === auto.length + 1 ? 1 : calc);
     const { children } = autocompleteDiv.current as HTMLDivElement;
     (children[focusIdx] as HTMLElement).focus();
@@ -79,16 +80,18 @@ export default function SearchBar({
           setautoBool(false);
         }}
         onChange={getAutoComplelte}
-        onKeyDown={handleAuto}>
+        onKeyDown={handleAuto}
+      >
         <input
           ref={searchInput}
           name="theater"
           type="text"
           autoComplete="off"
           placeholder="공연장을 검색하세요."
-          className="w-full rounded-md py-2.5  indent-2 pb-4
-          border border-slate-900
-          bg-white dark:bg-slate-900 
+          className="w-full rounded-lg p-4 indent-2 pb-4
+          text-md sm:text-lg
+          border-2 border-black/10 dark:border-dark-fg
+          bg-white dark:bg-dark-fg
           text-black dark:text-white pr-10 shadow-sm"
         />
 
@@ -98,10 +101,11 @@ export default function SearchBar({
         <div
           ref={autocompleteDiv}
           className={`z-50 absolute p-2 text-sm shadow-lg 
-            rounded border border-slate-900
-            dark:bg-black bg-white
-            left-36 mt-10 ${autoBool ? '' : 'hidden'}`}
-          onKeyDown={handleAuto2}>
+            rounded border border-dark-fg
+            dark:bg-dark-bg bg-light-bg
+            left-36 mt-10 ${autoBool ? "" : "hidden"}`}
+          onKeyDown={handleAuto2}
+        >
           <label htmlFor="" className="text-stone-300">
             자동완성
           </label>
@@ -110,13 +114,14 @@ export default function SearchBar({
               tabIndex={0}
               className="hover:border-black hover:border hover:rounded hover:p-2"
               onClick={handleAuto3}
-              key={id}>
+              key={id}
+            >
               {name}
             </div>
           ))}
         </div>
       ) : (
-        ''
+        ""
       )}
     </div>
   );
