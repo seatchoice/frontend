@@ -1,6 +1,13 @@
 import Image from "next/image";
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Text, Rating, Divider, LikeButton, MainHeader } from "@/components";
+import {
+  Text,
+  Rating,
+  Divider,
+  LikeButton,
+  MainHeader,
+  Container,
+} from "@/components";
 import { ReviewHeader, Reviewer } from "@/domain/review/components";
 import { CommentForm, CommentList } from "@/domain/comment/components";
 import {
@@ -13,7 +20,7 @@ import { useCreateCommentMutation } from "@/domain/comment/hooks/query";
 export default function Review() {
   const router = useNextRouter();
   const {
-    query: { theater, reviewId },
+    query: { name: theaterName, reviewId },
   } = router;
 
   const { data } = useReviewQuery(reviewId as string);
@@ -53,16 +60,16 @@ export default function Review() {
   return (
     <>
       <MainHeader />
-      <div className="flex flex-col gap-2">
-        <ReviewHeader
-          seat={{
-            theater: theater as string,
-            floor,
-            section,
-            seatRow,
-            seatNumber,
-          }}
-        />
+      <ReviewHeader
+        seat={{
+          theater: theaterName as string,
+          floor,
+          section,
+          seatRow,
+          seatNumber,
+        }}
+      />
+      <Container className="flex flex-col gap-2">
         <Reviewer nickname={nickname} createdAt={createdAt} userId={userId} />
         <Rating value={rating} />
         <div className="flex overflow-x-auto gap-2">
@@ -85,7 +92,7 @@ export default function Review() {
 
         <CommentForm onSubmit={createComment} />
         <CommentList />
-      </div>
+      </Container>
     </>
   );
 }

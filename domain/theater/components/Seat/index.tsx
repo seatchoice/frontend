@@ -33,14 +33,16 @@ export function Seat({
     5: "bg-green-600 dark:bg-green-600",
   };
 
-  const { asPath } = useNextRouter();
+  const {
+    query: { theater, name: theaterName },
+  } = useNextRouter();
 
   const [showModal, setShowModal] = useState(false);
 
   if (reviewAmount) {
     return (
       <Link
-        href={`${asPath}/reviews/${seatId}`}
+        href={`${theater}/reviews/${seatId}?name=${theaterName}`}
         className={tw(
           "inline-block w-9 h-9 p-1 text-center rounded-lg hover:opacity-80",
           ratingColor[rating],

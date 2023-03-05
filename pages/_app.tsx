@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import "@/styles/globals.css";
+import { pretendard } from "@/styles/font";
 import { Loading, SSRSuspense, Toast } from "@/components";
 import { ToastProvider } from "@/context/Toast";
 
@@ -28,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider attribute="class">
           <SSRSuspense fallback={<Loading content="로딩 중..." />}>
             <ToastProvider>
-              <Component {...pageProps} />
+              <main className={`${pretendard.variable} font-pretendard`}>
+                <Component {...pageProps} />
+              </main>
               <Toast />
             </ToastProvider>
           </SSRSuspense>

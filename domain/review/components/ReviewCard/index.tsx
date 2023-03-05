@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import { tw } from "@/utils/tailwindMerge";
+import { useNextRouter } from "@/hooks/useNextRouter";
 import { Text, Rating, LikeButton } from "@/components";
 
 type ReviewCardProps<T extends React.ElementType> = Component<T> & {
@@ -15,7 +15,11 @@ export function ReviewCard({
   children,
   ...props
 }: ReviewCardProps<"div">) {
-  const { asPath } = useRouter();
+  const {
+    asPath,
+    query: { name },
+  } = useNextRouter();
+  const [currentPath] = asPath.split("?");
   const {
     reviewId,
     floor,
@@ -28,7 +32,7 @@ export function ReviewCard({
     content,
   } = review;
   return (
-    <Link href={`${asPath}/${reviewId}`}>
+    <Link href={`${currentPath}/${reviewId}?name=${name}`}>
       <div
         className={tw(
           "flex flex-col sm:flex-row gap-4 p-6 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-light-fg hover:dark:bg-dark-fg hover:-translate-y-2 duration-500",
