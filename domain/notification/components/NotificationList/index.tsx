@@ -61,7 +61,9 @@ export function NotificationList() {
                     </Text>
                   </Button>
                   {type === "COMMENT" && (
-                    <Text className="mt-2 font-semibold">{message}</Text>
+                    <Text className="mt-2 font-semibold text-primary-700 dark:text-primary-300">
+                      {message}
+                    </Text>
                   )}
                 </div>
                 <Button as="icon" onClick={() => handleDeleteButtonClick(+id)}>
