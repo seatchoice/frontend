@@ -6,15 +6,16 @@ import { useReviewImageListQuery } from "../../hooks/query";
 
 export function ReviewImageList() {
   const {
-    query: { seatId },
+    query: { name, seatId },
     asPath,
   } = useNextRouter();
+  const [currentPath] = asPath.split("?");
   const { data: thumbnailList } = useReviewImageListQuery(seatId as string);
   return (
     <section className="flex gap-4 overflow-x-auto snap-x snap-mandatory">
       {thumbnailList.length > 0 ? (
         thumbnailList.map(({ reviewId, imageUrl }) => (
-          <Link key={reviewId} href={`${asPath}/${reviewId}`}>
+          <Link key={reviewId} href={`${currentPath}/${reviewId}?name=${name}`}>
             <Image
               src={imageUrl}
               alt="좌석 리뷰 사진"
