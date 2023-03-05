@@ -5,3 +5,4 @@ export * from "./Reviewer";
 export * from "./ReviewImageList";
 export * from "./ReviewImageSkeleton";
 export * from "./ReviewCardSkeleton";
+export * from "./ReviewPostHeader";

@@ -1,13 +1,15 @@
-import { api } from '@/api';
-import { useState } from 'react';
+import { api } from "@/api";
+import { useState } from "react";
 
-import _ from 'lodash';
+import _ from "lodash";
 
-import { TheaterType } from './components/Theater/type';
+import { TheaterType } from "./components/Theater/type";
 
-import SearchHeader from './components/SearchHeader';
-import SearchBar from './components/SearchBar';
-import Theaters from './components/Theater/Theaters';
+import SearchHeader from "./components/SearchHeader";
+import SearchBar from "./components/SearchBar";
+import Theaters from "./components/Theater/Theaters";
+import { Container } from "@/components";
+import Image from "next/image";
 
 interface SearchInfo {
   theaters: TheaterType[];
@@ -25,10 +27,10 @@ type auto = {
 export default function Search() {
   const [search, setSearch] = useState<SearchInfo>({
     theaters: [],
-    searchStr: '',
+    searchStr: "",
     pageSize: 10,
     nomore: false,
-    type: 'FACILITY',
+    type: "FACILITY",
   });
 
   const [auto, setAuto] = useState<auto[]>([]);
@@ -40,16 +42,18 @@ export default function Search() {
 
       const searchStr = theater.value;
 
-      await api.get(`/search?type=${search.type}&name=${searchStr}`).then(({ data }) => {
-        setSearch({
-          searchStr,
-          theaters: data,
-          pageSize: search.pageSize,
-          nomore: false,
-          type: search.type,
+      await api
+        .get(`/search?type=${search.type}&name=${searchStr}`)
+        .then(({ data }) => {
+          setSearch({
+            searchStr,
+            theaters: data,
+            pageSize: search.pageSize,
+            nomore: false,
+            type: search.type,
+          });
+          setAuto([]);
         });
-        setAuto([]);
-      });
     } catch (err) {
       // if (err.response.status === 502) console.log('502 err');
       console.log(err);
@@ -92,14 +96,16 @@ export default function Search() {
     async (event: React.FormEvent<HTMLFormElement>) => {
       try {
         const { value } = event.target as HTMLFormElement;
-        await api.get(`/search?type=${search.type}&name=${value}`).then(({ data }) => {
-          setAuto(
-            data.filter(({ id, name }: auto) => ({
-              id,
-              name,
-            }))
-          );
-        });
+        await api
+          .get(`/search?type=${search.type}&name=${value}`)
+          .then(({ data }) => {
+            setAuto(
+              data.filter(({ id, name }: auto) => ({
+                id,
+                name,
+              }))
+            );
+          });
       } catch (error) {
         console.log(error);
       }
@@ -109,7 +115,8 @@ export default function Search() {
   );
 
   return (
-    <section>
+    <Container className="flex flex-col justify-center items-center">
+      <Image src="/logo.png" alt="logo" width={200} height={200} />
       <SearchHeader />
       <SearchBar
         handleSearchForm={handleSearchForm}
@@ -118,7 +125,7 @@ export default function Search() {
         auto={auto}
       />
       {search.theaters.length === 0 ? (
-        ''
+        ""
       ) : (
         <Theaters
           theaters={search.theaters}
@@ -126,6 +133,6 @@ export default function Search() {
           getMoreSearched={getMoreSearched}
         />
       )}
-    </section>
+    </Container>
   );
 }

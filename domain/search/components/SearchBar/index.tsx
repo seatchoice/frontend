@@ -33,6 +33,7 @@ export default function SearchBar({
         const { children } = autocompleteDiv.current as HTMLDivElement;
         (children[focusIdx] as HTMLElement).focus();
       }
+      if (key === 'Escape') setautoBool(false);
     } catch (err) {
       console.log('null');
     }
@@ -85,38 +86,39 @@ export default function SearchBar({
           type="text"
           autoComplete="off"
           placeholder="공연장을 검색하세요."
-          className="w-full rounded-md py-2.5  indent-2 pb-4
-          border border-slate-900
-          bg-white dark:bg-slate-900 
+          className="w-full rounded-lg p-4 indent-2 pb-4
+          text-md sm:text-lg
+          border-2 border-black/10 dark:border-dark-fg
+          bg-white dark:bg-dark-fg
           text-black dark:text-white pr-10 shadow-sm"
         />
 
         <SearchIcon />
+        {auto.length > 0 ? (
+          <div
+            ref={autocompleteDiv}
+            className={`z-50 absolute p-2 text-sm shadow-lg 
+            rounded border border-dark-fg
+            dark:bg-dark-bg bg-light-bg
+            mt-2 ${autoBool ? '' : 'hidden'}`}
+            onKeyDown={handleAuto2}>
+            <label htmlFor="" className="text-stone-300">
+              자동완성
+            </label>
+            {auto.map(({ id, name }) => (
+              <div
+                tabIndex={0}
+                className="hover:border-black hover:border hover:rounded hover:p-2"
+                onClick={handleAuto3}
+                key={id}>
+                {name}
+              </div>
+            ))}
+          </div>
+        ) : (
+          ''
+        )}
       </form>
-      {auto.length > 0 ? (
-        <div
-          ref={autocompleteDiv}
-          className={`z-50 absolute p-2 text-sm shadow-lg 
-            rounded border border-slate-900
-            dark:bg-black bg-white
-            left-36 mt-10 ${autoBool ? '' : 'hidden'}`}
-          onKeyDown={handleAuto2}>
-          <label htmlFor="" className="text-stone-300">
-            자동완성
-          </label>
-          {auto.map(({ id, name }) => (
-            <div
-              tabIndex={0}
-              className="hover:border-black hover:border hover:rounded hover:p-2"
-              onClick={handleAuto3}
-              key={id}>
-              {name}
-            </div>
-          ))}
-        </div>
-      ) : (
-        ''
-      )}
     </div>
   );
 }

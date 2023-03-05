@@ -1,6 +1,6 @@
 import { useNextRouter } from "@/hooks/useNextRouter";
-import { Text, Divider, BackButton, MainHeader } from "@/components";
-import { ReviewForm } from "@/domain/review/components";
+import { Text, Divider, MainHeader, Container } from "@/components";
+import { ReviewForm, ReviewPostHeader } from "@/domain/review/components";
 import {
   useEditReviewMutation,
   useReviewQuery,
@@ -22,15 +22,14 @@ export default function ReviewEdit() {
   return (
     <>
       <MainHeader />
-      <header className="flex items-center py-2">
-        <BackButton />
-        <Text as="h3">리뷰 수정하기</Text>
-      </header>
+      <ReviewPostHeader>리뷰 수정하기</ReviewPostHeader>
       <Divider className="my-2" />
-      <Text as="h4" className="py-4">
-        {theaterName}
-      </Text>
-      <ReviewForm data={data} onMutate={editReview} />
+      <Container>
+        <Text as="h4" className="py-4">
+          {theaterName}
+        </Text>
+        <ReviewForm data={data} onMutate={editReview} />
+      </Container>
     </>
   );
 }
