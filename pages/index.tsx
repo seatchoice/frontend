@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import Search from "@/domain/search";
-import { Container, MainHeader } from "@/components";
+import { MainHeader } from "@/components";
 
 export default function Home() {
   return (
@@ -14,9 +14,7 @@ export default function Home() {
       </Head>
       <main>
         <MainHeader />
-        <Container>
-          <Search />
-        </Container>
+        <Search />
       </main>
     </>
   );
