@@ -33,6 +33,7 @@ export default function SearchBar({
         const { children } = autocompleteDiv.current as HTMLDivElement;
         (children[focusIdx] as HTMLElement).focus();
       }
+      if (key === 'Escape') setautoBool(false);
     } catch (err) {
       console.log('null');
     }
