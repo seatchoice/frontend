@@ -1,5 +1,5 @@
-import { AxiosResponse, AxiosError } from "axios";
-import { UseQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "@/constants";
 
@@ -13,7 +13,11 @@ const getNotificationList = (
   size: number,
   lastAlarmId?: number
 ): Promise<AxiosResponse<NotificationListResponse>> => {
-  return api.get(`/alarms/list?size=${size}&lastAlarmId=${lastAlarmId}`);
+  return api.get(
+    `/alarms/list?size=${size}${
+      lastAlarmId ? `&lastAlarmId=${lastAlarmId}` : ""
+    }`
+  );
 };
 
 export const useNotificationListQuery = (size = 10) => {
