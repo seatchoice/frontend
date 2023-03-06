@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ToastContext } from "@/context/Toast";
+import { ToastContext } from "@/contexts/Toast";
 import { ToastItem } from "./ToastItem";
 
 type ToastProps<T extends React.ElementType> = Component<T> & {

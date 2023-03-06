@@ -9,7 +9,7 @@ import { ThemeProvider } from "next-themes";
 import "@/styles/globals.css";
 import { pretendard } from "@/styles/font";
 import { Loading, SSRSuspense, Toast } from "@/components";
-import { ToastProvider } from "@/context/Toast";
+import { ToastProvider } from "@/contexts/Toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
