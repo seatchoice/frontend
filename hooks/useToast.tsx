@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { ToastContext } from "@/context/Toast";
-import { Toast as ToastType } from "@/context/Toast";
+import { ToastContext } from "@/contexts/Toast";
+import { Toast as ToastType } from "@/contexts/Toast";
 
 const TOAST_SHOW_TIME = 3000;
 
