@@ -42,6 +42,7 @@
     "@types/sockjs-client": "^1.5.1",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.3.0",
+    "chromatic": "^6.17.1",
     "eslint-plugin-storybook": "^0.6.10",
     "postcss": "^8.4.21",
     "storybook-addon-next": "^1.7.1",

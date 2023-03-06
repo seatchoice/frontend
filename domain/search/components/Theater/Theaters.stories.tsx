@@ -1,14 +1,28 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import Theaters from './Theaters';
+import Theaters from ".";
 
 export default {
-  title: 'Search',
   component: Theaters,
+  title: "Search/Components/Theaters",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "figmaURL",
+    },
+  },
 } as ComponentMeta<typeof Theaters>;
 
-const Template: ComponentStory<typeof Theaters> = args => <Theaters {...args} />;
+const Template: ComponentStory<typeof Theaters> = (args) => (
+  <Theaters {...args} />
+);
 
 export const Default = Template.bind({});
 
-Default.args = {};
+Default.args = {
+  theater: {
+    name: "theater",
+    address: "theater",
+    id: 1,
+  },
+};

@@ -19,4 +19,12 @@ const Template: ComponentStory<typeof ConfirmModal> = (args) => (
 
 export const Default = Template.bind({});
 
-Default.args = {};
+Default.args = {
+  showModal: true,
+  seat: {
+    floor: 1,
+    section: "A",
+    seatRow: 1,
+    seatNumber: 1,
+  },
+};

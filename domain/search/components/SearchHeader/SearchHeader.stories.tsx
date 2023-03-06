@@ -1,10 +1,22 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import SearchHeader from '.';
+import SearchHeader from ".";
 
 export default {
-  title: 'Search',
   component: SearchHeader,
+  title: "Search/Components/SearchHeader",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "figmaURL",
+    },
+  },
 } as ComponentMeta<typeof SearchHeader>;
 
-export const SearchInput: ComponentStory<typeof SearchHeader> = () => <SearchHeader />;
+const Template: ComponentStory<typeof SearchHeader> = (args) => (
+  <SearchHeader />
+);
+
+export const Default = Template.bind({});
+
+Default.args = {};
