@@ -56,14 +56,22 @@
 
 ![공연장 리뷰 조회](./docs/assets/review.gif)
 
+### 리뷰 작성
+
+![리뷰 작성](./docs/assets/review_create.gif)
+
 ### 리뷰 조회
 
 ![리뷰 조회](./docs/assets/review_detail.gif)
 
 ### 리뷰 댓글 추가 & 수정
 
-![리뷰 댓글](./docs/assets/review_create.gif)
+![리뷰 댓글](./docs/assets/review_comment.gif)
 
 ### 리뷰 좋아요
 
 ![리뷰 좋아요](./docs/assets/review_like.gif)
+
+## 알림
+
+![알림](./docs/assets/alram.gif)
