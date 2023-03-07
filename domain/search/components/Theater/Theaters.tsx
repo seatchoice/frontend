@@ -58,10 +58,6 @@ export default function Theaters({ theaters, getMoreSearched, nomore }: Theaters
               </svg>
             </li>
           ))}
-          <li ref={setTarget} className={nomore ? 'hidden' : ''}>
-            more
-          </li>
-          {nomore ? <li>결과가 없습니다.</li> : ''}
         </ul>
       ) : (
         <ul>
