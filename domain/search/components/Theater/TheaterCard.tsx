@@ -5,17 +5,18 @@ import { TheaterType } from './type';
 type TheaterProps = {
   theater: TheaterType;
   show: string;
+  type: string;
   setList: (list: TheaterType[]) => void;
 };
 
-export default function TheaterCard({ theater, show, setList }: TheaterProps) {
+export default function TheaterCard({ theater, show, type, setList }: TheaterProps) {
   const { name = '', address, id } = theater;
   const router = useRouter();
 
   const handleList = async () => {
     try {
-      const url = show === 'list' ? `/${id}?name=${name}` : '';
-      if (show === 'list') router.push(url);
+      const url = show === 'list' || type === 'PERFORMANCE' ? `/${id}?name=${name}` : '';
+      if (show === 'list' || type === 'PERFORMANCE') router.push(url);
 
       const { theaterList } = await api.get(`/theaters/${id}`).then(res => res.data);
       const res = theaterList.map(({ name, address, id }: TheaterType) => ({
