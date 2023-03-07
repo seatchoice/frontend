@@ -24,5 +24,6 @@ Default.args = {
     name: "theater",
     address: "theater",
     id: 1,
+    score: 1,
   },
 };
