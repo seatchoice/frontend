@@ -1,7 +1,7 @@
 type _Notification = {
-  id: string;
+  id: number;
   type: "LIKE" | "COMMENT";
-  targetId: number;
+  targetReviewId: number;
   targetMember: string;
   alarmMessage: string;
   checkAlarm: boolean;
