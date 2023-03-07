@@ -18,8 +18,12 @@ export default function TheaterCard({ theater, show, setList }: TheaterProps) {
       if (show === 'list') router.push(url);
 
       const { theaterList } = await api.get(`/theaters/${id}`).then(res => res.data);
-
-      setList(theaterList);
+      const res = theaterList.map(({ name, address, id }: TheaterType) => ({
+        name,
+        address,
+        id,
+      }));
+      setList(res);
     } catch (error) {
       console.log(error);
     }
