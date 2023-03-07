@@ -3,6 +3,7 @@ type TheaterType = {
   address: string;
   id: number;
   score: number;
+  poster: string;
 };
 
 export { TheaterType };

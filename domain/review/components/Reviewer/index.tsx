@@ -29,7 +29,7 @@ export function Reviewer({
   };
 
   return (
-    <section className="flex gap-4">
+    <section className="flex gap-4 items-center">
       <Profile
         nickname={nickname}
         updatedAt={`${getDateDiffTextFromNow(createdAt)} 전`}

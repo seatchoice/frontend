@@ -126,6 +126,7 @@ export default function Search() {
         <Theaters
           theaters={search.theaters}
           nomore={search.nomore}
+          type={search.type}
           getMoreSearched={getMoreSearched}
         />
       )}
