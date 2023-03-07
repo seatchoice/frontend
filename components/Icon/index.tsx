@@ -11,6 +11,7 @@ import {
   Notification,
   Dark,
   Light,
+  Avatar,
 } from "./assets";
 
 type IconProps<T extends React.ElementType> = Component<T> & {
@@ -24,7 +25,8 @@ type IconProps<T extends React.ElementType> = Component<T> & {
     | "logo"
     | "notification"
     | "light"
-    | "dark";
+    | "dark"
+    | "avatar";
   size?: number;
 };
 
@@ -152,6 +154,18 @@ export function Icon({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
+          {...props}
+        />
+      );
+    case "avatar":
+      return (
+        <Avatar
+          className={tw("", className)}
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
           {...props}
         />
       );
