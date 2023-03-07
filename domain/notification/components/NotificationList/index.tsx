@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { useMemo } from "react";
 import { Text, Button, Icon } from "@/components";
 import { getDateDiffTextFromNow } from "@/utils/date";
 import {
   useDeleteNotificationMutation,
   useNotificationListQuery,
+  useReadMutation,
 } from "@/domain/notification/hooks/query";
 import useIntersectionObserver from "@/domain/search/hooks/useObserver";
 
@@ -20,10 +22,14 @@ export function NotificationList() {
   });
 
   const { mutate: deleteNotification } = useDeleteNotificationMutation();
-
   const handleDeleteButtonClick = (notificationId: number) => {
     const isConfirmed = confirm("알림을 삭제하시겠습니까?");
     if (isConfirmed) deleteNotification(notificationId);
+  };
+
+  const { mutate: readNotification } = useReadMutation();
+  const handleNotificationClick = (notificationId: number) => {
+    readNotification(notificationId);
   };
 
   const alarmMessage = {
@@ -39,7 +45,7 @@ export function NotificationList() {
             ({
               id,
               type,
-              targetId,
+              targetReviewId,
               checkAlarm,
               createdAt,
               targetMember,
@@ -47,11 +53,15 @@ export function NotificationList() {
             }) => (
               <li
                 key={id}
-                className={`flex justify-between items-center p-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg
-            ${!checkAlarm && "bg-light-fg dark:bg-dark-fg"}`}
+                className={`flex justify-between items-center px-4 border-[1px] border-light-fg dark:border-dark-fg rounded-lg hover:bg-primary-200 hover:dark:bg-primary-800 transition duration-150 ease-out hover:ease-in
+                            ${!checkAlarm && "bg-light-fg dark:bg-dark-fg"}`}
               >
-                <div>
-                  <Button as="icon" className="flex gap-4">
+                <Link
+                  href={`reviews/${targetReviewId}`}
+                  onClick={() => handleNotificationClick(id)}
+                  className="w-full p-4"
+                >
+                  <div className="flex gap-4">
                     <Text>
                       <span className="font-semibold">{targetMember}</span>
                       {`님이 ${alarmMessage[type]}`}
@@ -59,13 +69,13 @@ export function NotificationList() {
                     <Text className="text-gray-400">
                       {getDateDiffTextFromNow(createdAt)}
                     </Text>
-                  </Button>
+                  </div>
                   {type === "COMMENT" && (
                     <Text className="mt-2 font-semibold text-primary-700 dark:text-primary-300">
                       {message}
                     </Text>
                   )}
-                </div>
+                </Link>
                 <Button as="icon" onClick={() => handleDeleteButtonClick(+id)}>
                   <Icon as="close" />
                 </Button>
