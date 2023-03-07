@@ -25,7 +25,10 @@ export const setInterceptors = (instance: AxiosInstance) => {
       const accessToken = response.headers.authorization;
       if (accessToken) {
         localStorage.setItem(STORAGE.ACCESS_TOKEN, accessToken);
-        localStorage.setItem(STORAGE.USERNAME, response.data.nickname);
+
+        if (!localStorage.getItem(STORAGE.USERNAME)) {
+          localStorage.setItem(STORAGE.USERNAME, response.data.nickname);
+        }
       }
       return response;
     },
