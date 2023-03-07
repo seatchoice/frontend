@@ -7,6 +7,7 @@ import {
 
 import { api } from "@/api";
 import { QUERY_KEYS } from "@/constants/queryKey";
+import { useToast } from "@/hooks/useToast";
 
 type CommentRequest = {
   reviewId: number;
@@ -21,10 +22,11 @@ export const useCreateCommentMutation = (
   reviewId: string,
   options?: UseMutationOptions<
     AxiosResponse,
-    AxiosError,
+    AxiosError<ErrorResponse>,
     Omit<CommentRequest, "reviewId">
   >
 ) => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   return useMutation(
     ({ content }) => createComment({ reviewId: +reviewId, content }),
@@ -32,6 +34,11 @@ export const useCreateCommentMutation = (
       ...options,
       onSuccess: () => {
         queryClient.invalidateQueries([QUERY_KEYS.COMMENT_LIST, reviewId]);
+      },
+      onError: ({ response }) => {
+        if (response?.data.errorCode === "METHOD_ARGUMENT_NOT_VALID") {
+          toast({ type: "error", content: response.data.errorMessage });
+        }
       },
     }
   );
