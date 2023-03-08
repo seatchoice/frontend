@@ -4,7 +4,7 @@ import { ImageUploadButton } from ".";
 
 export default {
   component: ImageUploadButton,
-  title: "Reviews/Components/ImageUploadButton",
+  title: "Review/ImageUploadButton",
   parameters: {
     design: {
       type: "figma",

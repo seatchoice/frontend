@@ -4,7 +4,7 @@ import { ConfirmModal } from ".";
 
 export default {
   component: ConfirmModal,
-  title: "Review/Components/ConfirmModal",
+  title: "Review/ConfirmModal",
   parameters: {
     design: {
       type: "figma",
