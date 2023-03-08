@@ -4,7 +4,7 @@ import { KakaoLoginButton } from ".";
 
 export default {
   component: KakaoLoginButton,
-  title: "Login/Components/KakaoLoginButton",
+  title: "Login/KakaoLoginButton",
   parameters: {
     design: {
       type: "figma",
