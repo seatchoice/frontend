@@ -50,3 +50,24 @@ export const Examples = () => {
     </div>
   );
 };
+
+export const Dark = Template.bind({});
+Dark.args = {
+  as: "dark",
+  width: "30",
+  height: "30",
+};
+
+export const Light = Template.bind({});
+Light.args = {
+  as: "light",
+  width: "30",
+  height: "30",
+};
+
+export const Avatar = Template.bind({});
+Avatar.args = {
+  as: "avatar",
+  width: "30",
+  height: "30",
+};

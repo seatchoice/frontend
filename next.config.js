@@ -13,11 +13,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: "seatchoice-s3.s3.ap-northeast-2.amazonaws.com",
       },
       {
-        protocol: "https",
-        hostname: "seatchoice-s3.s3.ap-northeast-2.amazonaws.com",
+        protocol: "http",
+        hostname: "www.kopis.or.kr",
       },
     ],
   },

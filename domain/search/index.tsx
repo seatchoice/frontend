@@ -1,15 +1,15 @@
-import { api } from "@/api";
-import { useState } from "react";
+import { api } from '@/api';
+import { useState } from 'react';
 
-import _ from "lodash";
+import _ from 'lodash';
 
-import { TheaterType } from "./components/Theater/type";
+import { Container } from '@/components';
+import Image from 'next/image';
+import { TheaterType } from './components/Theater/type';
 
-import SearchHeader from "./components/SearchHeader";
-import SearchBar from "./components/SearchBar";
-import Theaters from "./components/Theater/Theaters";
-import { Container } from "@/components";
-import Image from "next/image";
+import SearchHeader from './components/SearchHeader';
+import SearchBar from './components/SearchBar';
+import Theaters from './components/Theater/Theaters';
 
 interface SearchInfo {
   theaters: TheaterType[];
@@ -27,10 +27,10 @@ type auto = {
 export default function Search() {
   const [search, setSearch] = useState<SearchInfo>({
     theaters: [],
-    searchStr: "",
+    searchStr: '',
     pageSize: 10,
     nomore: false,
-    type: "FACILITY",
+    type: 'FACILITY',
   });
 
   const [auto, setAuto] = useState<auto[]>([]);
@@ -42,18 +42,16 @@ export default function Search() {
 
       const searchStr = theater.value;
 
-      await api
-        .get(`/search?type=${search.type}&name=${searchStr}`)
-        .then(({ data }) => {
-          setSearch({
-            searchStr,
-            theaters: data,
-            pageSize: search.pageSize,
-            nomore: false,
-            type: search.type,
-          });
-          setAuto([]);
+      await api.get(`/search?type=${search.type}&name=${searchStr}`).then(({ data }) => {
+        setSearch({
+          searchStr,
+          theaters: data,
+          pageSize: search.pageSize,
+          nomore: false,
+          type: search.type,
         });
+        setAuto([]);
+      });
     } catch (err) {
       // if (err.response.status === 502) console.log('502 err');
       console.log(err);
@@ -66,7 +64,7 @@ export default function Search() {
         .get(
           `/search?type=${search.type}&name=${search.searchStr}&after=${
             search?.theaters.at(-1)?.id
-          }`
+          }&score=${search?.theaters.at(-1)?.score}`
         )
         .then(({ data }) => {
           const searchedArr = data;
@@ -96,16 +94,14 @@ export default function Search() {
     async (event: React.FormEvent<HTMLFormElement>) => {
       try {
         const { value } = event.target as HTMLFormElement;
-        await api
-          .get(`/search?type=${search.type}&name=${value}`)
-          .then(({ data }) => {
-            setAuto(
-              data.filter(({ id, name }: auto) => ({
-                id,
-                name,
-              }))
-            );
-          });
+        await api.get(`/search?type=${search.type}&name=${value}`).then(({ data }) => {
+          setAuto(
+            data.filter(({ id, name }: auto) => ({
+              id,
+              name,
+            }))
+          );
+        });
       } catch (error) {
         console.log(error);
       }
@@ -125,11 +121,12 @@ export default function Search() {
         auto={auto}
       />
       {search.theaters.length === 0 ? (
-        ""
+        ''
       ) : (
         <Theaters
           theaters={search.theaters}
           nomore={search.nomore}
+          type={search.type}
           getMoreSearched={getMoreSearched}
         />
       )}
