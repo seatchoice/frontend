@@ -1,4 +1,3 @@
-import { Icon, Text } from "@/components";
 import { tw } from "@/utils/tailwindMerge";
 
 type ReviewImageSkeletonProps<T extends React.ElementType> = Component<T> & {};

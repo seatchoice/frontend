@@ -1,24 +1,24 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { LikeButton } from ".";
+import { LoginModal } from ".";
 
 export default {
-  component: LikeButton,
-  title: "Components/LikeButton",
+  component: LoginModal,
+  title: "Login/LoginModal",
   parameters: {
     design: {
       type: "figma",
       url: "figmaURL",
     },
   },
-} as ComponentMeta<typeof LikeButton>;
+} as ComponentMeta<typeof LoginModal>;
 
-const Template: ComponentStory<typeof LikeButton> = (args) => (
-  <LikeButton {...args} />
+const Template: ComponentStory<typeof LoginModal> = (args) => (
+  <LoginModal {...args} />
 );
 
 export const Default = Template.bind({});
 
 Default.args = {
-  children: 1,
+  showModal: true,
 };

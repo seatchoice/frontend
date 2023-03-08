@@ -1,20 +1,20 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { CommentForm } from ".";
+import { LoginRequired } from ".";
 
 export default {
-  component: CommentForm,
-  title: "Comment/CommentForm",
+  component: LoginRequired,
+  title: "Login/LoginRequired",
   parameters: {
     design: {
       type: "figma",
       url: "figmaURL",
     },
   },
-} as ComponentMeta<typeof CommentForm>;
+} as ComponentMeta<typeof LoginRequired>;
 
-const Template: ComponentStory<typeof CommentForm> = (args) => (
-  <CommentForm {...args} />
+const Template: ComponentStory<typeof LoginRequired> = (args) => (
+  <LoginRequired />
 );
 
 export const Default = Template.bind({});

@@ -4,7 +4,7 @@ import { ReviewHeader } from ".";
 
 export default {
   component: ReviewHeader,
-  title: "Review/Components/ReviewHeader",
+  title: "Review/ReviewHeader",
   parameters: {
     design: {
       type: "figma",
