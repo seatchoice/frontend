@@ -1,6 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { Icon } from ".";
+import { Text } from "../Text";
 
 export default {
   component: Icon,
@@ -23,37 +24,29 @@ Default.args = {
   className: "fill-yellow-300",
 };
 
-export const Star = Template.bind({});
-Star.args = {
-  as: "star",
-  width: "30",
-  height: "30",
-};
-
-export const Camera = Template.bind({});
-Camera.args = {
-  as: "camera",
-  width: "30",
-  height: "30",
-};
-
-export const Like = Template.bind({});
-Like.args = {
-  as: "like",
-  width: "30",
-  height: "30",
-};
-
-export const Logo = Template.bind({});
-Logo.args = {
-  as: "logo",
-  width: "30",
-  height: "30",
-};
-
-export const Notification = Template.bind({});
-Notification.args = {
-  as: "notification",
-  width: "30",
-  height: "30",
+export const Examples = () => {
+  const iconList = [
+    "camera",
+    "star",
+    "like",
+    "notification",
+    "dark",
+    "light",
+    "back",
+    "plus",
+    "close",
+  ] as const;
+  return (
+    <div className="flex gap-10">
+      {iconList.map((icon) => (
+        <section
+          key={icon}
+          className="flex flex-col items-center justify-center"
+        >
+          <Icon as={icon} className="w-7 h-7" />
+          <Text className="text-sm">{icon}</Text>
+        </section>
+      ))}
+    </div>
+  );
 };
