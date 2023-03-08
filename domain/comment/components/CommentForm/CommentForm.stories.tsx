@@ -4,7 +4,7 @@ import { CommentForm } from ".";
 
 export default {
   component: CommentForm,
-  title: "Comment/Components/CommentForm",
+  title: "Comment/CommentForm",
   parameters: {
     design: {
       type: "figma",
