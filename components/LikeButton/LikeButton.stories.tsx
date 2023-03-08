@@ -19,4 +19,6 @@ const Template: ComponentStory<typeof LikeButton> = (args) => (
 
 export const Default = Template.bind({});
 
-Default.args = {};
+Default.args = {
+  children: 1,
+};
